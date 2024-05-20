@@ -1,9 +1,12 @@
 import { View, Text } from 'react-native';
+import {Link} from "expo-router";
 
-export default function Tab() {
+const Statistica = () => {
     return (
         <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
-            <Text>AO</Text>
+            <Text>Statistica</Text>
         </View>
     );
 }
+
+export default Statistica;

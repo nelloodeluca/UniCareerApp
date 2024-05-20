@@ -1,9 +1,12 @@
 import { View, Text } from 'react-native';
+import {Link} from "expo-router";
 
-export default function Tab() {
+const Home = () => {
     return (
         <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
-            <Text>Tab [Home|Settings]</Text>
+            <Link href="/home/settings">Push Settings</Link>
         </View>
     );
 }
+
+export default Home;
