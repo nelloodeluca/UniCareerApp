@@ -1,6 +1,8 @@
 import * as React from 'react';
-import { PaperProvider} from 'react-native-paper';
+import { Provider as PaperProvider } from 'react-native-paper';
 import App from './App';
+
+console.log("Main component loaded");
 
 export default function Main() {
   return (
