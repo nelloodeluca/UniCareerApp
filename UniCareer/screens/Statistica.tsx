@@ -3,12 +3,11 @@ import RettangoloTesto from "../components/RettangoloTesto"
 
 export default function Statistica() {
     return( 
-        <RettangoloTesto> <text>blabla</text></RettangoloTesto>
-
         
-        
-        
-
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <Text>Statistica</Text>
+            <RettangoloTesto></RettangoloTesto>
+        </View>
     );
 }
 
