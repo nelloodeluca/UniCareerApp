@@ -2,7 +2,7 @@ import * as React from 'react';
 import {Button, SafeAreaView, Text, View} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import SQLite from "react-native-sqlite-storage";
-import MyTabs from './components/MyTabs';
+import Nav from './components/Nav';
 import {aggiungiEsame, readUser} from "./database";
 
 
@@ -23,10 +23,8 @@ export default function App() {
         prepareDB();
     }, []);
   return (
-    <NavigationContainer>
-        <SafeAreaView >
-        </SafeAreaView>
-      <MyTabs></MyTabs>
-    </NavigationContainer>
+      <NavigationContainer>
+        <Nav></Nav>
+      </NavigationContainer>
   );
 }

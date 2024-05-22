@@ -10,10 +10,11 @@ import Libretto from '../screens/Libretto';
 
 const Tab = createBottomTabNavigator();
 
-export default function MyTabs() {
+export default function Nav() {
   return (
     <Tab.Navigator
     screenOptions={({ route }) => ({
+      tabBarShowLabel: false,
       tabBarIcon: ({ focused, color, size }) => {
         let iconName;
 
@@ -32,7 +33,7 @@ export default function MyTabs() {
       tabBarInactiveTintColor: 'gray',
     })}
   >
-    <Tab.Screen name="Dashboard" component={Dashboard} />
+    <Tab.Screen name="Dashboard" component={Dashboard} options={{}}/>
     <Tab.Screen name="Statistica" component={Statistica} />
     <Tab.Screen name="Libretto" component={Libretto} />
   </Tab.Navigator>

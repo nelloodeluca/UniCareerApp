@@ -1,10 +1,10 @@
-import { View, Text } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 
 function Dashboard() {
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Home Screen</Text>
-      </View>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <Text>DashBoard</Text>
+        </View>
     );
   }
 
