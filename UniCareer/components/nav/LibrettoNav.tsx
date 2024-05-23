@@ -9,14 +9,15 @@ import DettagiEsame from '../DettagiEsame';
 
 
 
-const Stack = createNativeStackNavigator();
+const EsamiDatiStack = createNativeStackNavigator();
 
-function MyStack() {
+function EsamiStack() {
   return (
-    <Stack.Navigator initialRouteName="Libretto_EsamiDati">
-        <Stack.Screen name="Libretto_EsamiDati" component={Libretto_EsamiDati} />
-        <Stack.Screen name="EsameDettagli" component={DettagiEsame} />
-      </Stack.Navigator>
+    <EsamiDatiStack.Navigator initialRouteName="Libretto_EsamiDati">
+      
+      <EsamiDatiStack.Screen name="Libretto_EsamiDati" component={Libretto_EsamiDati} />
+      <EsamiDatiStack.Screen name="EsameDettagli" component={DettagiEsame} options={{ presentation: 'modal' }}/>
+    </EsamiDatiStack.Navigator>
   );
 }
 
@@ -43,17 +44,10 @@ function Libretto() {
         },
       })}
     >
-      <LibrettoTopBar.Screen name="EsamiDati" component={Libretto_EsamiDati} />
-      <LibrettoTopBar.Screen
-        name="EsamiNonDati"
-        component={Libretto_EsamiNonDati}
-      />
+      <LibrettoTopBar.Screen name="EsamiDati" component={EsamiStack} />
+      <LibrettoTopBar.Screen name="EsamiNonDati" component={Libretto_EsamiNonDati} />
     </LibrettoTopBar.Navigator>
   );
 }
 
 export default Libretto;
-
-function createStackNavigator() {
-    throw new Error("Function not implemented.");
-}
