@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 
-function EsameDettagli({ route, navigation }) {
+function DettagliEsame({ route, navigation }) {
   const { esame } = route.params;
 
   return (
@@ -29,4 +29,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EsameDettagli;
+export default DettagliEsame;
