@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {Button, SafeAreaView, Text, View} from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { Ionicons } from '@expo/vector-icons';
@@ -13,19 +14,32 @@ const LibrettoTopBar = createMaterialTopTabNavigator();
 function Libretto() {
   return (
     <LibrettoTopBar.Navigator 
-    tabBarPosition='top'>
-      <LibrettoTopBar.Screen name="Esami Dati" component={Libretto_EsamiDati} />
-      <LibrettoTopBar.Screen name="Esami NON Dati" component={Libretto_EsamiNonDati} />
+    screenOptions={({ route }) => ({
+      tabBarLabel: ({ focused }) => {
+        let label;
+        if (route.name === 'EsamiDati') {
+          label = 'Esami Conclusi';
+        } else if (route.name === 'EsamiNonDati') {
+          label = 'Prossimi Esami';
+        }
+        return <Text style={{ color: focused ? '#673ab7' : '#222' }}>{label}</Text>;
+      },
+      tabBarActiveTintColor: '#000000',
+      tabBarInactiveTintColor: '#000000',
+    })}
+    >
+      <LibrettoTopBar.Screen name="EsamiDati" component={Libretto_EsamiDati} />
+      <LibrettoTopBar.Screen name="EsamiNonDati" component={Libretto_EsamiNonDati} />
     </LibrettoTopBar.Navigator>
   );
 }
 
 
-const Tab = createBottomTabNavigator();
+const BottomTab = createBottomTabNavigator();
 
 export default function AppNav() {
   return (
-    <Tab.Navigator
+    <BottomTab.Navigator
     screenOptions={({ route }) => ({
       tabBarShowLabel: false,
       tabBarIcon: ({ focused, color, size }) => {
@@ -46,9 +60,9 @@ export default function AppNav() {
       tabBarInactiveTintColor: 'gray',
     })}
   >
-    <Tab.Screen name="Dashboard" component={Dashboard} options={{}}/>
-    <Tab.Screen name="Statistica" component={Statistica} />
-    <Tab.Screen name="Libretto" component={Libretto} />
-  </Tab.Navigator>
+    <BottomTab.Screen name="Dashboard" component={Dashboard} options={{title:'La mia Dashboard', headerTitleAlign:'left'}}/>
+    <BottomTab.Screen name="Statistica" component={Statistica} options={{title:'Le tue Statistiche', headerTitleAlign:'center'}}/>
+    <BottomTab.Screen name="Libretto" component={Libretto} options={{title:'Carriera Esami', headerTitleAlign:'center'}}/>
+  </BottomTab.Navigator>
   );
 }
