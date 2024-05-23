@@ -2,17 +2,26 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 
-function RettangoloTesto(){
+type props = {
+  a: String
+  b: string;
+  c: string;
+}
+
+function RettangoloTesto(props: props){
   return (
-    <View
-      style={{
-        flexDirection: 'row',
-        
-        padding: 20,
+      <View  style={{
+        width: '45%' ,
+        height: '20%' ,
+        backgroundColor: 'grey', 
+        padding: 30,
+        margin: 10,
+        alignItems: 'center', 
+        justifyContent:'center',
       }}> 
-      <View style={{backgroundColor: 'grey', flex: 0.5}}> 
-        <Text> $text1 </Text><Text> $text2</Text>
-      </View>
+
+        <Text> {props.a} </Text>
+        <Text> {props.b}/{props.c} </Text>
     </View>
   );
 };
