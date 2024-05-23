@@ -1,6 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
-import { Card, Badge } from 'react-native-paper';
+import { Button, Card, Text } from 'react-native-paper';
 
 interface EsameCardProps {
   item: {
@@ -15,7 +14,11 @@ interface EsameCardProps {
 function EsameCard({ item }: EsameCardProps) {
   return (
     <Card className="mb-4 w-full bg-white shadow-md rounded-lg">
-      
+      <Card.Title title="Card Title" subtitle="Card Subtitle"/>
+    <Card.Content>
+      <Text variant="titleLarge">Card title</Text>
+      <Text variant="bodyMedium">Card content</Text>
+    </Card.Content>
     </Card>
   );
 }
