@@ -1,26 +1,24 @@
 import * as React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { Button, SafeAreaView, Text, View } from "react-native";
 
 import Libretto_EsamiDati from "../../screens/Libretto/Libretto_EsamiDati";
 import Libretto_EsamiNonDati from "../../screens/Libretto/Libretto_EsamiNonDati";
+import DettagiEsame from '../DettagiEsame';
 
-/*
-const Stack = createStackNavigator();
 
-function EsamiDati() {
-    return (
-        <NavigationContainer>
-      <Stack.Navigator initialRouteName="Libretto_EsamiDati">
+
+const Stack = createNativeStackNavigator();
+
+function MyStack() {
+  return (
+    <Stack.Navigator initialRouteName="Libretto_EsamiDati">
         <Stack.Screen name="Libretto_EsamiDati" component={Libretto_EsamiDati} />
-        <Stack.Screen name="EsameDettagli" component={EsameDettagli} />
+        <Stack.Screen name="EsameDettagli" component={DettagiEsame} />
       </Stack.Navigator>
-    </NavigationContainer>
-    );
-  }
-
-*/
+  );
+}
 
 
 /*
