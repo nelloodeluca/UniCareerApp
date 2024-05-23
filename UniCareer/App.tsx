@@ -2,7 +2,7 @@ import * as React from 'react';
 import {Button, SafeAreaView, Text, View} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import SQLite from "react-native-sqlite-storage";
-import Nav from './components/Nav';
+import AppNav from './components/AppNav';
 import {aggiungiEsame, readUser} from "./database";
 
 
@@ -24,7 +24,7 @@ export default function App() {
     }, []);
   return (
       <NavigationContainer>
-        <Nav></Nav>
+        <AppNav></AppNav>
       </NavigationContainer>
   );
 }

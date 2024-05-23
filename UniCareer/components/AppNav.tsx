@@ -1,15 +1,29 @@
 import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { Ionicons } from '@expo/vector-icons';
 
 import Dashboard from '../screens/Dashboard';
 import Statistica from '../screens/Statistica';
-import Libretto from '../screens/Libretto';
+import Libretto_EsamiDati from '../screens/Libretto/Libretto_EsamiDati';
+import Libretto_EsamiNonDati from '../screens/Libretto/Libretto_EsamiNonDati';
+
+const LibrettoTopBar = createMaterialTopTabNavigator();
+
+function Libretto() {
+  return (
+    <LibrettoTopBar.Navigator 
+    tabBarPosition='top'>
+      <LibrettoTopBar.Screen name="Esami Dati" component={Libretto_EsamiDati} />
+      <LibrettoTopBar.Screen name="Esami NON Dati" component={Libretto_EsamiNonDati} />
+    </LibrettoTopBar.Navigator>
+  );
+}
 
 
 const Tab = createBottomTabNavigator();
 
-export default function Nav() {
+export default function AppNav() {
   return (
     <Tab.Navigator
     screenOptions={({ route }) => ({
