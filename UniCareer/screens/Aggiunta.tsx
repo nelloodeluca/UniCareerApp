@@ -1,10 +1,12 @@
-import { View, Text } from "react-native";
+import {View, Text, ScrollView} from "react-native";
+import FormAggiunta from "../components/FormAggiunta";
 
 function Aggiunta(){
     return(
-        <View>
-            <Text>Nome,Corso di Studi, Docente, CFU, DATA, ORA, Luogo, Tipologia, Voto, Lode</Text>
-        </View>
+        <ScrollView>
+            <FormAggiunta/>
+        </ScrollView>
+
         
     );
 }
