@@ -5,7 +5,7 @@ import { Button, SafeAreaView, Text, View } from "react-native";
 
 import Libretto_EsamiDati from "../../screens/Libretto/Libretto_EsamiDati";
 import Libretto_EsamiNonDati from "../../screens/Libretto/Libretto_EsamiNonDati";
-import DettagiEsame from "../DettagiEsame";
+import DettagiEsame from "../../screens/Libretto/DettagliEsame";
 
 const Stack = createNativeStackNavigator();
 
