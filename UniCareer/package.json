@@ -18,7 +18,6 @@
     "expo-calendar": "~13.0.5",
     "expo-dev-client": "~4.0.14",
     "expo-status-bar": "~1.12.1",
-    "npm": "^10.8.0",
     "react": "^18.2.0",
     "react-native": "0.74.1",
     "react-native-calendars": "^1.1305.0",
