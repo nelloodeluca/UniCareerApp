@@ -2,12 +2,14 @@ import React from 'react';
 import { Modal, View } from 'react-native';
 import { Esame } from '../../types';
 import styled from 'styled-components/native';
-import { Card, Title, Paragraph, Button } from 'react-native-paper';
+import { Card, Title, Paragraph, Button, Appbar } from 'react-native-paper';
 
 type EsameModalProps = {
   visible: boolean;
   onClose: () => void;
   esame: Esame | null;
+  onDelete: (id: string) => void;
+  onEdit: (esame: Esame) => void;
 };
 
 const ModalContainer = styled.View`
@@ -24,17 +26,11 @@ const ModalCard = styled(Card)`
     elevation: 5;
 `;
 
-const ModalTitle = styled(Title)`
-    font-size: 24px;
-    margin-bottom: 15px;
-    font-weight: bold;
-`;
-
 const ModalContent = styled(Card.Content)`
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 `;
 
-const DettagliEsame: React.FC<EsameModalProps> = ({ visible, onClose, esame }) => {
+const DettagliEsame: React.FC<EsameModalProps> = ({ visible, onClose, esame, onDelete, onEdit }) => {
   if (!esame) return null;
 
   return (
@@ -46,8 +42,13 @@ const DettagliEsame: React.FC<EsameModalProps> = ({ visible, onClose, esame }) =
     >
       <ModalContainer>
         <ModalCard>
+          <Appbar.Header>
+            <Appbar.Content title="Dettagli Esame" />
+            <Appbar.Action icon="delete" onPress={() => onDelete(esame.id)} />
+            <Appbar.Action icon="pencil" onPress={() => onEdit(esame)} />
+          </Appbar.Header>
           <ModalContent>
-            <ModalTitle>{esame.nome}</ModalTitle>
+            <Title>{esame.nome}</Title>
             <Paragraph>Corso di Studi: {esame.corsoDiStudi}</Paragraph>
             <Paragraph>CFU: {esame.CFU}</Paragraph>
             <Paragraph>Data: {esame.data}</Paragraph>

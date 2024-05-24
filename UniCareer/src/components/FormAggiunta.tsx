@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, TextInput, Switch } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -6,6 +6,7 @@ import styled from 'styled-components/native';
 import { Button, Text, Snackbar } from 'react-native-paper';
 import { aggiungiEsame } from '../../database';
 import SQLite from 'react-native-sqlite-storage';
+import { Esame } from '../types';
 
 const Container = styled.View`
   padding: 20px;
@@ -56,7 +57,7 @@ const DiaryInput = styled(TextInput)`
   text-align-vertical: top;
 `;
 
-const FormAggiunta: React.FC = () => {
+const FormAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
   const [nome, setNome] = useState<string>('');
   const [corso_studi, setCorsoStudio] = useState<string>('');
   const [docente, setDocente] = useState<string>('');
@@ -222,15 +223,14 @@ const FormAggiunta: React.FC = () => {
       />
 
       <CustomButton mode="contained" onPress={handleSubmit}>
-        Inserisci Esame
+        {esame ? 'Modifica Esame' : 'Inserisci Esame'}
       </CustomButton>
-
       <Snackbar
         visible={snackbarVisible}
         onDismiss={() => setSnackbarVisible(false)}
         duration={3000}
       >
-        Esame inserito correttamente
+        Esame {esame ? 'modificato' : 'inserito'} correttamente
       </Snackbar>
     </Container>
   );
