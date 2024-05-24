@@ -1,40 +1,69 @@
 import React from 'react';
-import { Button } from 'react-native';
+import { Modal, View } from 'react-native';
+import { Esame } from '../../types';
 import styled from 'styled-components/native';
-import { DettagliEsameProps } from '../../types'; // Assicurati che il percorso sia corretto
+import { Card, Title, Paragraph, Button } from 'react-native-paper';
 
-const DettagliEsame: React.FC<DettagliEsameProps> = ({ route, navigation }) => {
-  const { esame } = route.params;
-
-  return (
-    <Container>
-      <Title>{esame.nome}</Title>
-      <InfoText>CFU: {esame.cfu}</InfoText>
-      <InfoText>Data: {esame.data}</InfoText>
-      <InfoText>
-        Categoria: {esame.categoria === 'colorato' ? 'Colorato' : 'Vuoto'}
-      </InfoText>
-      <Button title="Torna indietro" onPress={() => navigation.goBack()} />
-    </Container>
-  );
+type EsameModalProps = {
+  visible: boolean;
+  onClose: () => void;
+  esame: Esame | null;
 };
 
-const Container = styled.View`
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
+const ModalContainer = styled.View`
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
 `;
 
-const Title = styled.Text`
-  font-size: 24px;
-  font-weight: bold;
+const ModalCard = styled(Card)`
+    width: 90%;
+    padding: 20px;
+    border-radius: 10px;
+    elevation: 5;
+`;
+
+const ModalTitle = styled(Title)`
+    font-size: 24px;
+    margin-bottom: 15px;
+    font-weight: bold;
+`;
+
+const ModalContent = styled(Card.Content)`
   margin-bottom: 20px;
 `;
 
-const InfoText = styled.Text`
-  font-size: 16px;
-  margin-bottom: 10px;
-`;
+const DettagliEsame: React.FC<EsameModalProps> = ({ visible, onClose, esame }) => {
+  if (!esame) return null;
+
+  return (
+    <Modal
+      transparent={true}
+      animationType="slide"
+      visible={visible}
+      onRequestClose={onClose}
+    >
+      <ModalContainer>
+        <ModalCard>
+          <ModalContent>
+            <ModalTitle>{esame.nome}</ModalTitle>
+            <Paragraph>Corso di Studi: {esame.corsoDiStudi}</Paragraph>
+            <Paragraph>CFU: {esame.CFU}</Paragraph>
+            <Paragraph>Data: {esame.data}</Paragraph>
+            <Paragraph>Ora: {esame.ora}</Paragraph>
+            <Paragraph>Luogo: {esame.luogo}</Paragraph>
+            <Paragraph>Tipologia: {esame.tipologia}</Paragraph>
+            <Paragraph>Docente: {esame.docente}</Paragraph>
+            <Paragraph>Voto: {esame.voto}</Paragraph>
+          </ModalContent>
+          <Card.Actions>
+            <Button mode="contained" onPress={onClose}>Chiudi</Button>
+          </Card.Actions>
+        </ModalCard>
+      </ModalContainer>
+    </Modal>
+  );
+};
 
 export default DettagliEsame;

@@ -1,7 +1,7 @@
-// Libretto_EsamiDati.tsx
-import React from 'react';
-import { FlatList } from 'react-native';
+import React, { useState } from 'react';
+import { FlatList, TouchableOpacity, View } from 'react-native';
 import EsameCard from '../../components/EsameCard';
+import DettagliEsame from './DettagliEsame';
 import { Esame } from '../../types';
 
 const esamiDati: Esame[] = [
@@ -106,12 +106,36 @@ const esamiDati: Esame[] = [
 ];
 
 const Libretto_EsamiDati: React.FC = () => {
+  const [selectedEsame, setSelectedEsame] = useState<Esame | null>(null);
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const openModal = (esame: Esame) => {
+    setSelectedEsame(esame);
+    setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setSelectedEsame(null);
+    setModalVisible(false);
+  };
+
   return (
-    <FlatList
-      data={esamiDati}
-      renderItem={({ item }) => <EsameCard esame={item} />}
-      keyExtractor={(item) => item.id}
-    />
+    <View style={{ flex: 1 }}>
+      <FlatList
+        data={esamiDati}
+        renderItem={({ item }) => (
+          <TouchableOpacity onPress={() => openModal(item)}>
+            <EsameCard esame={item} />
+          </TouchableOpacity>
+        )}
+        keyExtractor={(item) => item.id}
+      />
+      <DettagliEsame
+        visible={modalVisible}
+        onClose={closeModal}
+        esame={selectedEsame}
+      />
+    </View>
   );
 };
 

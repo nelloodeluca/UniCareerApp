@@ -1,4 +1,3 @@
-// EsameCard.tsx
 import React from 'react';
 import { Card, Text, Chip } from 'react-native-paper';
 import styled from 'styled-components/native';

@@ -8,6 +8,8 @@ import Libretto_EsamiNonDati from '../../screens/Libretto/Libretto_EsamiNonDati'
 import DettagliEsame from '../../screens/Libretto/DettagliEsame';
 import { RootStackParamList } from '../../types'; // Assicurati che il percorso sia corretto
 
+/*
+
 const Stack = createNativeStackNavigator<RootStackParamList>(); // Utilizza il tipo definito
 
 function EsamiDatiStack() {
@@ -25,6 +27,7 @@ function EsamiDatiStack() {
     </Stack.Navigator>
   );
 }
+
 
 function EsamiNonDatiStack() {
   return (
@@ -44,6 +47,7 @@ function EsamiNonDatiStack() {
     </Stack.Navigator>
   );
 }
+*/
 
 const LibrettoTopBar = createMaterialTopTabNavigator();
 
@@ -64,10 +68,10 @@ function Libretto() {
         },
       })}
     >
-      <LibrettoTopBar.Screen name="EsamiDati" component={EsamiDatiStack} />
+      <LibrettoTopBar.Screen name="EsamiDati" component={Libretto_EsamiDati} />
       <LibrettoTopBar.Screen
         name="EsamiNonDati"
-        component={EsamiNonDatiStack}
+        component={Libretto_EsamiNonDati}
       />
     </LibrettoTopBar.Navigator>
   );
