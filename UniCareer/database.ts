@@ -19,7 +19,13 @@ export const aggiungiEsame = async (
     const db = await dbPromise;
     const matricola = 0;
     await db.executeSql(
-      'INSERT INTO esame (nome, corso_di_studi, docente, luogo, tipologia, cfu, data, ora, voto, lode,diario)VALUES (?,?,?,?,?,?,?,?,?,?);)',
+      `
+    INSERT OR REPLACE INTO esame (id, nome, corso_di_studi, docente, luogo, tipologia, cfu, data, ora, voto, lode, diario)
+    VALUES (
+      COALESCE((SELECT id FROM esame WHERE nome = ?), NULL), 
+      ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+    );
+  `,
       [
         nome,
         corso_di_studi,
