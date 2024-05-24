@@ -51,6 +51,7 @@ const esamiDati: Esame[] = [
     categorie: [
       { id: '4', nome: 'Informatica', colore: '#ffcc99' },
       { id: '2', nome: 'Fondamentali', colore: '#99ff99' },
+      { id: '4', nome: 'Informatica', colore: '#ffcc99' },
     ],
   },
   {
@@ -71,6 +72,23 @@ const esamiDati: Esame[] = [
   },
   {
     id: '5',
+    nome: 'Algebra Lineare',
+    corsoDiStudi: 'Ingegneria Informatica',
+    CFU: 9,
+    data: '2023-05-15',
+    ora: '08:00',
+    luogo: 'Aula 303',
+    tipologia: 'Scritto',
+    docente: 'Prof.ssa Gialli',
+    voto: '29',
+    categorie: [
+      { id: '1', nome: 'Matematica', colore: '#ff9999' },
+      { id: '2', nome: 'Fondamentali', colore: '#99ff99' },
+      { id: '3', nome: 'ABC', colore: '#911717' },
+    ],
+  },
+  {
+    id: '6',
     nome: 'Algebra Lineare',
     corsoDiStudi: 'Ingegneria Informatica',
     CFU: 9,

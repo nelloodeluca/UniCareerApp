@@ -5,7 +5,6 @@ import { Ionicons } from '@expo/vector-icons';
 import Dashboard from '../../screens/Dashboard';
 import Statistica from '../../screens/Statistica';
 import Libretto from './LibrettoNav';
-
 import Aggiunta from '../../screens/Aggiunta';
 
 /*
@@ -20,7 +19,7 @@ export default function AppNav() {
       screenOptions={({ route }) => ({
         tabBarShowLabel: false,
         tabBarIcon: ({ focused, color, size }) => {
-          let iconName;
+          let iconName: string = '';
 
           if (route.name === 'Dashboard') {
             iconName = focused ? 'home-sharp' : 'home-outline';

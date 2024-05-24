@@ -13,11 +13,16 @@ const CardContentContainer = styled(Card.Content)`
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    flex: 1;
+    padding: 0 8px 8px 8px;
+
 `;
 
 const InfoContainer = styled.View`
-    flex: 1;
-    margin-right: 16px;
+    flex: 3; /* Assicura che il contenitore prenda tutto lo spazio disponibile */
+    padding: 16px 8px 8px 16px;
+    justify-content: center;
+
 `;
 
 const Title = styled(Text)`
@@ -30,17 +35,22 @@ const DetailText = styled(Text)`
     color: #666;
 `;
 
-const VotoContainer = styled.View`
+interface VotoContainerProps {
+  isPastExam: boolean;
+}
+
+const VotoContainer = styled.View<VotoContainerProps>`
+    flex:1;
+    height: 100%;
     justify-content: center;
     align-items: center;
-    width: 60px;
-    height: 60px;
-    border-radius: 30px; 
-    background-color: #ccc;
+    background-color: ${(props) => (props.isPastExam ? '#b6b6b670' : '#b6b6b670')};
+    border-radius: 0 0 50px 50px;
+    margin-right: 8px;
 `;
 
 const VotoText = styled(Text)`
-    font-size: 18px;
+    font-size: 26px;
     font-weight: bold;
     color: #000;
     text-align: center;
@@ -70,7 +80,7 @@ const EsameCard: React.FC<Props> = ({ esame }) => {
       <CardContentContainer>
         <InfoContainer>
           <Title>{esame.nome}</Title>
-          <DetailText>{esame.data}</DetailText>
+          <DetailText>Data: {esame.data} - ore {esame.ora}</DetailText>
           <ChipContainer>
             {esame.categorie.map((categoria, index) => (
               <Chip key={index} style={{ backgroundColor: categoria.colore, marginRight: 4, marginBottom: 4 }}>
@@ -79,7 +89,7 @@ const EsameCard: React.FC<Props> = ({ esame }) => {
             ))}
           </ChipContainer>
         </InfoContainer>
-        <VotoContainer>
+        <VotoContainer isPastExam={isPastExam}>
           <VotoText>{isPastExam ? esame.voto : `${esame.CFU} CFU`}</VotoText>
         </VotoContainer>
       </CardContentContainer>
