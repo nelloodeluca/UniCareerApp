@@ -1,28 +1,32 @@
-import { View, Text } from 'react-native';
-import RettangoloTesto from '../components/RettangoloTesto';
-import RettDatoSingolo from '../components/RettDatoSingolo';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { View, ScrollView } from 'react-native';
 import React from 'react';
+import CardStatistica from '../components/CardStatistica';
+import CardStatistica2 from '../components/CardStatistica2';
+import styled from 'styled-components/native';
+
+
+
+const ScrollViewContent = styled.View`
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+`;
 
 export default function Statistica() {
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        flexDirection: 'row',
-        alignItems: 'center',
-        flexWrap: 'wrap',
-        justifyContent: 'space-around',
-        padding: 10,
-      }}
-    >
-      <RettDatoSingolo a="Il Voto Massimo è" b="126"></RettDatoSingolo>
-      <RettDatoSingolo a="Il Voto Minimo è" b="140"></RettDatoSingolo>
-      <RettangoloTesto a="CFU conseguiti" b="192" c="204"></RettangoloTesto>
-      <RettangoloTesto a="Esami Dati" b="496" c="972"></RettangoloTesto>
-      <RettDatoSingolo a="Media Aritmetica" b="18"></RettDatoSingolo>
-      <RettDatoSingolo a="Media Ponderata" b="18"></RettDatoSingolo>
-      <RettDatoSingolo a="Voto di Laurea" b="60"></RettDatoSingolo>
-    </SafeAreaView>
+    <ScrollView>
+        <CardStatistica />
+        <CardStatistica />
+        <CardStatistica2 />
+        <CardStatistica2 />
+        <CardStatistica2 />
+        <CardStatistica2 />
+        <CardStatistica />
+        <CardStatistica />
+        <CardStatistica />
+        <CardStatistica />
+    </ScrollView>
   );
 }
