@@ -4,8 +4,6 @@ import CardStatistica from '../components/CardStatistica';
 import CardStatistica2 from '../components/CardStatistica2';
 import styled from 'styled-components/native';
 
-
-
 const ScrollViewContent = styled.View`
   flex-direction: row;
   flex-wrap: wrap;
@@ -17,16 +15,16 @@ const ScrollViewContent = styled.View`
 export default function Statistica() {
   return (
     <ScrollView>
-        <CardStatistica />
-        <CardStatistica />
-        <CardStatistica2 />
-        <CardStatistica2 />
-        <CardStatistica2 />
-        <CardStatistica2 />
-        <CardStatistica />
-        <CardStatistica />
-        <CardStatistica />
-        <CardStatistica />
+      <CardStatistica />
+      <CardStatistica />
+      <CardStatistica2 />
+      <CardStatistica2 />
+      <CardStatistica2 />
+      <CardStatistica2 />
+      <CardStatistica />
+      <CardStatistica />
+      <CardStatistica />
+      <CardStatistica />
     </ScrollView>
   );
 }

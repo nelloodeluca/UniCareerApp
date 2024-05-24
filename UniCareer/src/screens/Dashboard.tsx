@@ -27,14 +27,26 @@ interface CalendarDay {
 }
 
 const months = [
-  'Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno',
-  'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'
+  'Gennaio',
+  'Febbraio',
+  'Marzo',
+  'Aprile',
+  'Maggio',
+  'Giugno',
+  'Luglio',
+  'Agosto',
+  'Settembre',
+  'Ottobre',
+  'Novembre',
+  'Dicembre',
 ];
 
 const getWeeksInMonth = (month: number, year: number) => {
   const firstDayOfMonth = new Date(year, month, 1);
   const startOfFirstWeek = startOfWeek(firstDayOfMonth, { weekStartsOn: 1 });
-  const endOfLastWeek = endOfWeek(endOfMonth(firstDayOfMonth), { weekStartsOn: 1 });
+  const endOfLastWeek = endOfWeek(endOfMonth(firstDayOfMonth), {
+    weekStartsOn: 1,
+  });
 
   const weeks = [];
   let start = startOfFirstWeek;
@@ -54,7 +66,9 @@ const getWeeksInMonth = (month: number, year: number) => {
 function Dashboard() {
   const [selectedDay, setSelectedDay] = useState<string>('');
   const [viewMode, setViewMode] = useState<'monthly' | 'weekly'>('monthly');
-  const [selectedMonth, setSelectedMonth] = useState<number>(new Date().getMonth());
+  const [selectedMonth, setSelectedMonth] = useState<number>(
+    new Date().getMonth()
+  );
   const [selectedWeekIndex, setSelectedWeekIndex] = useState<number>(0);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [daysAhead, setDaysAhead] = useState<string>('7');
@@ -263,14 +277,18 @@ function Dashboard() {
               {weeks.map((week, index) => (
                 <Picker.Item
                   key={index}
-                  label={`Settimana ${index + 1}: ${week.start.split('-')[2]}/${week.start.split('-')[1]} - ${week.end.split('-')[2]}/${week.end.split('-')[1]}`}
+                  label={`Settimana ${index + 1}: ${week.start.split('-')[2]}/${
+                    week.start.split('-')[1]
+                  } - ${week.end.split('-')[2]}/${week.end.split('-')[1]}`}
                   value={index}
                 />
               ))}
             </Picker>
             {weeklyExams.length > 0 ? (
               weeklyExams.map((exam, index) => (
-                <ExamText key={index}>{`${exam.date.split('-')[2]}/${exam.date.split('-')[1]}: ${exam.name}`}</ExamText>
+                <ExamText key={index}>{`${exam.date.split('-')[2]}/${
+                  exam.date.split('-')[1]
+                }: ${exam.name}`}</ExamText>
               ))
             ) : (
               <Text>Nessun esame per questa settimana</Text>
@@ -293,7 +311,9 @@ function Dashboard() {
           <ExamsTitle>Prossimi esami:</ExamsTitle>
           {imminentExams.length > 0 ? (
             imminentExams.map((exam, index) => (
-              <ExamText key={index}>{`${exam.date.split('-')[2]}/${exam.date.split('-')[1]}: ${exam.name}`}</ExamText>
+              <ExamText key={index}>{`${exam.date.split('-')[2]}/${
+                exam.date.split('-')[1]
+              }: ${exam.name}`}</ExamText>
             ))
           ) : (
             <Text>Nessun esame imminente</Text>
@@ -302,7 +322,9 @@ function Dashboard() {
       </View>
       {exams[todayString] && exams[todayString].length > 0 && (
         <View>
-          <TodayExamsCard style={{ margin: 10, padding: 10, backgroundColor: '#dff0d8' }}>
+          <TodayExamsCard
+            style={{ margin: 10, padding: 10, backgroundColor: '#dff0d8' }}
+          >
             <TodayExamsTitle>Esami di oggi:</TodayExamsTitle>
             {exams[todayString].map((exam, index) => (
               <TodayExamText key={index}>{exam.name}</TodayExamText>
@@ -312,7 +334,8 @@ function Dashboard() {
             </EncouragementText>
             <InspirationalQuoteContainer>
               <InspirationalQuote>
-                "Il successo non è la chiave della felicità. La felicità è la chiave del successo. Se ami ciò che fai, avrai successo. 🌟"
+                "Il successo non è la chiave della felicità. La felicità è la
+                chiave del successo. Se ami ciò che fai, avrai successo. 🌟"
               </InspirationalQuote>
             </InspirationalQuoteContainer>
           </TodayExamsCard>
@@ -323,73 +346,73 @@ function Dashboard() {
 }
 
 const ButtonsContainer = styled.View`
-    flex-direction: row;
-    justify-content: space-around;
-    margin-vertical: 15px;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-vertical: 15px;
 `;
 
 const PickerContainer = styled.View`
-    margin-horizontal: 10px;
+  margin-horizontal: 10px;
 `;
 
 const ExamsTitle = styled.Text`
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
 `;
 
 const ExamDate = styled.Text`
-    font-weight: bold;
-    margin-top: 5px;
+  font-weight: bold;
+  margin-top: 5px;
 `;
 
 const ExamText = styled.Text`
-    font-size: 16px;
-    margin-top: 5px;
+  font-size: 16px;
+  margin-top: 5px;
 `;
 
 const DaysAheadContainer = styled.View`
-    flex-direction: row;
-    align-items: center;
-    margin-bottom: 10px;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 10px;
 `;
 
 const TodayExamsCard = styled(Card)`
-    align-items: center;
+  align-items: center;
 `;
 
 const TodayExamsTitle = styled.Text`
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #2c3e50;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #2c3e50;
 `;
 
 const TodayExamText = styled.Text`
-    font-size: 16px;
-    margin-top: 5px;
-    color: #34495e;
-    text-align: center;
+  font-size: 16px;
+  margin-top: 5px;
+  color: #34495e;
+  text-align: center;
 `;
 
 const EncouragementText = styled.Text`
-    font-size: 16px;
-    font-weight: bold;
-    margin-top: 10px;
-    color: #27ae60;
-    text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 10px;
+  color: #27ae60;
+  text-align: center;
 `;
 
 const InspirationalQuoteContainer = styled.View`
-    margin-top: 20px;
-    padding-horizontal: 20px;
+  margin-top: 20px;
+  padding-horizontal: 20px;
 `;
 
 const InspirationalQuote = styled.Text`
-    font-size: 16px;
-    font-style: italic;
-    text-align: center;
-    color: #7f8c8d;
+  font-size: 16px;
+  font-style: italic;
+  text-align: center;
+  color: #7f8c8d;
 `;
 
 export default Dashboard;

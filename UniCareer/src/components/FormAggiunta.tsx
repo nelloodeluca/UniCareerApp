@@ -107,7 +107,20 @@ const FormAggiunta: React.FC = () => {
       name: 'gruppo13.db',
       location: 'default',
     });
-    aggiungiEsame(dbPromise,nome,corso_studi,docente,luogo,tipologia,BigInt(cfu),formatDate(date),'',BigInt(voto),lode,diario);
+    aggiungiEsame(
+      dbPromise,
+      nome,
+      corso_studi,
+      docente,
+      luogo,
+      tipologia,
+      BigInt(cfu),
+      formatDate(date),
+      '',
+      BigInt(voto),
+      lode,
+      diario
+    );
     setSnackbarVisible(true);
   };
 
