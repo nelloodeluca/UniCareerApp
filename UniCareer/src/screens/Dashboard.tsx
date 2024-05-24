@@ -3,6 +3,7 @@ import { ScrollView, Dimensions, View, Text } from 'react-native';
 import styled from 'styled-components/native';
 import { Picker } from '@react-native-picker/picker';
 import { CalendarList } from 'react-native-calendars';
+import { Card, Button as PaperButton, TextInput } from 'react-native-paper';
 import {
   format,
   startOfWeek,
@@ -13,42 +14,27 @@ import {
   addDays,
 } from 'date-fns';
 
-// Interfaccia per gli esami
 interface Exam {
   name: string;
 }
 
-// Interfaccia per mappare le date agli esami
 interface ExamSchedule {
   [date: string]: Exam[];
 }
 
-// Interfaccia per l'oggetto del giorno selezionato da CalendarList
 interface CalendarDay {
   dateString: string;
 }
 
 const months = [
-  'Gennaio',
-  'Febbraio',
-  'Marzo',
-  'Aprile',
-  'Maggio',
-  'Giugno',
-  'Luglio',
-  'Agosto',
-  'Settembre',
-  'Ottobre',
-  'Novembre',
-  'Dicembre',
+  'Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno',
+  'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'
 ];
 
 const getWeeksInMonth = (month: number, year: number) => {
   const firstDayOfMonth = new Date(year, month, 1);
   const startOfFirstWeek = startOfWeek(firstDayOfMonth, { weekStartsOn: 1 });
-  const endOfLastWeek = endOfWeek(endOfMonth(firstDayOfMonth), {
-    weekStartsOn: 1,
-  });
+  const endOfLastWeek = endOfWeek(endOfMonth(firstDayOfMonth), { weekStartsOn: 1 });
 
   const weeks = [];
   let start = startOfFirstWeek;
@@ -68,9 +54,7 @@ const getWeeksInMonth = (month: number, year: number) => {
 function Dashboard() {
   const [selectedDay, setSelectedDay] = useState<string>('');
   const [viewMode, setViewMode] = useState<'monthly' | 'weekly'>('monthly');
-  const [selectedMonth, setSelectedMonth] = useState<number>(
-    new Date().getMonth()
-  );
+  const [selectedMonth, setSelectedMonth] = useState<number>(new Date().getMonth());
   const [selectedWeekIndex, setSelectedWeekIndex] = useState<number>(0);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [daysAhead, setDaysAhead] = useState<string>('7');
@@ -106,7 +90,6 @@ function Dashboard() {
       };
     });
 
-    // Highlight the selected day even if it has no exams
     if (selectedDay && !marks[selectedDay]) {
       marks[selectedDay] = {
         dots: [],
@@ -127,6 +110,8 @@ function Dashboard() {
 
   const onMonthChange = (month: { year: number; month: number }) => {
     setCurrentDate(new Date(month.year, month.month - 1, 1));
+    setSelectedMonth(month.month - 1);
+    handleClearSelection(); // Clear the selected day when the month changes
   };
 
   const getMonthlyExams = () => {
@@ -153,7 +138,7 @@ function Dashboard() {
 
   const getImminentExams = () => {
     const targetDate = addDays(new Date(), parseInt(daysAhead) || 7);
-    const imminentExams = Object.keys(exams)
+    return Object.keys(exams)
       .filter(
         (date) => new Date(date) <= targetDate && new Date(date) >= new Date()
       )
@@ -162,7 +147,6 @@ function Dashboard() {
       .flatMap((date) =>
         (exams[date] || []).map((exam) => ({ ...exam, date }))
       );
-    return imminentExams;
   };
 
   const monthlyExams = getMonthlyExams();
@@ -171,6 +155,17 @@ function Dashboard() {
 
   const handleClearSelection = () => {
     setSelectedDay('');
+  };
+
+  const handleViewModeChange = (mode: 'monthly' | 'weekly') => {
+    setViewMode(mode);
+    handleClearSelection();
+  };
+
+  const handleMonthChange = (month: number) => {
+    setSelectedMonth(month);
+    setCurrentDate(new Date(year, month, 1));
+    handleClearSelection(); // Clear the selected day when the month changes
   };
 
   const calendarTheme = {
@@ -183,7 +178,7 @@ function Dashboard() {
 
   return (
     <ScrollView style={{ flex: 1 }}>
-      <CalendarContainer>
+      <Card style={{ marginTop: 10, marginHorizontal: 10, borderRadius: 10 }}>
         <CalendarList
           onDayPress={onDayPress}
           markedDates={markedDates}
@@ -199,31 +194,27 @@ function Dashboard() {
             onMonthChange({ year: month.year, month: month.month });
           }}
         />
-      </CalendarContainer>
+      </Card>
       <ButtonsContainer>
-        <Button
-          active={viewMode === 'monthly'}
-          onPress={() => {
-            setViewMode('monthly');
-            handleClearSelection();
-          }}
+        <PaperButton
+          mode={viewMode === 'monthly' ? 'contained' : 'outlined'}
+          onPress={() => handleViewModeChange('monthly')}
+          style={{ marginHorizontal: 5 }}
         >
-          <ButtonText>Visualizzazione Mensile</ButtonText>
-        </Button>
-        <Button
-          active={viewMode === 'weekly'}
-          onPress={() => {
-            setViewMode('weekly');
-            handleClearSelection();
-          }}
+          Mensile
+        </PaperButton>
+        <PaperButton
+          mode={viewMode === 'weekly' ? 'contained' : 'outlined'}
+          onPress={() => handleViewModeChange('weekly')}
+          style={{ marginHorizontal: 5 }}
         >
-          <ButtonText>Visualizzazione Settimanale</ButtonText>
-        </Button>
+          Settimanale
+        </PaperButton>
       </ButtonsContainer>
       <PickerContainer>
         <Picker
           selectedValue={selectedMonth}
-          onValueChange={(itemValue: number) => setSelectedMonth(itemValue)}
+          onValueChange={handleMonthChange}
         >
           {months.map((month, index) => (
             <Picker.Item key={index} label={month} value={index} />
@@ -231,15 +222,15 @@ function Dashboard() {
         </Picker>
       </PickerContainer>
       {selectedDay ? (
-        <ExamsContainer>
-          <ExamsTitle>Esami del giorno {selectedDay}:</ExamsTitle>
+        <Card style={{ margin: 10, padding: 10 }}>
+          <ExamsTitle>Esami del {selectedDay}:</ExamsTitle>
           {exams[selectedDay]?.map((exam, index) => (
             <ExamText key={index}>{exam.name}</ExamText>
-          )) || <Text>Nessun esame per questo giorno</Text>}
-        </ExamsContainer>
+          )) || <Text>Nessun esame</Text>}
+        </Card>
       ) : viewMode === 'monthly' ? (
-        <ExamsContainer>
-          <ExamsTitle>Questo mese hai questi esami:</ExamsTitle>
+        <Card style={{ margin: 10, padding: 10 }}>
+          <ExamsTitle>Esami di questo mese:</ExamsTitle>
           {monthlyExams.map(({ date, exams }) => (
             <View key={date}>
               <ExamDate>
@@ -250,10 +241,10 @@ function Dashboard() {
               ))}
             </View>
           ))}
-        </ExamsContainer>
+        </Card>
       ) : (
-        <ExamsContainer>
-          <ExamsTitle>Nella settimana selezionata hai questi esami:</ExamsTitle>
+        <Card style={{ margin: 10, padding: 10 }}>
+          <ExamsTitle>Esami di questa settimana:</ExamsTitle>
           <Picker
             selectedValue={selectedWeekIndex}
             onValueChange={(itemValue: number) =>
@@ -263,48 +254,42 @@ function Dashboard() {
             {weeks.map((week, index) => (
               <Picker.Item
                 key={index}
-                label={`Settimana ${index + 1}: ${week.start.split('-')[2]}/${
-                  week.start.split('-')[1]
-                } - ${week.end.split('-')[2]}/${week.end.split('-')[1]}`}
+                label={`Settimana ${index + 1}: ${week.start.split('-')[2]}/${week.start.split('-')[1]} - ${week.end.split('-')[2]}/${week.end.split('-')[1]}`}
                 value={index}
               />
             ))}
           </Picker>
           {weeklyExams.length > 0 ? (
             weeklyExams.map((exam, index) => (
-              <ExamText key={index}>{`${exam.date.split('-')[2]}/${
-                exam.date.split('-')[1]
-              }: ${exam.name}`}</ExamText>
+              <ExamText key={index}>{`${exam.date.split('-')[2]}/${exam.date.split('-')[1]}: ${exam.name}`}</ExamText>
             ))
           ) : (
             <Text>Nessun esame per questa settimana</Text>
           )}
-        </ExamsContainer>
+        </Card>
       )}
-      <ImminentExamsContainer>
+      <Card style={{ margin: 10, padding: 10 }}>
         <DaysAheadContainer>
-          <Text>Esami imminenti entro giorni:</Text>
-          <DaysAheadInput
+          <Text>Esami imminenti:</Text>
+          <TextInput
+            mode="outlined"
             keyboardType="numeric"
             value={daysAhead}
             onChangeText={(text) => setDaysAhead(text)}
+            style={{ marginLeft: 10, flex: 1 }}
           />
         </DaysAheadContainer>
-        <ExamsContainer>
-          <ExamsTitle>Prossimi 3 esami imminenti:</ExamsTitle>
-          {imminentExams.length > 0 ? (
-            imminentExams.map((exam, index) => (
-              <ExamText key={index}>{`${exam.date.split('-')[2]}/${
-                exam.date.split('-')[1]
-              }: ${exam.name}`}</ExamText>
-            ))
-          ) : (
-            <Text>Nessun esame imminente</Text>
-          )}
-        </ExamsContainer>
-      </ImminentExamsContainer>
+        <ExamsTitle>Prossimi esami:</ExamsTitle>
+        {imminentExams.length > 0 ? (
+          imminentExams.map((exam, index) => (
+            <ExamText key={index}>{`${exam.date.split('-')[2]}/${exam.date.split('-')[1]}: ${exam.name}`}</ExamText>
+          ))
+        ) : (
+          <Text>Nessun esame imminente</Text>
+        )}
+      </Card>
       {exams[todayString] && exams[todayString].length > 0 && (
-        <TodayExamsContainer>
+        <Card style={{ margin: 10, padding: 10, backgroundColor: '#dff0d8' }}>
           <TodayExamsTitle>Esami di oggi:</TodayExamsTitle>
           {exams[todayString].map((exam, index) => (
             <TodayExamText key={index}>{exam.name}</TodayExamText>
@@ -314,121 +299,65 @@ function Dashboard() {
           </EncouragementText>
           <InspirationalQuoteContainer>
             <InspirationalQuote>
-              "Il successo non è la chiave della felicità. La felicità è la
-              chiave del successo. Se ami ciò che fai, avrai successo."
+              "Il successo non è la chiave della felicità. La felicità è la chiave del successo. Se ami ciò che fai, avrai successo."
             </InspirationalQuote>
           </InspirationalQuoteContainer>
-        </TodayExamsContainer>
+        </Card>
       )}
     </ScrollView>
   );
 }
 
-const CalendarContainer = styled.View`
-  margin-top: 10px;
-  border-width: 10px;
-  border-color: grey;
-  border-radius: 20px;
-  overflow: hidden;
-  background-color: white;
-  align-self: center;
-  width: ${Dimensions.get('window').width - 20}px;
-`;
-
 const ButtonsContainer = styled.View`
-  flex-direction: row;
-  justify-content: space-around;
-  margin-vertical: 20px;
-`;
-
-const Button = styled.TouchableOpacity<{ active: boolean }>`
-  padding-vertical: 10px;
-  padding-horizontal: 20px;
-  border-radius: 10px;
-  background-color: ${({ active }) => (active ? 'orange' : 'lightgrey')};
-`;
-
-const ButtonText = styled.Text`
-  font-size: 16px;
-  color: black;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-vertical: 15px;
 `;
 
 const PickerContainer = styled.View`
-  margin-horizontal: 10px;
-`;
-
-const ExamsContainer = styled.View`
-  padding: 20px;
-  background-color: lightgrey;
-  border-radius: 20px;
-  margin-horizontal: 10px;
-  margin-top: 20px;
+    margin-horizontal: 10px;
 `;
 
 const ExamsTitle = styled.Text`
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
 `;
 
 const ExamDate = styled.Text`
-  font-weight: bold;
-  margin-top: 10px;
+    font-weight: bold;
+    margin-top: 5px;
 `;
 
 const ExamText = styled.Text`
-  font-size: 16px;
-  margin-top: 5px;
-`;
-
-const ImminentExamsContainer = styled.View`
-  padding: 20px;
-  margin-horizontal: 10px;
-  margin-top: 20px;
+    font-size: 16px;
+    margin-top: 5px;
 `;
 
 const DaysAheadContainer = styled.View`
-  flex-direction: row;
-  align-items: center;
-  margin-bottom: 10px;
-`;
-
-const DaysAheadInput = styled.TextInput`
-  height: 40px;
-  border-color: gray;
-  border-width: 1px;
-  margin-left: 10px;
-  padding-horizontal: 10px;
-  flex: 1;
-`;
-
-const TodayExamsContainer = styled.View`
-  padding: 20px;
-  background-color: #dff0d8;
-  border-radius: 20px;
-  margin-horizontal: 10px;
-  margin-top: 20px;
-  align-items: center;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px;
 `;
 
 const TodayExamsTitle = styled.Text`
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 10px;
-  color: #2c3e50;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #2c3e50;
 `;
 
 const TodayExamText = styled.Text`
-  font-size: 16px;
-  margin-top: 5px;
-  color: #34495e;
+    font-size: 16px;
+    margin-top: 5px;
+    color: #34495e;
 `;
 
 const EncouragementText = styled.Text`
-  font-size: 16px;
-  font-weight: bold;
-  margin-top: 10px;
-  color: #27ae60;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 10px;
+    color: #27ae60;
 `;
 
 const InspirationalQuoteContainer = styled.View`
