@@ -7,13 +7,25 @@ export type RootStackParamList = {
   EsameDettagli: { esame: Esame };
 };
 
-export interface Esame {
+export type Categoria = {
   id: string;
   nome: string;
-  cfu: number;
+  colore: string;
+};
+
+export type Esame = {
+  id: string;
+  nome: string;
+  corsoDiStudi: string;
+  CFU: number;
   data: string;
-  categoria: string;
-}
+  ora: string;
+  luogo: string;
+  tipologia: string;
+  docente: string;
+  voto?: string;
+  categorie: Categoria[];
+};
 
 export interface DettagliEsameProps {
   route: RouteProp<RootStackParamList, 'EsameDettagli'>;

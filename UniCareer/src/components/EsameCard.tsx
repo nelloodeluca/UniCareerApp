@@ -1,84 +1,90 @@
+// EsameCard.tsx
 import React from 'react';
-import { TouchableOpacity, View } from 'react-native';
-import { Card as PaperCard, Badge as PaperBadge } from 'react-native-paper';
+import { Card, Text, Chip } from 'react-native-paper';
 import styled from 'styled-components/native';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { Esame } from '../types';
 
-interface Esame {
-  id: string;
-  nome: string;
-  cfu: number;
-  data: string;
-  categoria: string;
-}
+const CardContainer = styled(Card)`
+    margin: 8px;
+    background: #fafafa;
+`;
 
-interface EsameCardProps {
-  item: Esame;
-}
+const CardContentContainer = styled(Card.Content)`
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+`;
 
-type RootStackParamList = {
-  EsameDettagli: { esame: Esame };
+const InfoContainer = styled.View`
+    flex: 1;
+    margin-right: 16px;
+`;
+
+const Title = styled(Text)`
+    font-size: 18px;
+    font-weight: bold;
+`;
+
+const DetailText = styled(Text)`
+    font-size: 14px;
+    color: #666;
+`;
+
+const VotoContainer = styled.View`
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 30px; 
+    background-color: #ccc;
+`;
+
+const VotoText = styled(Text)`
+    font-size: 18px;
+    font-weight: bold;
+    color: #000;
+    text-align: center;
+`;
+
+const ChipContainer = styled.View`
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 8px;
+`;
+
+type Props = {
+  esame: Esame;
 };
 
-const Card = styled(PaperCard)`
-  margin-bottom: 16px;
-  width: 100%;
-  background-color: white;
-  shadow-color: #000;
-  shadow-offset: 0px 2px;
-  shadow-opacity: 0.25;
-  shadow-radius: 3.84px;
-  elevation: 5;
-  border-radius: 8px;
-`;
+const EsameCard: React.FC<Props> = ({ esame }) => {
+  if (!esame) {
+    return null;
+  }
 
-const CardContent = styled.View`
-  padding: 16px;
-`;
-
-const Title = styled.Text`
-  font-size: 18px;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 8px;
-`;
-
-const InfoText = styled.Text`
-  font-size: 14px;
-  color: #666;
-  margin-bottom: 4px;
-`;
-
-const Badge = styled(PaperBadge)<{ categoria: string }>`
-  background-color: ${(props) =>
-    props.categoria === 'colorato' ? '#3b82f6' : '#e5e7eb'};
-  color: ${(props) => (props.categoria === 'colorato' ? 'white' : '#6b7280')};
-`;
-
-function EsameCard({ item }: EsameCardProps) {
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const currentDate = new Date();
+  const esameDate = new Date(esame.data);
+  const isPastExam = esameDate < currentDate;
 
   return (
-    <TouchableOpacity
-      onPress={() => navigation.navigate('EsameDettagli', { esame: item })}
-    >
-      <Card>
-        <CardContent>
-          <Title>{item.nome}</Title>
-          <InfoText>CFU: {item.cfu}</InfoText>
-          <InfoText>Data: {item.data}</InfoText>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <InfoText style={{ marginRight: 8 }}>Categoria:</InfoText>
-            <Badge categoria={item.categoria}>
-              {item.categoria === 'colorato' ? 'Colorato' : 'Vuoto'}
-            </Badge>
-          </View>
-        </CardContent>
-      </Card>
-    </TouchableOpacity>
+    <CardContainer>
+      <CardContentContainer>
+        <InfoContainer>
+          <Title>{esame.nome}</Title>
+          <DetailText>{esame.data}</DetailText>
+          <ChipContainer>
+            {esame.categorie.map((categoria, index) => (
+              <Chip key={index} style={{ backgroundColor: categoria.colore, marginRight: 4, marginBottom: 4 }}>
+                {categoria.nome}
+              </Chip>
+            ))}
+          </ChipContainer>
+        </InfoContainer>
+        <VotoContainer>
+          <VotoText>{isPastExam ? esame.voto : `${esame.CFU} CFU`}</VotoText>
+        </VotoContainer>
+      </CardContentContainer>
+    </CardContainer>
   );
-}
+};
 
 export default EsameCard;
