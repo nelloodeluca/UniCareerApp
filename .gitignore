@@ -4,3 +4,7 @@ UniCareer/.idea/vcs.xml
 UniCareer/.idea/modules.xml
 UniCareer/.idea/workspace.xml
 *.xml
+*.json
+*.json
+UniCareer/package-lock.json
+UniCareer/package.json

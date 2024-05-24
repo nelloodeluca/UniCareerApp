@@ -69,9 +69,9 @@ function Dashboard() {
   const weeks = getWeeksInMonth(selectedMonth, year);
 
   const exams: ExamSchedule = {
-    '2024-05-23': [{ name: 'Matematica' }, { name: 'Chimica' }],
-    '2024-05-24': [{ name: 'Fisica' }],
-    '2024-05-25': [{ name: 'Storia' }, { name: 'Inglese' }],
+    '2024-05-23': [{ name: 'Matematica 📚' }, { name: 'Chimica 🔬' }],
+    '2024-05-24': [{ name: 'Fisica 🌌' }],
+    '2024-05-25': [{ name: 'Storia 📜' }, { name: 'Inglese 🇬🇧' }],
   };
 
   const markedDates = useMemo(() => {
@@ -178,131 +178,145 @@ function Dashboard() {
 
   return (
     <ScrollView style={{ flex: 1 }}>
-      <Card style={{ marginTop: 10, marginHorizontal: 10, borderRadius: 10 }}>
-        <CalendarList
-          onDayPress={onDayPress}
-          markedDates={markedDates}
-          markingType={'multi-dot'}
-          theme={calendarTheme}
-          horizontal={true}
-          pagingEnabled={true}
-          pastScrollRange={24}
-          futureScrollRange={24}
-          calendarWidth={windowWidth - 20}
-          onVisibleMonthsChange={(months) => {
-            const month = months[0];
-            onMonthChange({ year: month.year, month: month.month });
-          }}
-        />
-      </Card>
-      <ButtonsContainer>
-        <PaperButton
-          mode={viewMode === 'monthly' ? 'contained' : 'outlined'}
-          onPress={() => handleViewModeChange('monthly')}
-          style={{ marginHorizontal: 5 }}
-        >
-          Mensile
-        </PaperButton>
-        <PaperButton
-          mode={viewMode === 'weekly' ? 'contained' : 'outlined'}
-          onPress={() => handleViewModeChange('weekly')}
-          style={{ marginHorizontal: 5 }}
-        >
-          Settimanale
-        </PaperButton>
-      </ButtonsContainer>
-      <PickerContainer>
-        <Picker
-          selectedValue={selectedMonth}
-          onValueChange={handleMonthChange}
-        >
-          {months.map((month, index) => (
-            <Picker.Item key={index} label={month} value={index} />
-          ))}
-        </Picker>
-      </PickerContainer>
-      {selectedDay ? (
-        <Card style={{ margin: 10, padding: 10 }}>
-          <ExamsTitle>Esami del {selectedDay}:</ExamsTitle>
-          {exams[selectedDay]?.map((exam, index) => (
-            <ExamText key={index}>{exam.name}</ExamText>
-          )) || <Text>Nessun esame</Text>}
+      <View>
+        <Card style={{ marginTop: 10, marginHorizontal: 10, borderRadius: 10 }}>
+          <CalendarList
+            onDayPress={onDayPress}
+            markedDates={markedDates}
+            markingType={'multi-dot'}
+            theme={calendarTheme}
+            horizontal={true}
+            pagingEnabled={true}
+            pastScrollRange={24}
+            futureScrollRange={24}
+            calendarWidth={windowWidth - 20}
+            onVisibleMonthsChange={(months) => {
+              const month = months[0];
+              onMonthChange({ year: month.year, month: month.month });
+            }}
+          />
         </Card>
-      ) : viewMode === 'monthly' ? (
-        <Card style={{ margin: 10, padding: 10 }}>
-          <ExamsTitle>Esami di questo mese:</ExamsTitle>
-          {monthlyExams.map(({ date, exams }) => (
-            <View key={date}>
-              <ExamDate>
-                {date.split('-')[2]}/{date.split('-')[1]}
-              </ExamDate>
-              {exams.map((exam, index) => (
-                <ExamText key={index}>{exam.name}</ExamText>
-              ))}
-            </View>
-          ))}
-        </Card>
-      ) : (
-        <Card style={{ margin: 10, padding: 10 }}>
-          <ExamsTitle>Esami di questa settimana:</ExamsTitle>
-          <Picker
-            selectedValue={selectedWeekIndex}
-            onValueChange={(itemValue: number) =>
-              setSelectedWeekIndex(itemValue)
-            }
+      </View>
+      <View>
+        <ButtonsContainer>
+          <PaperButton
+            mode={viewMode === 'monthly' ? 'contained' : 'outlined'}
+            onPress={() => handleViewModeChange('monthly')}
+            style={{ marginHorizontal: 5 }}
           >
-            {weeks.map((week, index) => (
-              <Picker.Item
-                key={index}
-                label={`Settimana ${index + 1}: ${week.start.split('-')[2]}/${week.start.split('-')[1]} - ${week.end.split('-')[2]}/${week.end.split('-')[1]}`}
-                value={index}
-              />
+            Mensile 📅
+          </PaperButton>
+          <PaperButton
+            mode={viewMode === 'weekly' ? 'contained' : 'outlined'}
+            onPress={() => handleViewModeChange('weekly')}
+            style={{ marginHorizontal: 5 }}
+          >
+            Settimanale 📆
+          </PaperButton>
+        </ButtonsContainer>
+        <PickerContainer>
+          <Picker
+            selectedValue={selectedMonth}
+            onValueChange={handleMonthChange}
+          >
+            {months.map((month, index) => (
+              <Picker.Item key={index} label={month} value={index} />
             ))}
           </Picker>
-          {weeklyExams.length > 0 ? (
-            weeklyExams.map((exam, index) => (
+        </PickerContainer>
+      </View>
+      {selectedDay ? (
+        <View>
+          <Card style={{ margin: 10, padding: 10 }}>
+            <ExamsTitle>Esami del {selectedDay}:</ExamsTitle>
+            {exams[selectedDay]?.map((exam, index) => (
+              <ExamText key={index}>{exam.name}</ExamText>
+            )) || <Text>Nessun esame</Text>}
+          </Card>
+        </View>
+      ) : viewMode === 'monthly' ? (
+        <View>
+          <Card style={{ margin: 10, padding: 10 }}>
+            <ExamsTitle>Esami di questo mese:</ExamsTitle>
+            {monthlyExams.map(({ date, exams }) => (
+              <View key={date}>
+                <ExamDate>
+                  {date.split('-')[2]}/{date.split('-')[1]}
+                </ExamDate>
+                {exams.map((exam, index) => (
+                  <ExamText key={index}>{exam.name}</ExamText>
+                ))}
+              </View>
+            ))}
+          </Card>
+        </View>
+      ) : (
+        <View>
+          <Card style={{ margin: 10, padding: 10 }}>
+            <ExamsTitle>Esami di questa settimana:</ExamsTitle>
+            <Picker
+              selectedValue={selectedWeekIndex}
+              onValueChange={(itemValue: number) =>
+                setSelectedWeekIndex(itemValue)
+              }
+            >
+              {weeks.map((week, index) => (
+                <Picker.Item
+                  key={index}
+                  label={`Settimana ${index + 1}: ${week.start.split('-')[2]}/${week.start.split('-')[1]} - ${week.end.split('-')[2]}/${week.end.split('-')[1]}`}
+                  value={index}
+                />
+              ))}
+            </Picker>
+            {weeklyExams.length > 0 ? (
+              weeklyExams.map((exam, index) => (
+                <ExamText key={index}>{`${exam.date.split('-')[2]}/${exam.date.split('-')[1]}: ${exam.name}`}</ExamText>
+              ))
+            ) : (
+              <Text>Nessun esame per questa settimana</Text>
+            )}
+          </Card>
+        </View>
+      )}
+      <View>
+        <Card style={{ margin: 10, padding: 10 }}>
+          <DaysAheadContainer>
+            <Text>Esami imminenti:</Text>
+            <TextInput
+              mode="outlined"
+              keyboardType="numeric"
+              value={daysAhead}
+              onChangeText={(text) => setDaysAhead(text)}
+              style={{ marginLeft: 10, flex: 1 }}
+            />
+          </DaysAheadContainer>
+          <ExamsTitle>Prossimi esami:</ExamsTitle>
+          {imminentExams.length > 0 ? (
+            imminentExams.map((exam, index) => (
               <ExamText key={index}>{`${exam.date.split('-')[2]}/${exam.date.split('-')[1]}: ${exam.name}`}</ExamText>
             ))
           ) : (
-            <Text>Nessun esame per questa settimana</Text>
+            <Text>Nessun esame imminente</Text>
           )}
         </Card>
-      )}
-      <Card style={{ margin: 10, padding: 10 }}>
-        <DaysAheadContainer>
-          <Text>Esami imminenti:</Text>
-          <TextInput
-            mode="outlined"
-            keyboardType="numeric"
-            value={daysAhead}
-            onChangeText={(text) => setDaysAhead(text)}
-            style={{ marginLeft: 10, flex: 1 }}
-          />
-        </DaysAheadContainer>
-        <ExamsTitle>Prossimi esami:</ExamsTitle>
-        {imminentExams.length > 0 ? (
-          imminentExams.map((exam, index) => (
-            <ExamText key={index}>{`${exam.date.split('-')[2]}/${exam.date.split('-')[1]}: ${exam.name}`}</ExamText>
-          ))
-        ) : (
-          <Text>Nessun esame imminente</Text>
-        )}
-      </Card>
+      </View>
       {exams[todayString] && exams[todayString].length > 0 && (
-        <Card style={{ margin: 10, padding: 10, backgroundColor: '#dff0d8' }}>
-          <TodayExamsTitle>Esami di oggi:</TodayExamsTitle>
-          {exams[todayString].map((exam, index) => (
-            <TodayExamText key={index}>{exam.name}</TodayExamText>
-          ))}
-          <EncouragementText>
-            Buona fortuna per i tuoi esami di oggi!
-          </EncouragementText>
-          <InspirationalQuoteContainer>
-            <InspirationalQuote>
-              "Il successo non è la chiave della felicità. La felicità è la chiave del successo. Se ami ciò che fai, avrai successo."
-            </InspirationalQuote>
-          </InspirationalQuoteContainer>
-        </Card>
+        <View>
+          <TodayExamsCard style={{ margin: 10, padding: 10, backgroundColor: '#dff0d8' }}>
+            <TodayExamsTitle>Esami di oggi:</TodayExamsTitle>
+            {exams[todayString].map((exam, index) => (
+              <TodayExamText key={index}>{exam.name}</TodayExamText>
+            ))}
+            <EncouragementText>
+              Buona fortuna per i tuoi esami di oggi! 🍀
+            </EncouragementText>
+            <InspirationalQuoteContainer>
+              <InspirationalQuote>
+                "Il successo non è la chiave della felicità. La felicità è la chiave del successo. Se ami ciò che fai, avrai successo. 🌟"
+              </InspirationalQuote>
+            </InspirationalQuoteContainer>
+          </TodayExamsCard>
+        </View>
       )}
     </ScrollView>
   );
@@ -340,6 +354,10 @@ const DaysAheadContainer = styled.View`
     margin-bottom: 10px;
 `;
 
+const TodayExamsCard = styled(Card)`
+    align-items: center;
+`;
+
 const TodayExamsTitle = styled.Text`
     font-size: 18px;
     font-weight: bold;
@@ -351,6 +369,7 @@ const TodayExamText = styled.Text`
     font-size: 16px;
     margin-top: 5px;
     color: #34495e;
+    text-align: center;
 `;
 
 const EncouragementText = styled.Text`
@@ -358,18 +377,19 @@ const EncouragementText = styled.Text`
     font-weight: bold;
     margin-top: 10px;
     color: #27ae60;
+    text-align: center;
 `;
 
 const InspirationalQuoteContainer = styled.View`
-  margin-top: 20px;
-  padding-horizontal: 20px;
+    margin-top: 20px;
+    padding-horizontal: 20px;
 `;
 
 const InspirationalQuote = styled.Text`
-  font-size: 16px;
-  font-style: italic;
-  text-align: center;
-  color: #7f8c8d;
+    font-size: 16px;
+    font-style: italic;
+    text-align: center;
+    color: #7f8c8d;
 `;
 
 export default Dashboard;
