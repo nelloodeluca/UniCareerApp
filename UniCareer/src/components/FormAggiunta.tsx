@@ -115,10 +115,10 @@ const FormAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
       docente,
       luogo,
       tipologia,
-      BigInt(cfu),
+      Number(cfu),
       formatDate(date),
-      '',
-      BigInt(voto),
+      formatTime(date),
+      Number(voto),
       lode,
       diario
     );

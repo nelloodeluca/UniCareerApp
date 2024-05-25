@@ -1,19 +1,19 @@
 // Database.ts
-import SQLite from 'react-native-sqlite-storage';
+import SQLite, { SQLiteDatabase } from 'react-native-sqlite-storage';
 
 export const aggiungiEsame = async (
-  dbPromise: Promise<SQLite.SQLiteDatabase>,
+  dbPromise: Promise<SQLiteDatabase>,
   nome: string,
   corso_di_studi: string,
   docente: string,
   luogo: string,
   tipologia: string,
-  cfu: bigint,
+  cfu: number,
   data: string,
   ora: string,
-  voto: bigint,
+  voto: number,
   lode: boolean,
-  diario: string
+  diario: string,
 ) => {
   try {
     const db = await dbPromise;
