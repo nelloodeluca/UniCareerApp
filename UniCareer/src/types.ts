@@ -33,3 +33,12 @@ export interface DettagliEsameProps {
   route: RouteProp<RootStackParamList, 'DettagliEsame'>;
   navigation: NativeStackNavigationProp<RootStackParamList>;
 }
+
+export interface DashboardProps {
+  route: RouteProp<RootStackParamList, 'Dashboard'>;
+  navigation: NativeStackNavigationProp<RootStackParamList>;
+}
+
+export interface CalendarDay {
+  dateString: string;
+}
