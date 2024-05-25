@@ -9,8 +9,6 @@ import {
   endOfMonth,
   addDays,
 } from 'date-fns';
-import { RouteProp } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import {
   RootStackParamList,
   Esame,
@@ -66,7 +64,6 @@ const Dashboard: React.FC<DashboardProps> = ({ route, navigation }) => {
   const context = useContext(ExamsContext);
 
   if (!context) {
-    // Gestisci il caso in cui il contesto non sia definito
     return <Text>Il contesto non è disponibile</Text>;
   }
 
@@ -136,7 +133,7 @@ const Dashboard: React.FC<DashboardProps> = ({ route, navigation }) => {
   const onMonthChange = (month: { year: number; month: number }) => {
     setCurrentDate(new Date(month.year, month.month - 1, 1));
     setSelectedMonth(month.month - 1);
-    handleClearSelection(); // Clear the selected day when the month changes
+    handleClearSelection();
   };
 
   const getMonthlyExams = () => {
@@ -190,7 +187,7 @@ const Dashboard: React.FC<DashboardProps> = ({ route, navigation }) => {
   const handleMonthChange = (month: number) => {
     setSelectedMonth(month);
     setCurrentDate(new Date(year, month, 1));
-    handleClearSelection(); // Clear the selected day when the month changes
+    handleClearSelection();
   };
 
   const calendarTheme = {

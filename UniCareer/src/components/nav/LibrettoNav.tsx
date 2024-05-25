@@ -5,49 +5,7 @@ import { Text } from 'react-native';
 
 import Libretto_EsamiDati from '../../screens/Libretto/Libretto_EsamiDati';
 import Libretto_EsamiNonDati from '../../screens/Libretto/Libretto_EsamiNonDati';
-import DettagliEsame from '../../screens/Libretto/DettagliEsame';
-import { RootStackParamList } from '../../types'; // Assicurati che il percorso sia corretto
-
-/*
-
-const Stack = createNativeStackNavigator<RootStackParamList>(); // Utilizza il tipo definito
-
-function EsamiDatiStack() {
-  return (
-    <Stack.Navigator
-      initialRouteName="Libretto_EsamiDati"
-      screenOptions={{ headerShown: false }}
-    >
-      <Stack.Screen name="Libretto_EsamiDati" component={Libretto_EsamiDati} />
-      <Stack.Screen
-        name="EsameDettagli"
-        component={DettagliEsame}
-        options={{ presentation: 'modal', title: 'aa' }}
-      />
-    </Stack.Navigator>
-  );
-}
-
-
-function EsamiNonDatiStack() {
-  return (
-    <Stack.Navigator
-      initialRouteName="Libretto_EsamiNonDati"
-      screenOptions={{ headerShown: false }}
-    >
-      <Stack.Screen
-        name="Libretto_EsamiNonDati"
-        component={Libretto_EsamiNonDati}
-      />
-      <Stack.Screen
-        name="EsameDettagli"
-        component={DettagliEsame}
-        options={{ presentation: 'modal' }}
-      />
-    </Stack.Navigator>
-  );
-}
-*/
+import CarrieraEsami from '../../screens/Libretto/CarrieraEsami';
 
 const LibrettoTopBar = createMaterialTopTabNavigator();
 
@@ -63,16 +21,17 @@ function Libretto() {
             label = 'Prossimi Esami';
           }
           return (
-            <Text style={{ color: focused ? '#3855F5' : '#000' }}>{label}</Text>
+            <Text style={{ color: focused ? '#6854a4' : '#000' }}>{label}</Text>
           );
         },
       })}
     >
-      <LibrettoTopBar.Screen name="EsamiDati" component={Libretto_EsamiDati} />
-      <LibrettoTopBar.Screen
-        name="EsamiNonDati"
-        component={Libretto_EsamiNonDati}
-      />
+      <LibrettoTopBar.Screen name="EsamiDati">
+        {() => <CarrieraEsami showVoto={true} />}
+      </LibrettoTopBar.Screen>
+      <LibrettoTopBar.Screen name="EsamiNonDati">
+        {() => <CarrieraEsami showVoto={false} />}
+      </LibrettoTopBar.Screen>
     </LibrettoTopBar.Navigator>
   );
 }

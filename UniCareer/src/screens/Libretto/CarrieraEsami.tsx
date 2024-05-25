@@ -6,15 +6,18 @@ import DettagliEsame from './DettagliEsame';
 import { RootStackParamList, Esame } from '../../types';
 import { StackNavigationProp } from '@react-navigation/stack';
 import ExamsContext from '../../EsamiContext';
+import {
+  getExamsWithGrades,
+  getExamsWithoutGrades,
+} from '../../utils/carriera';
 
-type LibrettoScreenProp = StackNavigationProp<RootStackParamList, 'Libretto'>;
+type CarrieraScreenProp = StackNavigationProp<RootStackParamList, 'Libretto'>;
 
-// Funzione per prendere tutti quelli con voto
-export const getExamsWithGrades = (exams: Esame[]): Esame[] => {
-  return exams.filter((exam) => exam.voto !== null);
+type CarrieraEsamiProps = {
+  showVoto: boolean;
 };
 
-const Libretto_EsamiNonDati: React.FC = () => {
+const CarrieraEsami: React.FC<CarrieraEsamiProps> = ({ showVoto }) => {
   const context = useContext(ExamsContext);
 
   if (!context) {
@@ -25,7 +28,7 @@ const Libretto_EsamiNonDati: React.FC = () => {
   const { exams, deleteExam } = context;
   const [selectedEsame, setSelectedEsame] = useState<Esame | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
-  const navigation = useNavigation<LibrettoScreenProp>();
+  const navigation = useNavigation<CarrieraScreenProp>();
 
   const [listKey, setListKey] = useState(0);
 
@@ -50,14 +53,16 @@ const Libretto_EsamiNonDati: React.FC = () => {
     setListKey(listKey + 1); // Forza il ri-rendering della FlatList
   };
 
-  const examsWithGrades = getExamsWithGrades(exams); // Filtra gli esami con voto
+  const filteredExams = showVoto
+    ? getExamsWithGrades(exams)
+    : getExamsWithoutGrades(exams);
 
   return (
     <View style={{ flex: 1 }}>
       <FlatList
         key={listKey}
-        data={examsWithGrades} // Usa gli esami filtrati
-        extraData={examsWithGrades}
+        data={filteredExams} // Usa gli esami filtrati
+        extraData={filteredExams}
         renderItem={({ item }) => (
           <TouchableOpacity onPress={() => openModal(item)}>
             <EsameCard esame={item} />
@@ -83,4 +88,4 @@ const Libretto_EsamiNonDati: React.FC = () => {
   );
 };
 
-export default Libretto_EsamiNonDati;
+export default CarrieraEsami;

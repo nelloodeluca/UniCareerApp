@@ -33,7 +33,7 @@ export default function AppNav() {
 
           return <Ionicons name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: 'black',
+        tabBarActiveTintColor: '#6854a4',
         tabBarInactiveTintColor: 'gray',
       })}
     >
