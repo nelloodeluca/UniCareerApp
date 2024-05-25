@@ -30,6 +30,11 @@ export type Esame = {
   categorie: Categoria[];
 };
 
+export interface ExamsContextType {
+  exams: Esame[];
+  deleteExam: (id: string) => void;
+}
+
 export interface DettagliEsameProps {
   route: RouteProp<RootStackParamList, 'DettagliEsame'>;
   navigation: NativeStackNavigationProp<RootStackParamList>;

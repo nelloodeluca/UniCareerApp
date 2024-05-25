@@ -1,5 +1,5 @@
-import React, { useState, useMemo, useEffect } from 'react';
-import { ScrollView, Dimensions } from 'react-native';
+import React, { useState, useMemo, useEffect, useContext } from 'react';
+import { ScrollView, Dimensions, View, Text } from 'react-native';
 import { format, startOfWeek, endOfWeek, eachDayOfInterval, startOfMonth, endOfMonth, addDays } from 'date-fns';
 import { RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -10,7 +10,7 @@ import MonthPicker from '../components/dashboard/MonthPicker';
 import ExamsList from '../components/dashboard/ExamsList';
 import ImminentExams from '../components/dashboard/ImminentExams';
 import TodayExams from '../components/dashboard/TodayExams';
-import { getEsami } from '../utils/operazioni_db/fetch_Esami';
+import ExamsContext from '../components/EsamiContext';
 
 const months = [
   'Gennaio',
@@ -47,14 +47,21 @@ const getWeeksInMonth = (month: number, year: number) => {
   return weeks;
 };
 
-function Dashboard({ route, navigation }: DashboardProps) {
+const Dashboard: React.FC<DashboardProps> = ({ route, navigation }) => {
+  const context = useContext(ExamsContext);
+
+  if (!context) {
+    // Gestisci il caso in cui il contesto non sia definito
+    return <Text>Il contesto non è disponibile</Text>;
+  }
+
+  const { exams } = context;
   const [selectedDay, setSelectedDay] = useState<string>('');
   const [viewMode, setViewMode] = useState<'monthly' | 'weekly'>('monthly');
   const [selectedMonth, setSelectedMonth] = useState<number>(new Date().getMonth());
   const [selectedWeekIndex, setSelectedWeekIndex] = useState<number>(0);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [daysAhead, setDaysAhead] = useState<string>('7');
-  const [exams, setExams] = useState<{ [key: string]: Esame[] }>({});
   const windowWidth = Dimensions.get('window').width;
   const year = currentDate.getFullYear();
   const todayString = format(new Date(), 'yyyy-MM-dd');
@@ -65,24 +72,14 @@ function Dashboard({ route, navigation }: DashboardProps) {
 
   const weeks = getWeeksInMonth(selectedMonth, year);
 
-  useEffect(() => {
-    const fetchEsami = async () => {
-      try {
-        const fetchedExams = await getEsami();
-        const examsByDate = fetchedExams.reduce((acc: { [key: string]: Esame[] }, exam: Esame) => {
-          const examDate = format(new Date(exam.data), 'yyyy-MM-dd');
-          if (!acc[examDate]) acc[examDate] = [];
-          acc[examDate].push(exam);
-          return acc;
-        }, {});
-        setExams(examsByDate);
-      } catch (error) {
-        console.error('Failed to fetch esami from database:', error);
-      }
-    };
-
-    fetchEsami();
-  }, []);
+  const examsByDate = useMemo(() => {
+    return exams.reduce((acc: { [key: string]: Esame[] }, exam: Esame) => {
+      const examDate = format(new Date(exam.data), 'yyyy-MM-dd');
+      if (!acc[examDate]) acc[examDate] = [];
+      acc[examDate].push(exam);
+      return acc;
+    }, {});
+  }, [exams]);
 
   const markedDates = useMemo(() => {
     const marks: {
@@ -93,9 +90,9 @@ function Dashboard({ route, navigation }: DashboardProps) {
       };
     } = {};
 
-    Object.keys(exams).forEach((date) => {
+    Object.keys(examsByDate).forEach((date) => {
       marks[date] = {
-        dots: exams[date].map(() => ({ color: 'blue' })),
+        dots: examsByDate[date].map(() => ({ color: 'blue' })),
         selected: date === selectedDay,
         selectedColor: date === selectedDay ? 'lightblue' : 'white',
       };
@@ -113,7 +110,7 @@ function Dashboard({ route, navigation }: DashboardProps) {
     }
 
     return marks;
-  }, [exams, selectedDay]);
+  }, [examsByDate, selectedDay]);
 
   const onDayPress = (day: CalendarDay) => {
     setSelectedDay(day.dateString);
@@ -127,9 +124,9 @@ function Dashboard({ route, navigation }: DashboardProps) {
 
   const getMonthlyExams = () => {
     const monthString = `${year}-${String(selectedMonth + 1).padStart(2, '0')}`;
-    return Object.keys(exams)
+    return Object.keys(examsByDate)
       .filter((date) => date.startsWith(monthString))
-      .map((date) => ({ date, exams: exams[date] }));
+      .map((date) => ({ date, exams: examsByDate[date] }));
   };
 
   const getWeeklyExams = () => {
@@ -140,16 +137,16 @@ function Dashboard({ route, navigation }: DashboardProps) {
     const interval = { start: startOfTargetWeek, end: endOfTargetWeek };
     const daysInInterval = eachDayOfInterval(interval).map((date) => format(date, 'yyyy-MM-dd'));
 
-    return daysInInterval.flatMap((date) => (exams[date] || []).map((exam) => ({ ...exam, date })));
+    return daysInInterval.flatMap((date) => (examsByDate[date] || []).map((exam) => ({ ...exam, date })));
   };
 
   const getImminentExams = () => {
     const targetDate = addDays(new Date(), parseInt(daysAhead) || 7);
-    return Object.keys(exams)
+    return Object.keys(examsByDate)
       .filter((date) => new Date(date) <= targetDate && new Date(date) >= new Date())
       .sort((a, b) => new Date(a).getTime() - new Date(b).getTime())
       .slice(0, 3)
-      .flatMap((date) => (exams[date] || []).map((exam) => ({ ...exam, date })));
+      .flatMap((date) => (examsByDate[date] || []).map((exam) => ({ ...exam, date })));
   };
 
   const monthlyExams = getMonthlyExams();
@@ -191,18 +188,18 @@ function Dashboard({ route, navigation }: DashboardProps) {
       <ViewModeButtons viewMode={viewMode} handleViewModeChange={handleViewModeChange} />
       <MonthPicker months={months} selectedMonth={selectedMonth} handleMonthChange={handleMonthChange} />
       {selectedDay ? (
-        <ExamsList title={`Esami del ${selectedDay}:`} exams={exams[selectedDay] || []} />
+        <ExamsList title={`Esami del ${selectedDay}:`} exams={examsByDate[selectedDay] || []} />
       ) : viewMode === 'monthly' ? (
         <ExamsList title="Esami di questo mese:" exams={monthlyExams.flatMap(({ exams }) => exams)} />
       ) : (
         <ExamsList title="Esami di questa settimana:" exams={weeklyExams} selectedWeekIndex={selectedWeekIndex} weeks={weeks} setSelectedWeekIndex={setSelectedWeekIndex} />
       )}
       <ImminentExams daysAhead={daysAhead} setDaysAhead={setDaysAhead} imminentExams={imminentExams} />
-      {exams[todayString] && exams[todayString].length > 0 && (
-        <TodayExams todayExams={exams[todayString]} />
+      {examsByDate[todayString] && examsByDate[todayString].length > 0 && (
+        <TodayExams todayExams={examsByDate[todayString]} />
       )}
     </ScrollView>
   );
-}
+};
 
 export default Dashboard;
