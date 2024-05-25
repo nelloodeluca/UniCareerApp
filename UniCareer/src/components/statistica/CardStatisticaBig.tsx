@@ -16,7 +16,7 @@ const Voto = styled(Paragraph)`
 
 const Barra = styled(ProgressBar)`
     height: 100%;
-    margin: 10px 0 0 0;
+    //margin: 10px 0 0 0;
     background-color: #d6c9ff;
 `;
 
