@@ -28,13 +28,17 @@ export default function Statistica() {
   return (
     <StyledScrollView contentContainerStyle={{ flexGrow: 1 }}>
       <CardContainer>
-      <CardStatisticaBig title="Attività Svolte:" text="Attività" value1={90} value2={180}></CardStatisticaBig>
-      <CardStatisticaBig title="CFU Conseguiti: " text="CFU" value1={175} value2={180}></CardStatisticaBig>
-      <CardStatisticaSmall title="Voto Massimo" value= {26}></CardStatisticaSmall>
-      <CardStatisticaSmall title="Voto Minimo" value= {19} ></CardStatisticaSmall>
-      <CardStatisticaSmall title="Media Aritmetica" value= {19} ></CardStatisticaSmall>
-      <CardStatisticaSmall title="Media Ponderata" value= {19} ></CardStatisticaSmall>
-      <CardStatisticaVotoLaurea title="Voto di Laurea" value1={110} ></CardStatisticaVotoLaurea>
+        <CardStatisticaBig title="Attività Svolte:" text="Attività" value1={90} value2={180}></CardStatisticaBig>
+        <CardStatisticaBig title="CFU Conseguiti: " text="CFU" value1={175} value2={180}></CardStatisticaBig>
+      </CardContainer>
+      <CardContainer>  
+        <CardStatisticaSmall title="Voto Massimo" value= {26}></CardStatisticaSmall>
+        <CardStatisticaSmall title="Voto Minimo" value= {19} ></CardStatisticaSmall>
+        <CardStatisticaSmall title="Media Aritmetica" value= {19} ></CardStatisticaSmall>
+        <CardStatisticaSmall title="Media Ponderata" value= {19} ></CardStatisticaSmall>
+      </CardContainer>
+      <CardContainer>
+        <CardStatisticaVotoLaurea title="Voto di Laurea" value1={110} ></CardStatisticaVotoLaurea>
       </CardContainer>
     </StyledScrollView>
   );
