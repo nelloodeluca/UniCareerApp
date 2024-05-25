@@ -1,6 +1,5 @@
 import SQLite from 'react-native-sqlite-storage';
 import { dbPromise } from '../databaseSetup';
-import { Esame, Categoria } from '../../types';
 
 
 

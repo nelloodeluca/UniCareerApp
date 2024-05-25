@@ -8,7 +8,7 @@ export const getEsamiSenzaVoto = async (): Promise<Esame[]> => {
     const db = await dbPromise;
     const results = await db.executeSql(
       `SELECT e.*, 
-              group_concat(c.id || ',' || c.nome || ',' || c.colore) as categorie
+              group_concat(c.id || '|' || c.nome || '|' || c.colore, ';') as categorie
        FROM esame e
        LEFT JOIN esame_categoria ec ON e.id = ec.id_e
        LEFT JOIN categoria c ON ec.id_c = c.id

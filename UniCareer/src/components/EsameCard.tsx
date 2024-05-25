@@ -83,7 +83,7 @@ const EsameCard: React.FC<Props> = ({ esame }) => {
           <ChipContainer>
             {esame.categorie.map((categoria, index) => (
               <Chip
-                key={index}
+                key={categoria.id}
                 style={{
                   backgroundColor: categoria.colore,
                   marginRight: 4,
