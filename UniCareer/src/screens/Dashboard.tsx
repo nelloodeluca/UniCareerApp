@@ -1,16 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { ScrollView, Dimensions } from 'react-native';
-import { Card, TextInput } from 'react-native-paper';
-import { CalendarList } from 'react-native-calendars';
-import {
-  format,
-  startOfWeek,
-  endOfWeek,
-  eachDayOfInterval,
-  startOfMonth,
-  endOfMonth,
-  addDays,
-} from 'date-fns';
+import { format, startOfWeek, endOfWeek, eachDayOfInterval, startOfMonth, endOfMonth, addDays } from 'date-fns';
 import { RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList, Esame, CalendarDay, DashboardProps } from '../types';
@@ -20,6 +10,7 @@ import MonthPicker from '../components/dashboard/MonthPicker';
 import ExamsList from '../components/dashboard/ExamsList';
 import ImminentExams from '../components/dashboard/ImminentExams';
 import TodayExams from '../components/dashboard/TodayExams';
+import { getEsami } from '../utils/operazioni_db/fetch_Esami';
 
 const months = [
   'Gennaio',
@@ -39,9 +30,7 @@ const months = [
 const getWeeksInMonth = (month: number, year: number) => {
   const firstDayOfMonth = new Date(year, month, 1);
   const startOfFirstWeek = startOfWeek(firstDayOfMonth, { weekStartsOn: 1 });
-  const endOfLastWeek = endOfWeek(endOfMonth(firstDayOfMonth), {
-    weekStartsOn: 1,
-  });
+  const endOfLastWeek = endOfWeek(endOfMonth(firstDayOfMonth), { weekStartsOn: 1 });
 
   const weeks = [];
   let start = startOfFirstWeek;
@@ -52,7 +41,7 @@ const getWeeksInMonth = (month: number, year: number) => {
       start: format(start, 'yyyy-MM-dd'),
       end: format(end, 'yyyy-MM-dd'),
     });
-    start = new Date(start.setDate(start.getDate() + 7));
+    start = addDays(start, 7);
   }
 
   return weeks;
@@ -65,6 +54,7 @@ function Dashboard({ route, navigation }: DashboardProps) {
   const [selectedWeekIndex, setSelectedWeekIndex] = useState<number>(0);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [daysAhead, setDaysAhead] = useState<string>('7');
+  const [exams, setExams] = useState<{ [key: string]: Esame[] }>({});
   const windowWidth = Dimensions.get('window').width;
   const year = currentDate.getFullYear();
   const todayString = format(new Date(), 'yyyy-MM-dd');
@@ -75,11 +65,24 @@ function Dashboard({ route, navigation }: DashboardProps) {
 
   const weeks = getWeeksInMonth(selectedMonth, year);
 
-  const exams: Record<string, Esame[]> = {
-    '2024-05-23': [{ id: '1', nome: 'Matematica 📚', corsoDiStudi: '', CFU: 0, data: '2024-05-23', ora: '', luogo: '', tipologia: '', docente: '', categorie: [] }, { id: '2', nome: 'Chimica 🔬', corsoDiStudi: '', CFU: 0, data: '2024-05-23', ora: '', luogo: '', tipologia: '', docente: '', categorie: [] }],
-    '2024-05-24': [{ id: '3', nome: 'Fisica 🌌', corsoDiStudi: '', CFU: 0, data: '2024-05-24', ora: '', luogo: '', tipologia: '', docente: '', categorie: [] }],
-    '2024-05-25': [{ id: '4', nome: 'Storia 📜', corsoDiStudi: '', CFU: 0, data: '2024-05-25', ora: '', luogo: '', tipologia: '', docente: '', categorie: [] }, { id: '5', nome: 'Inglese 🇬🇧', corsoDiStudi: '', CFU: 0, data: '2024-05-25', ora: '', luogo: '', tipologia: '', docente: '', categorie: [] }],
-  };
+  useEffect(() => {
+    const fetchEsami = async () => {
+      try {
+        const fetchedExams = await getEsami();
+        const examsByDate = fetchedExams.reduce((acc: { [key: string]: Esame[] }, exam: Esame) => {
+          const examDate = format(new Date(exam.data), 'yyyy-MM-dd');
+          if (!acc[examDate]) acc[examDate] = [];
+          acc[examDate].push(exam);
+          return acc;
+        }, {});
+        setExams(examsByDate);
+      } catch (error) {
+        console.error('Failed to fetch esami from database:', error);
+      }
+    };
+
+    fetchEsami();
+  }, []);
 
   const markedDates = useMemo(() => {
     const marks: {
@@ -89,6 +92,7 @@ function Dashboard({ route, navigation }: DashboardProps) {
         selectedColor: string;
       };
     } = {};
+
     Object.keys(exams).forEach((date) => {
       marks[date] = {
         dots: exams[date].map(() => ({ color: 'blue' })),
@@ -134,26 +138,18 @@ function Dashboard({ route, navigation }: DashboardProps) {
     const endOfTargetWeek = new Date(`${week.end}T23:59:59`);
 
     const interval = { start: startOfTargetWeek, end: endOfTargetWeek };
-    const daysInInterval = eachDayOfInterval(interval).map((date) =>
-      format(date, 'yyyy-MM-dd')
-    );
+    const daysInInterval = eachDayOfInterval(interval).map((date) => format(date, 'yyyy-MM-dd'));
 
-    return daysInInterval.flatMap((date) =>
-      (exams[date] || []).map((exam) => ({ ...exam, date }))
-    );
+    return daysInInterval.flatMap((date) => (exams[date] || []).map((exam) => ({ ...exam, date })));
   };
 
   const getImminentExams = () => {
     const targetDate = addDays(new Date(), parseInt(daysAhead) || 7);
     return Object.keys(exams)
-      .filter(
-        (date) => new Date(date) <= targetDate && new Date(date) >= new Date()
-      )
+      .filter((date) => new Date(date) <= targetDate && new Date(date) >= new Date())
       .sort((a, b) => new Date(a).getTime() - new Date(b).getTime())
       .slice(0, 3)
-      .flatMap((date) =>
-        (exams[date] || []).map((exam) => ({ ...exam, date }))
-      );
+      .flatMap((date) => (exams[date] || []).map((exam) => ({ ...exam, date })));
   };
 
   const monthlyExams = getMonthlyExams();

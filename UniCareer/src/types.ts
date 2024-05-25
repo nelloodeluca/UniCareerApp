@@ -16,17 +16,17 @@ export type Categoria = {
 };
 
 export type Esame = {
-  id: string;
+  id?: string;
   nome: string;
-  corsoDiStudi: string;
-  CFU: number;
+  corsoDiStudi?: string;
+  CFU?: number;
   data: string;
   ora: string;
-  luogo: string;
-  tipologia: string;
-  docente: string;
+  luogo?: string;
+  tipologia?: string;
+  docente?: string;
   voto?: string;
-  categorie: Categoria[];
+  categorie?: Categoria[];
 };
 
 export interface DettagliEsameProps {

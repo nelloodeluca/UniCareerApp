@@ -66,7 +66,7 @@ export const prepareDB = async () => {
   // Popolare la tabella 'esame'
   await db.executeSql(
     `INSERT OR IGNORE INTO esame (nome, corso_di_studi, docente, luogo, tipologia, cfu, data, ora, voto, lode, diario) VALUES 
-    ('Analisi Matematica I', 'Ingegneria Informatica', 'Prof. Rossi', 'Aula Magna', 'Scritto', 9, '2023-01-15', '09:00', 30, 1, ''),
+    ('Analisi Matematica I', 'Ingegneria Informatica', 'Prof. Rossi', 'Aula Magna', 'Scritto', 9, '2024-01-15', '09:00', 30, 1, ''),
     ('Fisica I', 'Ingegneria Informatica', 'Prof.ssa Bianchi', 'Aula 101', 'Orale', 6, '2025-02-20', '14:00', 28, 0, ''),
     ('Programmazione I', 'Ingegneria Informatica', 'Prof. Verdi', 'Laboratorio 3', 'Scritto', 12, '2025-03-10', '10:00', 30, 0, ''),
     ('Chimica', 'Ingegneria Informatica', 'Prof. Neri', 'Aula 202', 'Orale', 6, '2025-04-05', '11:00', 27, 0, ''),
