@@ -33,7 +33,7 @@ const DetailText = styled(Text)`
 `;
 
 interface VotoContainerProps {
-  isPastExam: boolean;
+  haveVoto: boolean;
 }
 
 const VotoContainer = styled.View<VotoContainerProps>`
@@ -42,7 +42,7 @@ const VotoContainer = styled.View<VotoContainerProps>`
   justify-content: center;
   align-items: center;
   background-color: ${(props) => 
-          props.isPastExam ? '#71d63170' : '#FB1C1C70'};
+          props.haveVoto ? '#71d63170' : '#FB1C1C70'};
   border-radius: 0 0 50px 50px;
   margin-right: 8px;
 `;
@@ -69,9 +69,7 @@ const EsameCard: React.FC<Props> = ({ esame }) => {
     return null;
   }
 
-  const currentDate = new Date();
-  const esameDate = new Date(esame.data);
-  const isPastExam = esameDate < currentDate;
+  const haveVoto = esame.voto !== null
 
   return (
     <CardContainer>
@@ -96,8 +94,8 @@ const EsameCard: React.FC<Props> = ({ esame }) => {
             ))}
           </ChipContainer>
         </InfoContainer>
-        <VotoContainer isPastExam={isPastExam}>
-          <VotoText>{isPastExam ? esame.voto : `${esame.CFU} CFU`}</VotoText>
+        <VotoContainer haveVoto={haveVoto}>
+          <VotoText>{haveVoto ? esame.voto : `${esame.CFU} CFU`}</VotoText>
         </VotoContainer>
       </CardContentContainer>
     </CardContainer>

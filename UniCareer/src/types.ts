@@ -16,7 +16,7 @@ export type Categoria = {
 };
 
 export type Esame = {
-  id?: string;
+  id: string;
   nome: string;
   corsoDiStudi?: string;
   CFU?: number;
@@ -26,6 +26,7 @@ export type Esame = {
   tipologia?: string;
   docente?: string;
   voto?: string;
+  lode?: boolean;
   categorie?: Categoria[];
 };
 
