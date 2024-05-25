@@ -27,7 +27,7 @@ export type Esame = {
   docente?: string;
   voto?: string;
   lode?: boolean;
-  categorie?: Categoria[];
+  categorie: Categoria[];
 };
 
 export interface DettagliEsameProps {
