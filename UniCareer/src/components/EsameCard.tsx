@@ -17,7 +17,7 @@ const CardContentContainer = styled(Card.Content)`
 `;
 
 const InfoContainer = styled.View`
-  flex: 3; /* Assicura che il contenitore prenda tutto lo spazio disponibile */
+  flex: 3;
   padding: 16px 8px 8px 16px;
   justify-content: center;
 `;
@@ -41,14 +41,14 @@ const VotoContainer = styled.View<VotoContainerProps>`
   height: 100%;
   justify-content: center;
   align-items: center;
-  background-color: ${(props) =>
-    props.isPastExam ? '#b6b6b670' : '#b6b6b670'};
+  background-color: ${(props) => 
+          props.isPastExam ? '#71d63170' : '#FB1C1C70'};
   border-radius: 0 0 50px 50px;
   margin-right: 8px;
 `;
 
 const VotoText = styled(Text)`
-  font-size: 26px;
+  font-size: 24px;
   font-weight: bold;
   color: #000;
   text-align: center;
