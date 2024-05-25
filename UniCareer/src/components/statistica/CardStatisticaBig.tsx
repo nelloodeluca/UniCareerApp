@@ -22,7 +22,7 @@ const Barra = styled(ProgressBar)`
 
 const StyledCard = styled(Card)`
   background-color: #FAFAFA;
-  margin: 10px;
+  margin: 2.5%;
   width: 95%;
   padding: 0 8px 8px 8px;
 `;

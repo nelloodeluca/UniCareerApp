@@ -5,18 +5,18 @@ import styled from 'styled-components/native';
 const Titolo = styled(Text)`
   font-size: 18px;
   font-weight: bold;
-  textAlign: center;
+  text-align: center;
 `;
 
 const Voto = styled(Paragraph)`
   font-size: 16px;
-  textAlign: center;
+  text-align: center;
   margin: 10px 0 0 0;
 `;
 
 const StyledCard = styled(Card)`
   background-color: #FAFAFA; 
-  margin: 10px;
+  margin: 2.5%;
   width: 45%;
   padding: 0 8px 8px 8px;
 `;

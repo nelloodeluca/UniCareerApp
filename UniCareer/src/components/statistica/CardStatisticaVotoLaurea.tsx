@@ -16,7 +16,7 @@ const Voto = styled(Text)`
 
 const StyledCard = styled(Card)`
   background-color: #6854a4;
-  margin: 10px;
+  margin: 2.5%;
   width: 95%;
   padding: 0 8px 8px 8px;
 `;
