@@ -5,7 +5,7 @@ import EsameCard from '../../components/EsameCard';
 import DettagliEsame from './DettagliEsame';
 import { RootStackParamList, Esame } from '../../types';
 import { StackNavigationProp } from '@react-navigation/stack';
-import ExamsContext from '../../components/EsamiContext';
+import ExamsContext from '../../EsamiContext';
 
 type LibrettoScreenProp = StackNavigationProp<RootStackParamList, 'Libretto'>;
 
@@ -17,7 +17,7 @@ const Libretto_EsamiDati: React.FC = () => {
     return <Text>Il contesto non è disponibile</Text>;
   }
 
-  const { exams, deleteExam } = context;
+  const { esami, deleteExam } = context;
   const [selectedEsame, setSelectedEsame] = useState<Esame | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation<LibrettoScreenProp>();
@@ -43,16 +43,14 @@ const Libretto_EsamiDati: React.FC = () => {
     await deleteExam(id);
     closeModal();
     setListKey(listKey + 1);
-
   };
-
 
   return (
     <View style={{ flex: 1 }}>
       <FlatList
         key={listKey}
-        data={exams}
-        extraData={exams}
+        data={esami}
+        extraData={esami}
         renderItem={({ item }) => (
           <TouchableOpacity onPress={() => openModal(item)}>
             <EsameCard esame={item} />
@@ -64,7 +62,7 @@ const Libretto_EsamiDati: React.FC = () => {
           offset: 100 * index,
           index,
         })}
-         // Ensure FlatList re-renders when exams changes
+        // Ensure FlatList re-renders when exams changes
       />
       {selectedEsame && (
         <DettagliEsame

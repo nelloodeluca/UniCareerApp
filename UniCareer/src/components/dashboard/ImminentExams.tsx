@@ -10,7 +10,11 @@ interface ImminentExamsProps {
   imminentExams: Esame[];
 }
 
-const ImminentExams: React.FC<ImminentExamsProps> = ({ daysAhead, setDaysAhead, imminentExams }) => {
+const ImminentExams: React.FC<ImminentExamsProps> = ({
+  daysAhead,
+  setDaysAhead,
+  imminentExams,
+}) => {
   return (
     <View>
       <Card style={{ margin: 10, padding: 10 }}>
@@ -27,7 +31,9 @@ const ImminentExams: React.FC<ImminentExamsProps> = ({ daysAhead, setDaysAhead, 
         <ExamsTitle>Prossimi esami:</ExamsTitle>
         {imminentExams.length > 0 ? (
           imminentExams.map((exam, index) => (
-            <ExamText key={index}>{`${exam.data.split('-')[2]}/${exam.data.split('-')[1]}: ${exam.nome}`}</ExamText>
+            <ExamText key={index}>{`${exam.data.split('-')[2]}/${
+              exam.data.split('-')[1]
+            }: ${exam.nome}`}</ExamText>
           ))
         ) : (
           <Text>Nessun esame imminente</Text>
@@ -38,20 +44,20 @@ const ImminentExams: React.FC<ImminentExamsProps> = ({ daysAhead, setDaysAhead, 
 };
 
 const DaysAheadContainer = styled.View`
-    flex-direction: row;
-    align-items: center;
-    margin-bottom: 10px;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 10px;
 `;
 
 const ExamsTitle = styled.Text`
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
 `;
 
 const ExamText = styled.Text`
-    font-size: 16px;
-    margin-top: 5px;
+  font-size: 16px;
+  margin-top: 5px;
 `;
 
 export default ImminentExams;

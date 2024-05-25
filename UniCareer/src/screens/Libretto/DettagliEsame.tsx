@@ -13,24 +13,30 @@ type EsameModalProps = {
 };
 
 const ModalContainer = styled.View`
-    flex: 1;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.5);
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
 `;
 
 const ModalCard = styled(Card)`
-    width: 90%;
-    padding: 20px;
-    border-radius: 10px;
-    elevation: 5;
+  width: 90%;
+  padding: 20px;
+  border-radius: 10px;
+  elevation: 5;
 `;
 
 const ModalContent = styled(Card.Content)`
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 `;
 
-const DettagliEsame: React.FC<EsameModalProps> = ({ visible, onClose, esame, onDelete, onEdit }) => {
+const DettagliEsame: React.FC<EsameModalProps> = ({
+  visible,
+  onClose,
+  esame,
+  onDelete,
+  onEdit,
+}) => {
   if (!esame) return null;
 
   return (
@@ -59,7 +65,9 @@ const DettagliEsame: React.FC<EsameModalProps> = ({ visible, onClose, esame, onD
             <Paragraph>Voto: {esame.voto}</Paragraph>
           </ModalContent>
           <Card.Actions>
-            <Button mode="contained" onPress={onClose}>Chiudi</Button>
+            <Button mode="contained" onPress={onClose}>
+              Chiudi
+            </Button>
           </Card.Actions>
         </ModalCard>
       </ModalContainer>

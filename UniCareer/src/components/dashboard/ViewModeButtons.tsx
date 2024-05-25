@@ -8,7 +8,10 @@ interface ViewModeButtonsProps {
   handleViewModeChange: (mode: 'monthly' | 'weekly') => void;
 }
 
-const ViewModeButtons: React.FC<ViewModeButtonsProps> = ({ viewMode, handleViewModeChange }) => {
+const ViewModeButtons: React.FC<ViewModeButtonsProps> = ({
+  viewMode,
+  handleViewModeChange,
+}) => {
   return (
     <ButtonsContainer>
       <PaperButton
@@ -30,9 +33,9 @@ const ViewModeButtons: React.FC<ViewModeButtonsProps> = ({ viewMode, handleViewM
 };
 
 const ButtonsContainer = styled.View`
-    flex-direction: row;
-    justify-content: space-around;
-    margin-vertical: 15px;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-vertical: 15px;
 `;
 
 export default ViewModeButtons;

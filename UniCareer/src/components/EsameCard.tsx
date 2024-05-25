@@ -41,8 +41,7 @@ const VotoContainer = styled.View<VotoContainerProps>`
   height: 100%;
   justify-content: center;
   align-items: center;
-  background-color: ${(props) => 
-          props.haveVoto ? '#71d63170' : '#FB1C1C70'};
+  background-color: ${(props) => (props.haveVoto ? '#71d63170' : '#FB1C1C70')};
   border-radius: 0 0 50px 50px;
   margin-right: 8px;
 `;
@@ -69,7 +68,7 @@ const EsameCard: React.FC<Props> = ({ esame }) => {
     return null;
   }
 
-  const haveVoto = esame.voto !== null
+  const haveVoto = esame.voto !== null;
   const haveLode = esame.lode == true;
 
   return (
@@ -96,7 +95,13 @@ const EsameCard: React.FC<Props> = ({ esame }) => {
           </ChipContainer>
         </InfoContainer>
         <VotoContainer haveVoto={haveVoto}>
-          <VotoText>{haveVoto ? (haveLode? `${esame.voto}L` : esame.voto ): `${esame.CFU} CFU`}</VotoText>
+          <VotoText>
+            {haveVoto
+              ? haveLode
+                ? `${esame.voto}L`
+                : esame.voto
+              : `${esame.CFU} CFU`}
+          </VotoText>
         </VotoContainer>
       </CardContentContainer>
     </CardContainer>

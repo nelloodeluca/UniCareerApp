@@ -1,16 +1,29 @@
 import React, { useState, useMemo, useEffect, useContext } from 'react';
 import { ScrollView, Dimensions, View, Text } from 'react-native';
-import { format, startOfWeek, endOfWeek, eachDayOfInterval, startOfMonth, endOfMonth, addDays } from 'date-fns';
+import {
+  format,
+  startOfWeek,
+  endOfWeek,
+  eachDayOfInterval,
+  startOfMonth,
+  endOfMonth,
+  addDays,
+} from 'date-fns';
 import { RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList, Esame, CalendarDay, DashboardProps } from '../types';
+import {
+  RootStackParamList,
+  Esame,
+  CalendarDay,
+  DashboardProps,
+} from '../types';
 import CalendarComponent from '../components/dashboard/CalendarComponent';
 import ViewModeButtons from '../components/dashboard/ViewModeButtons';
 import MonthPicker from '../components/dashboard/MonthPicker';
 import ExamsList from '../components/dashboard/ExamsList';
 import ImminentExams from '../components/dashboard/ImminentExams';
 import TodayExams from '../components/dashboard/TodayExams';
-import ExamsContext from '../components/EsamiContext';
+import ExamsContext from '../EsamiContext';
 
 const months = [
   'Gennaio',
@@ -30,7 +43,9 @@ const months = [
 const getWeeksInMonth = (month: number, year: number) => {
   const firstDayOfMonth = new Date(year, month, 1);
   const startOfFirstWeek = startOfWeek(firstDayOfMonth, { weekStartsOn: 1 });
-  const endOfLastWeek = endOfWeek(endOfMonth(firstDayOfMonth), { weekStartsOn: 1 });
+  const endOfLastWeek = endOfWeek(endOfMonth(firstDayOfMonth), {
+    weekStartsOn: 1,
+  });
 
   const weeks = [];
   let start = startOfFirstWeek;
@@ -58,7 +73,9 @@ const Dashboard: React.FC<DashboardProps> = ({ route, navigation }) => {
   const { exams } = context;
   const [selectedDay, setSelectedDay] = useState<string>('');
   const [viewMode, setViewMode] = useState<'monthly' | 'weekly'>('monthly');
-  const [selectedMonth, setSelectedMonth] = useState<number>(new Date().getMonth());
+  const [selectedMonth, setSelectedMonth] = useState<number>(
+    new Date().getMonth()
+  );
   const [selectedWeekIndex, setSelectedWeekIndex] = useState<number>(0);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [daysAhead, setDaysAhead] = useState<string>('7');
@@ -135,18 +152,26 @@ const Dashboard: React.FC<DashboardProps> = ({ route, navigation }) => {
     const endOfTargetWeek = new Date(`${week.end}T23:59:59`);
 
     const interval = { start: startOfTargetWeek, end: endOfTargetWeek };
-    const daysInInterval = eachDayOfInterval(interval).map((date) => format(date, 'yyyy-MM-dd'));
+    const daysInInterval = eachDayOfInterval(interval).map((date) =>
+      format(date, 'yyyy-MM-dd')
+    );
 
-    return daysInInterval.flatMap((date) => (examsByDate[date] || []).map((exam) => ({ ...exam, date })));
+    return daysInInterval.flatMap((date) =>
+      (examsByDate[date] || []).map((exam) => ({ ...exam, date }))
+    );
   };
 
   const getImminentExams = () => {
     const targetDate = addDays(new Date(), parseInt(daysAhead) || 7);
     return Object.keys(examsByDate)
-      .filter((date) => new Date(date) <= targetDate && new Date(date) >= new Date())
+      .filter(
+        (date) => new Date(date) <= targetDate && new Date(date) >= new Date()
+      )
       .sort((a, b) => new Date(a).getTime() - new Date(b).getTime())
       .slice(0, 3)
-      .flatMap((date) => (examsByDate[date] || []).map((exam) => ({ ...exam, date })));
+      .flatMap((date) =>
+        (examsByDate[date] || []).map((exam) => ({ ...exam, date }))
+      );
   };
 
   const monthlyExams = getMonthlyExams();
@@ -185,16 +210,39 @@ const Dashboard: React.FC<DashboardProps> = ({ route, navigation }) => {
         onMonthChange={onMonthChange}
         windowWidth={windowWidth}
       />
-      <ViewModeButtons viewMode={viewMode} handleViewModeChange={handleViewModeChange} />
-      <MonthPicker months={months} selectedMonth={selectedMonth} handleMonthChange={handleMonthChange} />
+      <ViewModeButtons
+        viewMode={viewMode}
+        handleViewModeChange={handleViewModeChange}
+      />
+      <MonthPicker
+        months={months}
+        selectedMonth={selectedMonth}
+        handleMonthChange={handleMonthChange}
+      />
       {selectedDay ? (
-        <ExamsList title={`Esami del ${selectedDay}:`} exams={examsByDate[selectedDay] || []} />
+        <ExamsList
+          title={`Esami del ${selectedDay}:`}
+          esami={examsByDate[selectedDay] || []}
+        />
       ) : viewMode === 'monthly' ? (
-        <ExamsList title="Esami di questo mese:" exams={monthlyExams.flatMap(({ exams }) => exams)} />
+        <ExamsList
+          title="Esami di questo mese:"
+          esami={monthlyExams.flatMap(({ exams }) => exams)}
+        />
       ) : (
-        <ExamsList title="Esami di questa settimana:" exams={weeklyExams} selectedWeekIndex={selectedWeekIndex} weeks={weeks} setSelectedWeekIndex={setSelectedWeekIndex} />
+        <ExamsList
+          title="Esami di questa settimana:"
+          esami={weeklyExams}
+          selectedWeekIndex={selectedWeekIndex}
+          weeks={weeks}
+          setSelectedWeekIndex={setSelectedWeekIndex}
+        />
       )}
-      <ImminentExams daysAhead={daysAhead} setDaysAhead={setDaysAhead} imminentExams={imminentExams} />
+      <ImminentExams
+        daysAhead={daysAhead}
+        setDaysAhead={setDaysAhead}
+        imminentExams={imminentExams}
+      />
       {examsByDate[todayString] && examsByDate[todayString].length > 0 && (
         <TodayExams todayExams={examsByDate[todayString]} />
       )}

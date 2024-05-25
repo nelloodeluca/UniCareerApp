@@ -11,12 +11,12 @@ interface CalendarComponentProps {
 }
 
 const CalendarComponent: React.FC<CalendarComponentProps> = ({
-                                                               onDayPress,
-                                                               markedDates,
-                                                               calendarTheme,
-                                                               onMonthChange,
-                                                               windowWidth,
-                                                             }) => {
+  onDayPress,
+  markedDates,
+  calendarTheme,
+  onMonthChange,
+  windowWidth,
+}) => {
   return (
     <Card style={{ marginTop: 10, marginHorizontal: 10, borderRadius: 10 }}>
       <CalendarList

@@ -1,8 +1,13 @@
-import React, { createContext, ReactNode, useEffect, useState, useCallback } from 'react';
-import { Esame, ExamsContextType } from '../types';
-import { getEsami, deleteEsami } from '../utils/operazioni_db/fetch_Esami';
-import { prepareDB } from '../utils/databaseSetup';
-
+import React, {
+  createContext,
+  ReactNode,
+  useEffect,
+  useState,
+  useCallback,
+} from 'react';
+import { Esame, ExamsContextType } from './types';
+import { getEsami, deleteEsami } from './utils/operazioni_db/fetch_Esami';
+import { prepareDB } from './databaseSetup';
 
 const ExamsContext = createContext<ExamsContextType | undefined>(undefined);
 
@@ -29,11 +34,17 @@ export const ExamsProvider: React.FC<ExamsProviderProps> = ({ children }) => {
         await prepareDB(); // Inizializza il database
         await fetchEsami(); // Esegui la fetch degli esami
       } catch (error) {
-        console.error('Error during database initialization or fetching exams:', error);
+        console.error(
+          'Error during database initialization or fetching exams:',
+          error
+        );
       }
     };
 
-    initializeDatabaseAndFetchExams();
+    // Funzione auto-esecutiva per gestire la promise
+    (async () => {
+      await initializeDatabaseAndFetchExams();
+    })();
   }, [fetchEsami]);
 
   const deleteExam = async (id: string) => {

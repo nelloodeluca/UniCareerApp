@@ -1,33 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import { FlatList, TouchableOpacity, View } from 'react-native';
+import React, { useContext, useState, useEffect } from 'react';
+import { FlatList, TouchableOpacity, View, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import EsameCard from '../../components/EsameCard';
 import DettagliEsame from './DettagliEsame';
-import { RootStackParamList, Esame} from '../../types';
+import { RootStackParamList, Esame } from '../../types';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { deleteEsameById } from '../../utils/operazioni_db/databaseOperations';
-import { getEsamiSenzaVoto } from '../../utils/operazioni_db/fetch_EsamiSenzaVoto';
+import ExamsContext from '../../EsamiContext';
 
 type LibrettoScreenProp = StackNavigationProp<RootStackParamList, 'Libretto'>;
 
 const Libretto_EsamiNonDati: React.FC = () => {
-  const [esamiNonDati, setEsamiNonDati] = useState<Esame[]>([]);
+  const context = useContext(ExamsContext);
+
+  if (!context) {
+    // Gestisci il caso in cui il contesto non sia definito
+    return <Text>Il contesto non è disponibile</Text>;
+  }
+
+  const { esami, deleteExam } = context;
   const [selectedEsame, setSelectedEsame] = useState<Esame | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation<LibrettoScreenProp>();
 
-  useEffect(() => {
-    const fetchEsami = async () => {
-      try {
-        const esami = await getEsamiSenzaVoto();
-        setEsamiNonDati(esami);
-      } catch (error) {
-        console.error('Failed to fetch esami from database:', error);
-      }
-    };
-
-    fetchEsami();
-  }, []);
+  const [listKey, setListKey] = useState(0);
 
   const openModal = (esame: Esame) => {
     setSelectedEsame(esame);
@@ -39,25 +34,23 @@ const Libretto_EsamiNonDati: React.FC = () => {
     setModalVisible(false);
   };
 
-  const deleteEsame = async (id: string) => {
-    try {
-      await deleteEsameById(id);
-      setEsamiNonDati((prevEsami) => prevEsami.filter((esame) => esame.id !== id));
-      closeModal();
-    } catch (error) {
-      console.error('Failed to delete the esame:', error);
-    }
-  };
-
   const handleEdit = (esame: Esame) => {
     navigation.navigate('Aggiunta', { esame });
     closeModal();
   };
 
+  const handleDelete = async (id: string) => {
+    await deleteExam(id);
+    closeModal();
+    setListKey(listKey + 1);
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <FlatList
-        data={esamiNonDati}
+        key={listKey}
+        data={esami}
+        extraData={esami}
         renderItem={({ item }) => (
           <TouchableOpacity onPress={() => openModal(item)}>
             <EsameCard esame={item} />
@@ -69,14 +62,17 @@ const Libretto_EsamiNonDati: React.FC = () => {
           offset: 100 * index,
           index,
         })}
+        // Ensure FlatList re-renders when exams changes
       />
-      <DettagliEsame
-        visible={modalVisible}
-        onClose={closeModal}
-        esame={selectedEsame}
-        onDelete={deleteEsame}
-        onEdit={handleEdit}
-      />
+      {selectedEsame && (
+        <DettagliEsame
+          visible={modalVisible}
+          onClose={closeModal}
+          esame={selectedEsame}
+          onDelete={() => handleDelete(selectedEsame.id)}
+          onEdit={handleEdit}
+        />
+      )}
     </View>
   );
 };

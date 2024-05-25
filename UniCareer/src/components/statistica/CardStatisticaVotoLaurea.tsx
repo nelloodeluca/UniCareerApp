@@ -1,17 +1,24 @@
 import React from 'react';
-import { Text, Card, Title, Paragraph, ProgressBar, MD3Colors} from 'react-native-paper';
+import {
+  Text,
+  Card,
+  Title,
+  Paragraph,
+  ProgressBar,
+  MD3Colors,
+} from 'react-native-paper';
 import styled from 'styled-components/native';
 
 const Titolo = styled(Text)`
   color: white;
   font-size: 32px;
   font-weight: bold;
-  textAlign: center;
+  textalign: center;
 `;
 const Voto = styled(Text)`
   color: white;
   font-size: 32px;
-  textAlign: center;
+  textalign: center;
 `;
 
 const StyledCard = styled(Card)`
@@ -22,19 +29,22 @@ const StyledCard = styled(Card)`
 `;
 
 type StatCardProps = {
-    title: string;
-    value1: number;
+  title: string;
+  value1: number;
 };
 
-const CardStatisticaVotoLaurea: React.FC<StatCardProps> = ({title, value1}) => {
-    return (
-        <StyledCard>
-            <Card.Content>
-                <Titolo>{title}</Titolo>
-                <Voto>{value1}/110</Voto>
-            </Card.Content>
-        </StyledCard>
-    );
-}
+const CardStatisticaVotoLaurea: React.FC<StatCardProps> = ({
+  title,
+  value1,
+}) => {
+  return (
+    <StyledCard>
+      <Card.Content>
+        <Titolo>{title}</Titolo>
+        <Voto>{value1}/110</Voto>
+      </Card.Content>
+    </StyledCard>
+  );
+};
 
 export default CardStatisticaVotoLaurea;

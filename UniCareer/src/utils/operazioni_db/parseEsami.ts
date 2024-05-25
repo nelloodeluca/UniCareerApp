@@ -3,9 +3,9 @@ import { Esame } from '../../types';
 export const mapRowToEsame = (row: any): Esame => {
   const categorie = row.categorie
     ? row.categorie.split(';').map((catStr: string) => {
-      const [id, nome, colore] = catStr.split('|');
-      return { id, nome, colore };
-    })
+        const [id, nome, colore] = catStr.split('|');
+        return { id, nome, colore };
+      })
     : [];
 
   return {

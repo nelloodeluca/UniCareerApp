@@ -13,7 +13,7 @@ export const aggiungiEsame = async (
   ora: string,
   voto: number,
   lode: boolean,
-  diario: string,
+  diario: string
 ) => {
   try {
     const db = await dbPromise;

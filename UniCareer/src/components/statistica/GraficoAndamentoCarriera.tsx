@@ -23,8 +23,9 @@ const GraphContainer = styled(View)`
 const StatisticaGrafico: React.FC = () => {
   // Esempio di dati, sostituire con i tuoi dati reali
   const voti = [18, 25, 28, 30, 27, 24, 30];
-  const media = voti.map((_, index, arr) =>
-    arr.slice(0, index + 1).reduce((acc, curr) => acc + curr, 0) / (index + 1)
+  const media = voti.map(
+    (_, index, arr) =>
+      arr.slice(0, index + 1).reduce((acc, curr) => acc + curr, 0) / (index + 1)
   );
 
   const data = [

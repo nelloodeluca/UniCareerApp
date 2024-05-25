@@ -9,7 +9,11 @@ interface MonthPickerProps {
   handleMonthChange: (month: number) => void;
 }
 
-const MonthPicker: React.FC<MonthPickerProps> = ({ months, selectedMonth, handleMonthChange }) => {
+const MonthPicker: React.FC<MonthPickerProps> = ({
+  months,
+  selectedMonth,
+  handleMonthChange,
+}) => {
   return (
     <PickerContainer>
       <Picker selectedValue={selectedMonth} onValueChange={handleMonthChange}>
@@ -22,7 +26,7 @@ const MonthPicker: React.FC<MonthPickerProps> = ({ months, selectedMonth, handle
 };
 
 const PickerContainer = styled.View`
-    margin-horizontal: 10px;
+  margin-horizontal: 10px;
 `;
 
 export default MonthPicker;
