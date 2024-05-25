@@ -22,6 +22,7 @@ export const mapRowToEsame = (row: any): Esame => {
     tipologia: row.tipologia,
     docente: row.docente,
     voto: row.voto ,
+    lode: row.lode,
     categorie,
   };
 };

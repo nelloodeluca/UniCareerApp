@@ -70,6 +70,7 @@ const EsameCard: React.FC<Props> = ({ esame }) => {
   }
 
   const haveVoto = esame.voto !== null
+  const haveLode = esame.lode == true;
 
   return (
     <CardContainer>
@@ -95,7 +96,7 @@ const EsameCard: React.FC<Props> = ({ esame }) => {
           </ChipContainer>
         </InfoContainer>
         <VotoContainer haveVoto={haveVoto}>
-          <VotoText>{haveVoto ? esame.voto : `${esame.CFU} CFU`}</VotoText>
+          <VotoText>{haveVoto ? (haveLode? `${esame.voto}L` : esame.voto ): `${esame.CFU} CFU`}</VotoText>
         </VotoContainer>
       </CardContentContainer>
     </CardContainer>
