@@ -1,6 +1,9 @@
 import React from 'react';
+import { Dimensions } from 'react-native';
 import { Text, Card, Title, Paragraph, ProgressBar, MD3Colors } from 'react-native-paper';
 import styled from 'styled-components/native';
+
+const { width, height } = Dimensions.get('window');
 
 const Titolo = styled(Text)`
   font-size: 18px;
@@ -16,9 +19,9 @@ const Voto = styled(Paragraph)`
 
 const StyledCard = styled(Card)`
   background-color: #FAFAFA; 
-  margin: 2.5%;
+  margin: 10px auto;
   width: 45%;
-  padding: 0 8px 8px 8px;
+  padding: ${width > 640 ? '0 8px 8px 8px' : '0 4px 4px 4px'};
 `;
 
 type StatCardProps = {
