@@ -27,6 +27,7 @@ export type Esame = {
   docente?: string;
   voto?: string;
   lode?: boolean;
+  diario?: string;
   categorie: Categoria[];
 };
 
