@@ -1,61 +1,97 @@
-import React, { useState, useEffect } from 'react';
-import { View, TextInput, Switch } from 'react-native';
+import React, { useState } from 'react';
+import { View, TextInput, Switch, StyleSheet, ScrollView } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import styled from 'styled-components/native';
-import { Button, Text, Snackbar } from 'react-native-paper';
+import { Button, Text, Snackbar, List, Checkbox, IconButton } from 'react-native-paper';
 import { aggiungiEsame } from '../../database';
 import SQLite from 'react-native-sqlite-storage';
 import { Esame } from '../types';
-
-const Container = styled.View`
-  padding: 20px;
+import LabelInput from './aggiunta/LabelInput';
+import styled from 'styled-components/native';
+const Container = styled(ScrollView)`
+    padding: 20px;
+    background-color: #f5f5f5;
 `;
 
 const Label = styled(Text)`
-  font-size: 18px;
-  margin: 10px 0;
-  color: #333;
-`;
-
-const Input = styled(TextInput)`
-  height: 40px;
-  border: 1px solid #ccc;
-  margin-bottom: 20px;
-  padding: 0 10px;
-  border-radius: 5px;
-  background-color: #fff;
+    font-size: 18px;
+    margin: 5px 0;
+    color: #6854a4;
 `;
 
 const PickerWrapper = styled.View`
-  height: 50px;
-  margin-bottom: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  overflow: hidden;
-  background-color: #fff;
+    min-width: 150px;
+    height: 50px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+    background-color: #fff;
 `;
 
 const CustomButton = styled(Button)`
-  margin-top: 20px;
-  background-color: #514bf5;
+    margin-top: 20px;
+    background-color: #6854a4;
+    border-radius: 10px;
+    padding: 10px;
 `;
 
 const DateTimeText = styled(Text)`
-  margin-top: 20px;
-  font-size: 16px;
-  color: #333;
+    margin-top: 20px;
+    font-size: 16px;
+    color: #333;
+    text-align: center;
 `;
 
 const DiaryInput = styled(TextInput)`
-  height: 150px;
-  border: 1px solid #ccc;
-  margin-bottom: 20px;
-  padding: 10px;
-  border-radius: 5px;
-  background-color: #fff;
-  text-align-vertical: top;
+    height: 150px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #fff;
+    text-align-vertical: top;
 `;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#f5f5f5',
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 20,
+  },
+  input: {
+    height: 40,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    marginBottom: 20,
+    padding: 10,
+    borderRadius: 5,
+    backgroundColor: '#fff',
+    flex: 1,
+  },
+  subheader: {
+    fontSize: 26,
+    textAlign: 'center',
+    paddingTop: '8%',
+    color: '#6854a4',
+  },
+  accordion: {
+    backgroundColor: '#fff',
+    borderRadius: 5,
+    marginBottom: 20,
+    padding: 10,
+  },
+  iconButton: {
+    backgroundColor: '#6854a4',
+    marginRight: 10,
+  },
+});
 
 const FormAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
   const [nome, setNome] = useState<string>('');
@@ -71,6 +107,9 @@ const FormAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
   const [diario, setDiario] = useState<string>('');
   const [lode, setLode] = useState<boolean>(false);
   const [snackbarVisible, setSnackbarVisible] = useState<boolean>(false);
+  const [infoAggExpanded, setInfoAggExpanded] = useState<boolean>(false);
+  const [votoExpanded, setVotoExpanded] = useState<boolean>(false);
+  const [dataExpanded, setDataExpanded] = useState<boolean>(false);
 
   const onToggleSwitch = () => setLode(!lode);
 
@@ -127,100 +166,132 @@ const FormAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
 
   return (
     <Container>
-      <Label>Nome:</Label>
-      <Input
-        placeholder="Aggiungi il nome esame"
-        value={nome}
-        onChangeText={setNome}
-      />
+      <List.Section>
+        <List.Subheader style={styles.subheader}>Aggiungi un Esame!</List.Subheader>
 
-      <Label>Corso di Studi:</Label>
-      <Input
-        placeholder="Aggiungi il Corso di Studi dell'esame"
-        value={corso_studi}
-        onChangeText={setCorsoStudio}
-      />
+        <LabelInput
+          label="Nome:"
+          placeholder="Aggiungi il nome esame"
+          value={nome}
+          onChangeText={setNome}
+        />
+        <LabelInput
+          label="Corso di Studi:"
+          placeholder="Aggiungi il Corso di Studi dell'esame"
+          value={corso_studi}
+          onChangeText={setCorsoStudio}
+        />
 
-      <Label>Docente:</Label>
-      <Input
-        placeholder="Aggiungi il Docente dell'esame"
-        value={docente}
-        onChangeText={setDocente}
-      />
-
-      <Label>CFU Esame:</Label>
-      <Input
-        placeholder="Aggiungi il quantitativo di CFU"
-        value={cfu}
-        keyboardType="numeric"
-        onChangeText={cfuNumeric}
-      />
-
-      <Label>Luogo D'Esame:</Label>
-      <Input
-        placeholder="Aggiungi un Luogo"
-        value={luogo}
-        onChangeText={setLuogo}
-      />
-
-      <Label>Tipologia:</Label>
-      <Input
-        placeholder="Aggiungi una Tipologia"
-        value={tipologia}
-        onChangeText={setTipologia}
-      />
-
-      <Label>Voto D'Esame:</Label>
-      <PickerWrapper>
-        <Picker
-          selectedValue={voto}
-          onValueChange={(itemValue) => setVoto(itemValue)}
-        >
-          {Array.from({ length: 13 }, (_, i) => i + 18).map((value) => (
-            <Picker.Item
-              key={value}
-              label={value.toString()}
-              value={value.toString()}
-            />
-          ))}
-        </Picker>
-      </PickerWrapper>
-
-      <Label>Lode:</Label>
-      <Switch value={lode} onValueChange={onToggleSwitch} />
-
-      <CustomButton mode="contained" onPress={() => showMode('date')}>
-        Mostra DatePicker
-      </CustomButton>
-      <CustomButton mode="contained" onPress={() => showMode('time')}>
-        Mostra TimePicker
-      </CustomButton>
-
-      <DateTimeText>Data selezionata: {formatDate(date)}</DateTimeText>
-      <DateTimeText>Ora selezionata: {formatTime(date)}</DateTimeText>
-
-      {show && (
-        <View style={{ backgroundColor: '#fff', borderRadius: 5 }}>
-          <DateTimePicker
-            testID="dateTimePicker"
-            value={date}
-            mode={mode}
-            is24Hour={true}
-            display="default"
-            onChange={onChange}
-            style={{ backgroundColor: '#fff' }}
-          />
+        <View style={styles.row}>
+          <Label>CFU:</Label>
+          <PickerWrapper>
+            <Picker
+              selectedValue={cfu}
+              onValueChange={(itemValue) => setCfu(itemValue)}
+            >
+              {Array.from({ length: 12 }, (_, i) => i + 1).map((value) => (
+                <Picker.Item
+                  key={value}
+                  label={value.toString()}
+                  value={value.toString()}
+                />
+              ))}
+            </Picker>
+          </PickerWrapper>
         </View>
-      )}
 
-      <Label>Diario:</Label>
-      <DiaryInput
-        placeholder="Scrivi un Diario"
-        value={diario}
-        onChangeText={setDiario}
-        multiline
-        numberOfLines={15}
-      />
+        <List.Accordion
+          title="Informazioni Aggiuntive"
+          expanded={infoAggExpanded}
+          onPress={() => setInfoAggExpanded(!infoAggExpanded)}
+          style={styles.accordion}
+        >
+          <LabelInput
+            label="Docente:"
+            placeholder="Aggiungi il Docente dell'esame"
+            value={docente}
+            onChangeText={setDocente}
+          />
+          <LabelInput
+            label="Luogo D'Esame:"
+            placeholder="Aggiungi un Luogo"
+            value={luogo}
+            onChangeText={setLuogo}
+          />
+          <LabelInput
+            label="Tipologia:"
+            placeholder="Aggiungi una Tipologia"
+            value={tipologia}
+            onChangeText={setTipologia}
+          />
+        </List.Accordion>
+
+        <List.Accordion
+          title="Voto"
+          expanded={votoExpanded}
+          onPress={() => setVotoExpanded(!votoExpanded)}
+          style={styles.accordion}
+        >
+          <View style={styles.row}>
+            <Label>Voto D'Esame:</Label>
+            <PickerWrapper>
+              <Picker
+                selectedValue={voto}
+                onValueChange={(itemValue) => setVoto(itemValue)}
+              >
+                {Array.from({ length: 13 }, (_, i) => i + 18).map((value) => (
+                  <Picker.Item
+                    key={value}
+                    label={value.toString()}
+                    value={value.toString()}
+                  />
+                ))}
+              </Picker>
+            </PickerWrapper>
+          </View>
+
+          <Label>Lode:</Label>
+          <Switch value={lode} onValueChange={onToggleSwitch} />
+        </List.Accordion>
+
+        <List.Accordion
+          title="Data"
+          expanded={dataExpanded}
+          onPress={() => setDataExpanded(!dataExpanded)}
+          style={styles.accordion}
+        >
+          <CustomButton mode="contained" onPress={() => showMode('date')}>
+            Mostra DatePicker
+          </CustomButton>
+          <CustomButton mode="contained" onPress={() => showMode('time')}>
+            Mostra TimePicker
+          </CustomButton>
+          <DateTimeText>Data selezionata: {formatDate(date)}</DateTimeText>
+          <DateTimeText>Ora selezionata: {formatTime(date)}</DateTimeText>
+          {show && (
+            <View style={{ backgroundColor: '#fff', borderRadius: 5 }}>
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={date}
+                mode={mode}
+                is24Hour={true}
+                display="default"
+                onChange={onChange}
+                style={{ backgroundColor: '#fff' }}
+              />
+            </View>
+          )}
+        </List.Accordion>
+
+        <List.Subheader style={styles.subheader}>Diario</List.Subheader>
+        <DiaryInput
+          placeholder="Scrivi un Diario"
+          value={diario}
+          onChangeText={setDiario}
+          multiline
+          numberOfLines={15}
+        />
+      </List.Section>
 
       <CustomButton mode="contained" onPress={handleSubmit}>
         {esame ? 'Modifica Esame' : 'Inserisci Esame'}

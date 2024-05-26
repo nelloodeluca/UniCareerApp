@@ -33,7 +33,7 @@ export default function AppNav() {
 
           return <Ionicons name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: '#6854a4',
+        tabBarActiveTintColor: '#000000',
         tabBarInactiveTintColor: 'gray',
       })}
     >
@@ -55,7 +55,7 @@ export default function AppNav() {
       <BottomTab.Screen
         name="Aggiunta"
         component={Aggiunta}
-        options={{ title: 'Add Exam', headerTitleAlign: 'center' }}
+        options={{ title: 'Add Exam', headerTitleAlign: 'center', headerShown:false}}
       />
     </BottomTab.Navigator>
   );
