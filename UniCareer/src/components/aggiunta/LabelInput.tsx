@@ -6,7 +6,7 @@ import { KeyboardTypeOptions } from 'react-native';
 
 const Label = styled(Text)`
     font-size: 18px;
-    margin: 8px 0;
+    margin: 4px 0;
     color: #333;
 `;
 

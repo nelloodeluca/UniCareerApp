@@ -99,10 +99,10 @@ const FormAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
   const [nome, setNome] = useState<string>('');
   const [corso_studi, setCorsoStudio] = useState<string>('');
   const [docente, setDocente] = useState<string>('');
-  const [cfu, setCfu] = useState<string>('');
+  const [cfu, setCfu] = useState<number>(1);
   const [luogo, setLuogo] = useState<string>('');
   const [tipologia, setTipologia] = useState<string>('');
-  const [voto, setVoto] = useState<string>('');
+  const [voto, setVoto] = useState<number>(18);
   const [date, setDate] = useState<Date>(new Date());
   const [time, setTime] = useState<Date>(new Date());
   const [mode, setMode] = useState<'date' | 'time'>('date');
@@ -123,7 +123,7 @@ const FormAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
       setCfu(esame.CFU?.toString() || '');
       setLuogo(esame.luogo || '');
       setTipologia(esame.tipologia || '');
-      setVoto(esame.voto || '');
+      setVoto(esame.voto || 18);
       setDate(new Date(esame.data));
       setTime(new Date(esame.data + ' ' + esame.ora));
       setDiario(esame.diario || '');

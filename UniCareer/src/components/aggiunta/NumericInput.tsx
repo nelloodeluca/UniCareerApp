@@ -1,22 +1,28 @@
 import React from 'react';
-import { View, TextInput, Button } from 'react-native';
+import { View, TextInput, TouchableOpacity, Text } from 'react-native';
 import styled from 'styled-components/native';
 
 interface NumericInputProps {
   number: number;
   increment: () => void;
   decrement: () => void;
+  min: number;
+  max: number;
 }
 
-const NumericInput: React.FC<NumericInputProps> = ({ number, increment, decrement }) => {
+const NumericInput: React.FC<NumericInputProps> = ({ number, increment, decrement, min, max }) => {
   return (
     <Container>
-      <StyledButton title="-" onPress={decrement} />
+      <StyledTouchableOpacity onPress={decrement} disabled={number <= min}>
+        <ButtonText>-</ButtonText>
+      </StyledTouchableOpacity>
       <StyledTextInput
         value={number.toString()}
         editable={false} // Rendi il campo non modificabile dall'utente
       />
-      <StyledButton title="+" onPress={increment} />
+      <StyledTouchableOpacity onPress={increment} disabled={number >= max}>
+        <ButtonText>+</ButtonText>
+      </StyledTouchableOpacity>
     </Container>
   );
 };
@@ -38,8 +44,16 @@ const StyledTextInput = styled(TextInput)`
     font-size: 18px;
 `;
 
-const StyledButton = styled(Button)`
+const StyledTouchableOpacity = styled(TouchableOpacity)<{ disabled: boolean }>`
     margin: 0 10px;
+    padding: 10px;
+    background-color: ${({ disabled }) => (disabled ? '#ccc' : '#6854a4')};
+    border-radius: 5px;
+`;
+
+const ButtonText = styled(Text)`
+    color: white;
+    font-size: 18px;
 `;
 
 export default NumericInput;
