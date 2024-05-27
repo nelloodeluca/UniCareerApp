@@ -34,6 +34,13 @@ export type Esame = {
 export interface ExamsContextType {
   exams: Esame[];
   deleteExam: (id: string) => void;
+  getMaxGrade: () => any;
+  getMinGrade: () => any;
+  getArithmeticMean: () => any;
+  getWeightedMean: () => any;
+  getGraduationGrade: () => any;
+  getExamsSummary: () => any;
+  getGrades: () => any;
 }
 
 export interface DettagliEsameProps {

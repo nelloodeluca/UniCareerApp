@@ -6,23 +6,13 @@ import styled from 'styled-components/native';
 const screenWidth = Dimensions.get('window').width;
 
 const Container = styled(View)`
-  
-  padding: 16px;
-  justify-content: center;
-  align-items: center;
-  background-color: #ffffff;
+
+    padding: 16px;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
 `;
 
-const data = {
-  labels: [],
-  datasets: [
-    {
-      data: [18, 25, 28, 30, 27, 24, 30, 22],
-      color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
-      strokeWidth: 2, // optional
-    },
-  ],
-};
 
 const chartConfig = {
   backgroundGradientFrom: '#ffffff',
@@ -33,7 +23,22 @@ const chartConfig = {
   useShadowColorFromDataset: false, // optional
 };
 
-const StatisticaGrafico = () => {
+interface StatisticaGraficoProps {
+  grades?: any;
+}
+
+const StatisticaGrafico = ({ grades }: StatisticaGraficoProps) => {
+
+  const data = {
+    labels: [],
+    datasets: [
+      {
+        data: grades,
+        color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
+        strokeWidth: 2, // optional
+      },
+    ],
+  };
   return (
     <Container>
       <LineChart
