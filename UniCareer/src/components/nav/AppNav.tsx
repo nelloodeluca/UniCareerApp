@@ -6,6 +6,7 @@ import Dashboard from '../../screens/Dashboard';
 import Statistica from '../../screens/Statistica';
 import Libretto from './LibrettoNav';
 import Aggiunta from '../../screens/Aggiunta';
+import NuovaAggiunta from '../aggiunta/NuovaAggiunta';
 
 /*
  * Navigazione BottomTab per l'intera App
@@ -56,6 +57,11 @@ export default function AppNav() {
         name="Aggiunta"
         component={Aggiunta}
         options={{ title: 'Add Exam', headerTitleAlign: 'center', headerShown:false}}
+      />
+      <BottomTab.Screen
+        name="Nuova"
+        component={NuovaAggiunta}
+        options={{ title: 'Nuova Form', headerTitleAlign: 'center', headerShown:true}}
       />
     </BottomTab.Navigator>
   );
