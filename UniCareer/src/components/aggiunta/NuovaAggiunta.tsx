@@ -72,6 +72,16 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
     setMode(currentMode);
   };
 
+  const formatDate = (date: Date) => {
+    return date.toLocaleDateString('en-GB');
+  };
+  const formatTime = (time: Date) => {
+    return time.toLocaleTimeString('en-GB', {
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+  };
+
   return(
     <Container>
       <List.Section>
