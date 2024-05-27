@@ -5,6 +5,7 @@ import styled from 'styled-components/native';
 import CardStatisticaSmall from '../components/statistica/CardStatisticaSmall';
 import CardStatisticaBig from '../components/statistica/CardStatisticaBig';
 import CardStatisticaVotoLaurea from '../components/statistica/CardStatisticaVotoLaurea';
+import StatisticaGrafico from '../components/statistica/GraficoAndamentoCarriera';
 
 const StyledScrollView = styled(ScrollView)`
   flex: 1;
@@ -63,6 +64,7 @@ export default function Statistica() {
           title="Voto di Laurea"
           value1={110}
         ></CardStatisticaVotoLaurea>
+        <StatisticaGrafico></StatisticaGrafico>
       </CardContainer>
     </StyledScrollView>
   );
