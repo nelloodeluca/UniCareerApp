@@ -6,13 +6,11 @@ import styled from 'styled-components/native';
 const screenWidth = Dimensions.get('window').width;
 
 const Container = styled(View)`
-
-    padding: 16px;
-    justify-content: center;
-    align-items: center;
-    background-color: #ffffff;
+  padding: 16px;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
 `;
-
 
 const chartConfig = {
   backgroundGradientFrom: '#ffffff',
@@ -28,7 +26,6 @@ interface StatisticaGraficoProps {
 }
 
 const StatisticaGrafico = ({ grades }: StatisticaGraficoProps) => {
-
   const data = {
     labels: [],
     datasets: [

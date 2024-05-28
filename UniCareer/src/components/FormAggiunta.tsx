@@ -205,7 +205,9 @@ const FormAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
   return (
     <Container>
       <List.Section>
-        <List.Subheader style={styles.subheader}>Aggiungi un Esame!</List.Subheader>
+        <List.Subheader style={styles.subheader}>
+          Aggiungi un Esame!
+        </List.Subheader>
 
         <LabelInput
           label="Nome:"

@@ -5,18 +5,18 @@ import { Text, TextInput } from 'react-native-paper';
 import { KeyboardTypeOptions } from 'react-native';
 
 const Label = styled(Text)`
-    font-size: 18px;
-    margin: 4px 0;
-    color: #333;
+  font-size: 18px;
+  margin: 4px 0;
+  color: #333;
 `;
 
 const Input = styled(TextInput)`
-    height: 40px;
-    border: 1px solid #cccccc70;
-    margin-bottom: 10px;
-    padding: 0 10px;
-    border-radius: 5px;
-    background-color: #fff;
+  height: 40px;
+  border: 1px solid #cccccc70;
+  margin-bottom: 10px;
+  padding: 0 10px;
+  border-radius: 5px;
+  background-color: #fff;
 `;
 
 interface LabelInputProps {
@@ -30,14 +30,14 @@ interface LabelInputProps {
 }
 
 const LabelInput: React.FC<LabelInputProps> = ({
-                                                 label,
-                                                 placeholder,
-                                                 value,
-                                                 onChangeText,
-                                                 keyboardType = 'default',
-                                                 multiline = false,
-                                                 numberOfLines = 1
-                                               }) => {
+  label,
+  placeholder,
+  value,
+  onChangeText,
+  keyboardType = 'default',
+  multiline = false,
+  numberOfLines = 1,
+}) => {
   return (
     <>
       <Label>{label}</Label>

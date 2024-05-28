@@ -63,7 +63,7 @@ export const prepareDB = async () => {
   ('Chimica', '#cc99ff');`
   );
 
-// Popolare la tabella 'esame' con date future e voti corretti
+  // Popolare la tabella 'esame' con date future e voti corretti
   await db.executeSql(
     `INSERT OR IGNORE INTO esame (nome, corso_di_studi, docente, luogo, tipologia, cfu, data, ora, voto, lode, diario) VALUES 
   ('Analisi Matematica I', 'Ingegneria Informatica', 'Prof. Rossi', 'Aula Magna', 'Scritto', 9, '2024-01-15', '09:00', 30, 1, ''),
@@ -82,7 +82,7 @@ export const prepareDB = async () => {
   ('Sicurezza Informatica', 'Ingegneria Informatica', 'Prof. Grigio', 'Aula 802', 'Orale', 6, '2024-09-15', '14:00', null, 0, '');`
   );
 
-// Popolare la tabella 'esame_categoria'
+  // Popolare la tabella 'esame_categoria'
   await db.executeSql(
     `INSERT OR IGNORE INTO esame_categoria (id_e, id_c) VALUES 
   ((SELECT id FROM esame WHERE nome='Analisi Matematica I'), (SELECT id FROM categoria WHERE nome='Matematica')),
@@ -105,5 +105,4 @@ export const prepareDB = async () => {
   ((SELECT id FROM esame WHERE nome='Basi di Dati'), (SELECT id FROM categoria WHERE nome='Informatica')),
   ((SELECT id FROM esame WHERE nome='Sicurezza Informatica'), (SELECT id FROM categoria WHERE nome='Informatica'));`
   );
-
 };

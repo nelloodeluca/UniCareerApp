@@ -14,7 +14,6 @@ import ExamsContext from '../../EsamiContext';
 const w = Dimensions.get('window').width;
 const h = Dimensions.get('window').height;
 
-
 const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
   const context = useContext(ExamsContext);
   if (!context) {
@@ -101,28 +100,26 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     return date <= today;
-  }
+  };
   const incrementCfu = () => {
-    setCfu(prevCfu => (prevCfu < 12 ? prevCfu + 1 : prevCfu));
+    setCfu((prevCfu) => (prevCfu < 12 ? prevCfu + 1 : prevCfu));
   };
 
   const decrementCfu = () => {
-    setCfu(prevCfu => (prevCfu > 1 ? prevCfu - 1 : prevCfu));
+    setCfu((prevCfu) => (prevCfu > 1 ? prevCfu - 1 : prevCfu));
   };
 
   const incrementVoto = () => {
-    setVoto(prevVoto => (prevVoto < 30 ? prevVoto + 1 : prevVoto));
+    setVoto((prevVoto) => (prevVoto < 30 ? prevVoto + 1 : prevVoto));
   };
 
   const decrementVoto = () => {
-    setVoto(prevVoto => (prevVoto > 18 ? prevVoto - 1 : prevVoto));
+    setVoto((prevVoto) => (prevVoto > 18 ? prevVoto - 1 : prevVoto));
   };
 
-
-  return(
+  return (
     <ScrollContainer>
       <StyledListSection>
-
         <Container>
           <LabelInput
             label="Nome:"
@@ -137,9 +134,24 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
             onChangeText={setCorsoStudio}
           />
 
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Text style={{flex:1, fontSize:24, paddingLeft:'5%', fontWeight:'600'}}>CFU:</Text>
-            <NumericInput number={cfu} increment={incrementCfu} decrement={decrementCfu} min={1} max={12} />
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Text
+              style={{
+                flex: 1,
+                fontSize: 24,
+                paddingLeft: '5%',
+                fontWeight: '600',
+              }}
+            >
+              CFU:
+            </Text>
+            <NumericInput
+              number={cfu}
+              increment={incrementCfu}
+              decrement={decrementCfu}
+              min={1}
+              max={12}
+            />
           </View>
           <View>
             <Label>Seleziona fino a 3 categorie:</Label>
@@ -149,122 +161,134 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
         </Container>
       </StyledListSection>
       <StyledListSection>
-        <StyledListAccordion title='Altre Informazioni' left={props => <List.Icon {...props} icon="animation" />}>
-
+        <StyledListAccordion
+          title="Altre Informazioni"
+          left={(props) => <List.Icon {...props} icon="animation" />}
+        >
           <LabelInput
-          label="Tipologia"
-          placeholder="Aggiungi la tipologia dell'esame"
-          value={tipologia}
+            label="Tipologia"
+            placeholder="Aggiungi la tipologia dell'esame"
+            value={tipologia}
             onChangeText={setTipologia}
-         />
-         <LabelInput
-          label="Docente"
-          placeholder="Aggiungi il docente dell'esame"
-          value={docente}
-          onChangeText={setDocente}
-        />
-        <LabelInput
-          label="Luogo"
-          placeholder="Aggiungi il docente dell'esame"
-          value={luogo}
-          onChangeText={setLuogo}
-        />
-      </StyledListAccordion>
+          />
+          <LabelInput
+            label="Docente"
+            placeholder="Aggiungi il docente dell'esame"
+            value={docente}
+            onChangeText={setDocente}
+          />
+          <LabelInput
+            label="Luogo"
+            placeholder="Aggiungi il docente dell'esame"
+            value={luogo}
+            onChangeText={setLuogo}
+          />
+        </StyledListAccordion>
+      </StyledListSection>
 
-      
-    </StyledListSection>
-
-    <StyledListSection>
-      {Platform.OS === 'android' ? (
-        <View>
-          <CustomButton mode="contained" onPress={() => showMode('date')}>
-            <DateTimeText>Data selezionata: {formatDate(date)}</DateTimeText>
-          </CustomButton>
-          {isSuperato(date) && (
-            <View>
-              <Text>Congratulazioni Esame Superato</Text>
-              <NumericInput number={voto} increment={incrementVoto} decrement={decrementVoto} min={18} max={30} />
-            </View>
-          )}
-          <CustomButton mode="contained" onPress={() => showMode('time')}>
-            <DateTimeText>Ora selezionata: {formatTime(time)}</DateTimeText>
-          </CustomButton>
-          {show && (
+      <StyledListSection>
+        {Platform.OS === 'android' ? (
+          <View>
+            <CustomButton mode="contained" onPress={() => showMode('date')}>
+              <DateTimeText>Data selezionata: {formatDate(date)}</DateTimeText>
+            </CustomButton>
+            {isSuperato(date) && (
+              <View>
+                <Text>Congratulazioni Esame Superato</Text>
+                <NumericInput
+                  number={voto}
+                  increment={incrementVoto}
+                  decrement={decrementVoto}
+                  min={18}
+                  max={30}
+                />
+              </View>
+            )}
+            <CustomButton mode="contained" onPress={() => showMode('time')}>
+              <DateTimeText>Ora selezionata: {formatTime(time)}</DateTimeText>
+            </CustomButton>
+            {show && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={mode === 'date' ? date : time}
+                mode={mode}
+                is24Hour={true}
+                display="default"
+                onChange={onChange}
+                style={{ backgroundColor: '#fff' }}
+              />
+            )}
+          </View>
+        ) : (
+          <View style={{ backgroundColor: '#fff', borderRadius: 5 }}>
             <DateTimePicker
               testID="dateTimePicker"
-              value={mode === 'date' ? date : time}
-              mode={mode}
+              value={date}
+              mode="date"
               is24Hour={true}
               display="default"
               onChange={onChange}
               style={{ backgroundColor: '#fff' }}
             />
-          )}
-        </View>
-      ) : (
-        <View style={{ backgroundColor: '#fff', borderRadius: 5 }}>
-          <DateTimePicker
-            testID="dateTimePicker"
-            value={date}
-            mode="date"
-            is24Hour={true}
-            display="default"
-            onChange={onChange}
-            style={{ backgroundColor: '#fff' }}
-          />
-          <DateTimePicker
-            testID="timePicker"
-            value={time}
-            mode="time"
-            is24Hour={true}
-            display="default"
-            onChange={onChange}
-            style={{ backgroundColor: '#fff' }}
-          />
-          {isSuperato(date) && (
-            <View>
-              <Text>Congratulazioni Esame Superato</Text>
-              <NumericInput number={voto} increment={incrementVoto} decrement={decrementVoto} min={18} max={30} />
-            </View>
-          )}
-        </View>
-      )}
-    </StyledListSection>
+            <DateTimePicker
+              testID="timePicker"
+              value={time}
+              mode="time"
+              is24Hour={true}
+              display="default"
+              onChange={onChange}
+              style={{ backgroundColor: '#fff' }}
+            />
+            {isSuperato(date) && (
+              <View>
+                <Text>Congratulazioni Esame Superato</Text>
+                <NumericInput
+                  number={voto}
+                  increment={incrementVoto}
+                  decrement={decrementVoto}
+                  min={18}
+                  max={30}
+                />
+              </View>
+            )}
+          </View>
+        )}
+      </StyledListSection>
     </ScrollContainer>
   );
-}
+};
 
 const ScrollContainer = styled(ScrollView)`
   background-color: #f5f5f5;
-    overflow: hidden;
-    height: ${h}px;
+  overflow: hidden;
+  height: ${h}px;
 `;
 
 const Label = styled(Text)`
-    font-size: 18px;
-    margin: 4px 0;
-    color: #333;
+  font-size: 18px;
+  margin: 4px 0;
+  color: #333;
 `;
 
 const StyledListSection = styled(List.Section)`
   background-color: #fafafa;
-    border-radius: 20px;
-    
+  border-radius: 20px;
+
   padding: 16px;
   margin: 4px 4px;
   border: 1px solid #afafaf;
 `;
 
 const StyledListAccordion = styled(List.Accordion)`
-    background-color: #fafafa;
-    border-radius: 10px;
-    border: 1px solid #afafaf;
-    padding: 8px;
-    margin: 0 0 8px 0;
+  background-color: #fafafa;
+  border-radius: 10px;
+  border: 1px solid #afafaf;
+  padding: 8px;
+  margin: 0 0 8px 0;
 `;
 
 const Container = styled.View`
-    margin: 0 0 0 0;
+  margin: 0 0 0 0;
 `;
 
 const CustomButton = styled(Button)`

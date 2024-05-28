@@ -10,7 +10,13 @@ interface NumericInputProps {
   max: number;
 }
 
-const NumericInput: React.FC<NumericInputProps> = ({ number, increment, decrement, min, max }) => {
+const NumericInput: React.FC<NumericInputProps> = ({
+  number,
+  increment,
+  decrement,
+  min,
+  max,
+}) => {
   return (
     <Container>
       <StyledTouchableOpacity onPress={decrement} disabled={number <= min}>
@@ -28,38 +34,38 @@ const NumericInput: React.FC<NumericInputProps> = ({ number, increment, decremen
 };
 
 const Container = styled(View)`
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 `;
 
 const Label = styled(Text)`
-    font-size: 18px;
-    margin: 4px 0;
-    color: #333;
+  font-size: 18px;
+  margin: 4px 0;
+  color: #333;
 `;
 
 const StyledTextInput = styled(TextInput)`
-    height: 40px;
-    width: 60px;
-    border-width: 0;
-    margin: 0 8px;
-    text-align: center;
-    font-size: 24px;
-    color: #6854A4;
+  height: 40px;
+  width: 60px;
+  border-width: 0;
+  margin: 0 8px;
+  text-align: center;
+  font-size: 24px;
+  color: #6854a4;
 `;
 
 const StyledTouchableOpacity = styled(TouchableOpacity)<{ disabled: boolean }>`
-    margin: 0 10px;
-    padding: 4px 36px;
-    background-color: ${({ disabled }) => (disabled ? '#a8a8a8' : '#6854a4')};
-    border-radius: 20px;
+  margin: 0 10px;
+  padding: 4px 36px;
+  background-color: ${({ disabled }) => (disabled ? '#a8a8a8' : '#6854a4')};
+  border-radius: 20px;
 `;
 
 const ButtonText = styled(Text)`
-    color: #fafafa;
-    font-size: 20px;
+  color: #fafafa;
+  font-size: 20px;
 `;
 
 export default NumericInput;

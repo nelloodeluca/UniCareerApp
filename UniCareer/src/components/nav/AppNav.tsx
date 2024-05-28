@@ -56,12 +56,20 @@ export default function AppNav() {
       <BottomTab.Screen
         name="Aggiunta"
         component={Aggiunta}
-        options={{ title: 'Add Exam', headerTitleAlign: 'center', headerShown:false}}
+        options={{
+          title: 'Add Exam',
+          headerTitleAlign: 'center',
+          headerShown: false,
+        }}
       />
       <BottomTab.Screen
         name="Nuova"
         component={NuovaAggiunta}
-        options={{ title: 'Nuova Form', headerTitleAlign: 'center', headerShown:true}}
+        options={{
+          title: 'Nuova Form',
+          headerTitleAlign: 'center',
+          headerShown: true,
+        }}
       />
     </BottomTab.Navigator>
   );

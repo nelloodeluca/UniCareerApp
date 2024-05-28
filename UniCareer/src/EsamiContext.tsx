@@ -6,7 +6,11 @@ import React, {
   useCallback,
 } from 'react';
 import { Categoria, Esame, ExamsContextType } from './types';
-import { getEsami, deleteEsami, getCategorie } from './utils/operazioni_db/fetch_Esami';
+import {
+  getEsami,
+  deleteEsami,
+  getCategorie,
+} from './utils/operazioni_db/fetch_Esami';
 import { prepareDB } from './databaseSetup';
 
 const ExamsContext = createContext<ExamsContextType | undefined>(undefined);
@@ -25,7 +29,7 @@ export const ExamsProvider: React.FC<ExamsProviderProps> = ({ children }) => {
       const categories = await getCategorie();
       console.log('Fetched exams:', esami); // Log per debugging
       setExams(esami);
-      console.log('Categorie:', categories)
+      console.log('Categorie:', categories);
       setCategorie(categories);
     } catch (error) {
       console.error('Failed to fetch esami from database:', error);
@@ -68,7 +72,7 @@ export const ExamsProvider: React.FC<ExamsProviderProps> = ({ children }) => {
     let maxGrade = 0;
     exams.forEach((exam) => {
       if (exam.voto) {
-        const grade =  exam.voto;
+        const grade = exam.voto;
         if (grade > maxGrade) {
           maxGrade = grade;
         }
@@ -82,7 +86,7 @@ export const ExamsProvider: React.FC<ExamsProviderProps> = ({ children }) => {
     let minGrade = Number.MAX_VALUE;
     exams.forEach((exam) => {
       if (exam.voto) {
-        const grade =  exam.voto; // Consider lode as 31 for min calculation
+        const grade = exam.voto; // Consider lode as 31 for min calculation
         if (grade < minGrade) {
           minGrade = grade;
         }
@@ -95,11 +99,14 @@ export const ExamsProvider: React.FC<ExamsProviderProps> = ({ children }) => {
   const getArithmeticMean = () => {
     const totalGrades = exams.reduce((sum, exam) => {
       if (exam.voto) {
-        return sum +  exam.voto;
+        return sum + exam.voto;
       }
       return sum;
     }, 0);
-    const count = exams.reduce((count, exam) => (exam.voto ? count + 1 : count), 0);
+    const count = exams.reduce(
+      (count, exam) => (exam.voto ? count + 1 : count),
+      0
+    );
     const mean = count === 0 ? 0 : totalGrades / count;
     return parseFloat(mean.toFixed(2)); // Ensure 2 decimal places and return "30L" if mean > 30
   };
@@ -109,18 +116,18 @@ export const ExamsProvider: React.FC<ExamsProviderProps> = ({ children }) => {
     let totalCredits = 0;
     exams.forEach((exam) => {
       if (exam.voto && exam.CFU) {
-        const grade =  exam.voto; // Consider lode as 30 for weighted mean calculation
+        const grade = exam.voto; // Consider lode as 30 for weighted mean calculation
         totalWeightedGrades += grade * exam.CFU;
         totalCredits += exam.CFU;
       }
     });
     const mean = totalCredits === 0 ? 0 : totalWeightedGrades / totalCredits;
-    return  parseFloat(mean.toFixed(2)); // Ensure 2 decimal places and return "30L" if mean > 30
+    return parseFloat(mean.toFixed(2)); // Ensure 2 decimal places and return "30L" if mean > 30
   };
 
   const getGraduationGrade = () => {
     const weightedMean = getWeightedMean();
-    const graduationGrade = (weightedMean * 4.1) - 7.8; // Adjust factor as needed
+    const graduationGrade = weightedMean * 4.1 - 7.8; // Adjust factor as needed
     return Math.round(graduationGrade);
   };
 
@@ -155,18 +162,20 @@ export const ExamsProvider: React.FC<ExamsProviderProps> = ({ children }) => {
   };
 
   return (
-    <ExamsContext.Provider value={{
-      exams,
-      categorie,
-      deleteExam,
-      getMaxGrade,
-      getMinGrade,
-      getArithmeticMean,
-      getWeightedMean,
-      getGraduationGrade,
-      getExamsSummary,
-      getGrades
-    }}>
+    <ExamsContext.Provider
+      value={{
+        exams,
+        categorie,
+        deleteExam,
+        getMaxGrade,
+        getMinGrade,
+        getArithmeticMean,
+        getWeightedMean,
+        getGraduationGrade,
+        getExamsSummary,
+        getGrades,
+      }}
+    >
       {children}
     </ExamsContext.Provider>
   );

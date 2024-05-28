@@ -8,7 +8,10 @@ type CategoriaPickerProps = {
   onSelect: (selectedCategorie: Categoria[]) => void;
 };
 
-const CategoriaPicker: React.FC<CategoriaPickerProps> = ({ categorie, onSelect }) => {
+const CategoriaPicker: React.FC<CategoriaPickerProps> = ({
+  categorie,
+  onSelect,
+}) => {
   const [selectedCategorie, setSelectedCategories] = useState<Categoria[]>([]);
 
   useEffect(() => {
@@ -17,7 +20,9 @@ const CategoriaPicker: React.FC<CategoriaPickerProps> = ({ categorie, onSelect }
 
   const handleSelect = (category: Categoria) => {
     if (selectedCategorie.some((cat) => cat.id === category.id)) {
-      setSelectedCategories(selectedCategorie.filter((cat) => cat.id !== category.id));
+      setSelectedCategories(
+        selectedCategorie.filter((cat) => cat.id !== category.id)
+      );
     } else if (selectedCategorie.length < 3) {
       setSelectedCategories([...selectedCategorie, category]);
     }
@@ -50,9 +55,9 @@ const ChipContainer = styled.View`
 `;
 
 const Label = styled(Text)`
-    font-size: 18px;
-    margin: 4px 0;
-    color: #333;
+  font-size: 18px;
+  margin: 4px 0;
+  color: #333;
 `;
 
 export default CategoriaPicker;

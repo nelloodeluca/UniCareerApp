@@ -28,21 +28,24 @@ const StyledCard = styled(Card)`
 export default function Statistica() {
   const context = useContext(ExamsContext);
 
-
   if (!context) {
     // Gestisci il caso in cui il contesto non sia definito
     return <Text>Il contesto non è disponibile</Text>;
   }
 
-  const { exams, getMaxGrade, getMinGrade,getWeightedMean,getArithmeticMean, getGraduationGrade, getExamsSummary, getGrades} = context;
-
   const {
-    examsTaken,
-    totalExams,
-    obtainedCredits,
-    totalCredits,
-  } = getExamsSummary();
+    exams,
+    getMaxGrade,
+    getMinGrade,
+    getWeightedMean,
+    getArithmeticMean,
+    getGraduationGrade,
+    getExamsSummary,
+    getGrades,
+  } = context;
 
+  const { examsTaken, totalExams, obtainedCredits, totalCredits } =
+    getExamsSummary();
 
   const grades = getGrades();
   return (
