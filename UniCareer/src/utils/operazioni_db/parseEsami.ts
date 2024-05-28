@@ -1,4 +1,4 @@
-import { Esame } from '../../types';
+import { Categoria, Esame } from '../../types';
 
 export const mapRowToEsame = (row: any): Esame => {
   const categorie = row.categorie
@@ -21,5 +21,13 @@ export const mapRowToEsame = (row: any): Esame => {
     voto: row.voto,
     lode: row.lode,
     categorie,
+  };
+};
+
+export const mapRowToCategoria = (row: any): Categoria => {
+  return {
+    id: row.id.toString(),
+    nome: row.nome,
+    colore: row.colore,
   };
 };

@@ -1,5 +1,5 @@
-import { Esame } from '../../types';
-import { mapRowToEsame } from './parseEsami';
+import { Categoria, Esame } from '../../types';
+import { mapRowToCategoria, mapRowToEsame } from './parseEsami';
 import { dbPromise } from '../../databaseSetup';
 
 // Funzione per ottenere tutti gli esami con categorie annesse
@@ -30,4 +30,10 @@ export const deleteEsami = async (id: string): Promise<void> => {
     console.error('Failed to fetch esami from database:', error);
     throw error;
   }
+};
+
+export const getCategorie = async (): Promise<Categoria[]> => {
+  const db = await dbPromise;
+  const result = await db.executeSql('SELECT * FROM categoria');
+  return result[0].rows.raw().map(mapRowToCategoria);
 };

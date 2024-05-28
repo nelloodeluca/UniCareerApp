@@ -5,8 +5,8 @@ import React, {
   useState,
   useCallback,
 } from 'react';
-import { Esame, ExamsContextType } from './types';
-import { getEsami, deleteEsami } from './utils/operazioni_db/fetch_Esami';
+import { Categoria, Esame, ExamsContextType } from './types';
+import { getEsami, deleteEsami, getCategorie } from './utils/operazioni_db/fetch_Esami';
 import { prepareDB } from './databaseSetup';
 
 const ExamsContext = createContext<ExamsContextType | undefined>(undefined);
@@ -17,12 +17,17 @@ interface ExamsProviderProps {
 
 export const ExamsProvider: React.FC<ExamsProviderProps> = ({ children }) => {
   const [exams, setExams] = useState<Esame[]>([]);
+  const [categorie, setCategorie] = useState<Categoria[]>([]);
 
   const fetchEsami = useCallback(async () => {
     try {
       const esami = await getEsami();
+      const categories = await getCategorie();
       console.log('Fetched exams:', esami); // Log per debugging
       setExams(esami);
+
+      setCategorie(categories);
+      console.log('Categorie:', categories)
     } catch (error) {
       console.error('Failed to fetch esami from database:', error);
     }
