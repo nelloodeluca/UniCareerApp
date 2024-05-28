@@ -148,33 +148,7 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
         />
       </StyledListAccordion>
 
-      <View>
-      <CustomButton mode="contained" onPress={() => showMode('date')}>
-        <DateTimeText>Data selezionata: {formatDate(date)}</DateTimeText>
-      </CustomButton>
-        {isSuperato(date) && (
-          <View>
-            <Text>Congratulazioni Esame Superato</Text>
-            <NumericInput number={voto} increment={incrementVoto} decrement={decrementVoto} min={18} max={30} />
-          </View>
-        )}
-      <CustomButton mode="contained" onPress={() => showMode('time')}>
-        <DateTimeText>Ora selezionata: {formatTime(time)}</DateTimeText>
-      </CustomButton>
-      {show && (
-        <View style={{ backgroundColor: '#fff', borderRadius: 5 }}>
-          <DateTimePicker
-            testID="dateTimePicker"
-            value={date}
-            mode="date"
-            is24Hour={true}
-            display="default"
-            onChange={onChange}
-            style={{ backgroundColor: '#fff' }}
-          />
-        </View>
-      )}
-      </View>
+      
     </StyledListSection>
 
     <StyledListSection>
