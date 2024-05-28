@@ -2,18 +2,27 @@ import styled from 'styled-components/native';
 import { Platform, ScrollView, TextInput, View } from 'react-native';
 import { Button, List, MD3Colors, Text } from 'react-native-paper';
 import LabelInput from './LabelInput';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import { Esame } from '../../types';
+import { Categoria, Esame } from '../../types';
 import NumericInput from './NumericInput';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Dimensions } from 'react-native';
+import CategoriaPicker from './CategoriaPicker';
+import ExamsContext from '../../EsamiContext';
 
 const w = Dimensions.get('window').width;
 const h = Dimensions.get('window').height;
 
 
 const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
+  const context = useContext(ExamsContext);
+  if (!context) {
+    // Gestisci il caso in cui il contesto non sia definito
+    return <Text>Il contesto non è disponibile</Text>;
+  }
+  const { categorie } = context;
+
   const [nome, setNome] = useState<string>('');
   const [corso_studi, setCorsoStudio] = useState<string>('');
   const [docente, setDocente] = useState<string>('');
@@ -62,6 +71,10 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
       };
     }, [])
   );
+
+  const handleSelect = (selectedCategories: Categoria[]) => {
+    console.log('Selected Categories:', selectedCategories);
+  };
 
   const onChange = (event: any, selectedDate: Date | undefined) => {
     const currentDate = selectedDate || date;
@@ -123,18 +136,28 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
             value={corso_studi}
             onChangeText={setCorsoStudio}
           />
-        </Container>
-        </StyledListSection>
-    <StyledListSection>
-      <StyledListAccordion title='Altre Informazioni' left={props => <List.Icon {...props} icon="animation" />}>
 
-        <LabelInput
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Text style={{flex:1, fontSize:24, paddingLeft:'5%', fontWeight:'600'}}>CFU:</Text>
+            <NumericInput number={cfu} increment={incrementCfu} decrement={decrementCfu} min={1} max={12} />
+          </View>
+          <View>
+            <Label>Seleziona fino a 3 categorie:</Label>
+
+            <CategoriaPicker categorie={categorie} onSelect={handleSelect} />
+          </View>
+        </Container>
+      </StyledListSection>
+      <StyledListSection>
+        <StyledListAccordion title='Altre Informazioni' left={props => <List.Icon {...props} icon="animation" />}>
+
+          <LabelInput
           label="Tipologia"
           placeholder="Aggiungi la tipologia dell'esame"
           value={tipologia}
-          onChangeText={setTipologia}
-        />
-        <LabelInput
+            onChangeText={setTipologia}
+         />
+         <LabelInput
           label="Docente"
           placeholder="Aggiungi il docente dell'esame"
           value={docente}
@@ -198,6 +221,12 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
             onChange={onChange}
             style={{ backgroundColor: '#fff' }}
           />
+          {isSuperato(date) && (
+            <View>
+              <Text>Congratulazioni Esame Superato</Text>
+              <NumericInput number={voto} increment={incrementVoto} decrement={decrementVoto} min={18} max={30} />
+            </View>
+          )}
         </View>
       )}
     </StyledListSection>
@@ -209,6 +238,12 @@ const ScrollContainer = styled(ScrollView)`
   background-color: #f5f5f5;
     overflow: hidden;
     height: ${h}px;
+`;
+
+const Label = styled(Text)`
+    font-size: 18px;
+    margin: 4px 0;
+    color: #333;
 `;
 
 const StyledListSection = styled(List.Section)`
@@ -229,7 +264,7 @@ const StyledListAccordion = styled(List.Accordion)`
 `;
 
 const Container = styled.View`
-    margin: 0 0 5% 0;
+    margin: 0 0 0 0;
 `;
 
 const CustomButton = styled(Button)`

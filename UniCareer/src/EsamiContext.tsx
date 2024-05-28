@@ -25,9 +25,8 @@ export const ExamsProvider: React.FC<ExamsProviderProps> = ({ children }) => {
       const categories = await getCategorie();
       console.log('Fetched exams:', esami); // Log per debugging
       setExams(esami);
-
-      setCategorie(categories);
       console.log('Categorie:', categories)
+      setCategorie(categories);
     } catch (error) {
       console.error('Failed to fetch esami from database:', error);
     }
@@ -158,6 +157,7 @@ export const ExamsProvider: React.FC<ExamsProviderProps> = ({ children }) => {
   return (
     <ExamsContext.Provider value={{
       exams,
+      categorie,
       deleteExam,
       getMaxGrade,
       getMinGrade,

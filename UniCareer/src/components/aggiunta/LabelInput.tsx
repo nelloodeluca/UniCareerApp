@@ -12,7 +12,7 @@ const Label = styled(Text)`
 
 const Input = styled(TextInput)`
     height: 40px;
-    border: 1px solid #ccc;
+    border: 1px solid #cccccc70;
     margin-bottom: 10px;
     padding: 0 10px;
     border-radius: 5px;

@@ -34,26 +34,32 @@ const Container = styled(View)`
     padding: 20px;
 `;
 
+const Label = styled(Text)`
+    font-size: 18px;
+    margin: 4px 0;
+    color: #333;
+`;
+
 const StyledTextInput = styled(TextInput)`
     height: 40px;
     width: 60px;
-    border-color: gray;
-    border-width: 1px;
-    margin: 0 10px;
+    border-width: 0;
+    margin: 0 8px;
     text-align: center;
-    font-size: 18px;
+    font-size: 24px;
+    color: #6854A4;
 `;
 
 const StyledTouchableOpacity = styled(TouchableOpacity)<{ disabled: boolean }>`
     margin: 0 10px;
-    padding: 10px;
-    background-color: ${({ disabled }) => (disabled ? '#ccc' : '#6854a4')};
-    border-radius: 5px;
+    padding: 4px 36px;
+    background-color: ${({ disabled }) => (disabled ? '#a8a8a8' : '#6854a4')};
+    border-radius: 20px;
 `;
 
 const ButtonText = styled(Text)`
-    color: white;
-    font-size: 18px;
+    color: #fafafa;
+    font-size: 20px;
 `;
 
 export default NumericInput;
