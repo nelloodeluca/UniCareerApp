@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import { ScrollView, TextInput, View } from 'react-native';
+import { Platform, ScrollView, TextInput, View } from 'react-native';
 import { Button, List, MD3Colors, Text } from 'react-native-paper';
 import LabelInput from './LabelInput';
 import React, { useEffect, useState } from 'react';
@@ -65,12 +65,8 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
 
   const onChange = (event: any, selectedDate: Date | undefined) => {
     const currentDate = selectedDate || date;
-    setShow(false);
-    if (mode === 'date') {
-      setDate(currentDate);
-    } else {
-      setTime(currentDate);
-    }
+    setShow(Platform.OS === 'ios');
+    setDate(currentDate);
   };
 
   const showMode = (currentMode: 'date' | 'time') => {
@@ -169,8 +165,8 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
         <View style={{ backgroundColor: '#fff', borderRadius: 5 }}>
           <DateTimePicker
             testID="dateTimePicker"
-            value={mode === 'date' ? date : time}
-            mode={mode}
+            value={date}
+            mode="date"
             is24Hour={true}
             display="default"
             onChange={onChange}
@@ -179,9 +175,58 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
         </View>
       )}
       </View>
+    </StyledListSection>
 
-
-      </StyledListSection>
+    <StyledListSection>
+      {Platform.OS === 'android' ? (
+        <View>
+          <CustomButton mode="contained" onPress={() => showMode('date')}>
+            <DateTimeText>Data selezionata: {formatDate(date)}</DateTimeText>
+          </CustomButton>
+          {isSuperato(date) && (
+            <View>
+              <Text>Congratulazioni Esame Superato</Text>
+              <NumericInput number={voto} increment={incrementVoto} decrement={decrementVoto} min={18} max={30} />
+            </View>
+          )}
+          <CustomButton mode="contained" onPress={() => showMode('time')}>
+            <DateTimeText>Ora selezionata: {formatTime(time)}</DateTimeText>
+          </CustomButton>
+          {show && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={mode === 'date' ? date : time}
+              mode={mode}
+              is24Hour={true}
+              display="default"
+              onChange={onChange}
+              style={{ backgroundColor: '#fff' }}
+            />
+          )}
+        </View>
+      ) : (
+        <View style={{ backgroundColor: '#fff', borderRadius: 5 }}>
+          <DateTimePicker
+            testID="dateTimePicker"
+            value={date}
+            mode="date"
+            is24Hour={true}
+            display="default"
+            onChange={onChange}
+            style={{ backgroundColor: '#fff' }}
+          />
+          <DateTimePicker
+            testID="timePicker"
+            value={time}
+            mode="time"
+            is24Hour={true}
+            display="default"
+            onChange={onChange}
+            style={{ backgroundColor: '#fff' }}
+          />
+        </View>
+      )}
+    </StyledListSection>
     </ScrollContainer>
   );
 }
