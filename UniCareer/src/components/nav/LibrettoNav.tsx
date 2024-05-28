@@ -6,7 +6,7 @@ import CarrieraEsami from '../../screens/Libretto/CarrieraEsami';
 
 const LibrettoTopBar = createMaterialTopTabNavigator();
 
-function Libretto() {
+function LibrettoNav() {
   return (
     <LibrettoTopBar.Navigator
       screenOptions={({ route }) => ({
@@ -33,4 +33,4 @@ function Libretto() {
   );
 }
 
-export default Libretto;
+export default LibrettoNav;

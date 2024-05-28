@@ -22,10 +22,7 @@ const NumericInput: React.FC<NumericInputProps> = ({
       <StyledTouchableOpacity onPress={decrement} disabled={number <= min}>
         <ButtonText>-</ButtonText>
       </StyledTouchableOpacity>
-      <StyledTextInput
-        value={number.toString()}
-        editable={false} // Rendi il campo non modificabile dall'utente
-      />
+      <StyledTextInput value={number.toString()} editable={false} />
       <StyledTouchableOpacity onPress={increment} disabled={number >= max}>
         <ButtonText>+</ButtonText>
       </StyledTouchableOpacity>

@@ -1,15 +1,17 @@
 import styled from 'styled-components/native';
 import { Platform, ScrollView, TextInput, View } from 'react-native';
-import { Button, List, MD3Colors, Text } from 'react-native-paper';
-import LabelInput from './LabelInput';
+import { Button, List, MD3Colors, Snackbar, Text } from 'react-native-paper';
+import LabelInput from '../../components/aggiunta/LabelInput';
 import React, { useContext, useEffect, useState } from 'react';
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, useRoute } from '@react-navigation/native';
 import { Categoria, Esame } from '../../types';
-import NumericInput from './NumericInput';
+import NumericInput from '../../components/aggiunta/NumericInput';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Dimensions } from 'react-native';
-import CategoriaPicker from './CategoriaPicker';
+import CategoriaPicker from '../../components/aggiunta/CategoriaPicker';
 import ExamsContext from '../../EsamiContext';
+import SQLite from 'react-native-sqlite-storage';
+import { aggiungiEsame } from '../../../database';
 
 const w = Dimensions.get('window').width;
 const h = Dimensions.get('window').height;
@@ -21,6 +23,7 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
     return <Text>Il contesto non è disponibile</Text>;
   }
   const { categorie } = context;
+  const route = useRoute();
 
   const [nome, setNome] = useState<string>('');
   const [corso_studi, setCorsoStudio] = useState<string>('');
@@ -31,11 +34,13 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
   const [voto, setVoto] = useState<number>(18);
   const [date, setDate] = useState<Date>(new Date());
   const [time, setTime] = useState<Date>(new Date());
+  const [lode, setLode] = useState<boolean>(false);
   const [mode, setMode] = useState<'date' | 'time'>('date');
   const [show, setShow] = useState<boolean>(false);
   const [diario, setDiario] = useState<string>('');
-  const [lode, setLode] = useState<boolean>(false);
   const [infoAggExpanded, setInfoAggExpanded] = useState<boolean>(false);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [snackbarVisible, setSnackbarVisible] = useState<boolean>(false);
 
   useEffect(() => {
     if (esame) {
@@ -56,19 +61,22 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
   useFocusEffect(
     React.useCallback(() => {
       return () => {
-        setNome('');
-        setCorsoStudio('');
-        setDocente('');
-        setCfu(1);
-        setLuogo('');
-        setTipologia('');
-        setVoto(18);
-        setDate(new Date());
-        setTime(new Date());
-        setDiario('');
-        setLode(false);
+        console.log(route);
+        if (route.name !== 'FormCategorie') {
+          setNome('');
+          setCorsoStudio('');
+          setDocente('');
+          setCfu(1);
+          setLuogo('');
+          setTipologia('');
+          setVoto(18);
+          setDate(new Date());
+          setTime(new Date());
+          setLode(false);
+          setDiario('');
+        }
       };
-    }, [])
+    }, [route.name])
   );
 
   const handleSelect = (selectedCategories: Categoria[]) => {
@@ -117,6 +125,29 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
     setVoto((prevVoto) => (prevVoto > 18 ? prevVoto - 1 : prevVoto));
   };
 
+  const handleSubmit = () => {
+    SQLite.enablePromise(true);
+    const dbPromise = SQLite.openDatabase({
+      name: 'gruppo13.db',
+      location: 'default',
+    });
+    aggiungiEsame(
+      dbPromise,
+      nome,
+      corso_studi,
+      docente,
+      luogo,
+      tipologia,
+      Number(cfu),
+      formatDate(date),
+      formatTime(time),
+      Number(voto),
+      lode,
+      diario
+    );
+    setSnackbarVisible(true);
+  };
+
   return (
     <ScrollContainer>
       <StyledListSection>
@@ -133,18 +164,8 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
             value={corso_studi}
             onChangeText={setCorsoStudio}
           />
-
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Text
-              style={{
-                flex: 1,
-                fontSize: 24,
-                paddingLeft: '5%',
-                fontWeight: '600',
-              }}
-            >
-              CFU:
-            </Text>
+          <NumericContainer>
+            <NumericText>CFU:</NumericText>
             <NumericInput
               number={cfu}
               increment={incrementCfu}
@@ -152,10 +173,10 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
               min={1}
               max={12}
             />
-          </View>
+          </NumericContainer>
+
           <View>
             <Label>Seleziona fino a 3 categorie:</Label>
-
             <CategoriaPicker categorie={categorie} onSelect={handleSelect} />
           </View>
         </Container>
@@ -188,22 +209,10 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
 
       <StyledListSection>
         {Platform.OS === 'android' ? (
-          <View>
+          <Container>
             <CustomButton mode="contained" onPress={() => showMode('date')}>
               <DateTimeText>Data selezionata: {formatDate(date)}</DateTimeText>
             </CustomButton>
-            {isSuperato(date) && (
-              <View>
-                <Text>Congratulazioni Esame Superato</Text>
-                <NumericInput
-                  number={voto}
-                  increment={incrementVoto}
-                  decrement={decrementVoto}
-                  min={18}
-                  max={30}
-                />
-              </View>
-            )}
             <CustomButton mode="contained" onPress={() => showMode('time')}>
               <DateTimeText>Ora selezionata: {formatTime(time)}</DateTimeText>
             </CustomButton>
@@ -218,9 +227,21 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
                 style={{ backgroundColor: '#fff' }}
               />
             )}
-          </View>
+            {isSuperato(date) && (
+              <NumericContainer>
+                <NumericText>VOTO:</NumericText>
+                <NumericInput
+                  number={voto}
+                  increment={incrementVoto}
+                  decrement={decrementVoto}
+                  min={18}
+                  max={30}
+                />
+              </NumericContainer>
+            )}
+          </Container>
         ) : (
-          <View style={{ backgroundColor: '#fff', borderRadius: 5 }}>
+          <Container style={{ backgroundColor: '#fff', borderRadius: 5 }}>
             <DateTimePicker
               testID="dateTimePicker"
               value={date}
@@ -240,8 +261,8 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
               style={{ backgroundColor: '#fff' }}
             />
             {isSuperato(date) && (
-              <View>
-                <Text>Congratulazioni Esame Superato</Text>
+              <NumericContainer>
+                <NumericText>VOTO:</NumericText>
                 <NumericInput
                   number={voto}
                   increment={incrementVoto}
@@ -249,10 +270,25 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
                   min={18}
                   max={30}
                 />
-              </View>
+              </NumericContainer>
             )}
-          </View>
+          </Container>
         )}
+      </StyledListSection>
+
+      <StyledListSection>
+        <CustomButton mode="contained" onPress={handleSubmit}>
+          {isEditing ? 'Modifica Esame' : 'Inserisci Esame'}
+        </CustomButton>
+        <Snackbar
+          visible={snackbarVisible}
+          onDismiss={() => setSnackbarVisible(false)}
+          duration={3000}
+        >
+          <Text>
+            Esame {isEditing ? 'modificato' : 'inserito'} correttamente
+          </Text>
+        </Snackbar>
       </StyledListSection>
     </ScrollContainer>
   );
@@ -289,6 +325,17 @@ const StyledListAccordion = styled(List.Accordion)`
 
 const Container = styled.View`
   margin: 0 0 0 0;
+`;
+
+const NumericContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+`;
+const NumericText = styled.Text`
+  flex: 1;
+  font-size: 20px;
+  padding-left: 3%;
+  font-weight: 500;
 `;
 
 const CustomButton = styled(Button)`

@@ -4,9 +4,10 @@ import { Ionicons } from '@expo/vector-icons';
 
 import Dashboard from '../../screens/Dashboard';
 import Statistica from '../../screens/Statistica';
-import Libretto from './LibrettoNav';
 import Aggiunta from '../../screens/Aggiunta';
-import NuovaAggiunta from '../aggiunta/NuovaAggiunta';
+import AggiuntaNav from './AggiuntaNav';
+import LibrettoNav from './LibrettoNav';
+import { useRoute } from '@react-navigation/native';
 
 /*
  * Navigazione BottomTab per l'intera App
@@ -50,7 +51,7 @@ export default function AppNav() {
       />
       <BottomTab.Screen
         name="Libretto"
-        component={Libretto}
+        component={LibrettoNav}
         options={{ title: 'Carriera Esami', headerTitleAlign: 'center' }}
       />
       <BottomTab.Screen
@@ -64,7 +65,7 @@ export default function AppNav() {
       />
       <BottomTab.Screen
         name="Nuova"
-        component={NuovaAggiunta}
+        component={AggiuntaNav}
         options={{
           title: 'Nuova Form',
           headerTitleAlign: 'center',
