@@ -37,3 +37,59 @@ export const getCategorie = async (): Promise<Categoria[]> => {
   const result = await db.executeSql('SELECT * FROM categoria');
   return result[0].rows.raw().map(mapRowToCategoria);
 };
+
+export const updateInsert = async (esame: Esame): Promise<void> => {
+  try {
+    const { id, nome, corsoDiStudi, CFU, data, ora, luogo, tipologia, docente, voto, lode, diario } = esame;
+    const db = await dbPromise;
+
+    if (id) {
+      // Update the existing record
+      await db.executeSql(
+        `
+        UPDATE esame
+        SET nome = ?, corso_di_studi = ?, docente = ?, luogo = ?, tipologia = ?, cfu = ?, data = ?, ora = ?, voto = ?, lode = ?, diario = ?
+        WHERE id = ?
+      `,
+        [
+          nome,
+          corsoDiStudi,
+          docente,
+          luogo,
+          tipologia,
+          CFU,
+          data,
+          ora,
+          voto,
+          lode,
+          diario,
+          id,
+        ]
+      );
+    } else {
+      // Insert a new record
+      await db.executeSql(
+        `
+        INSERT INTO esame (nome, corso_di_studi, docente, luogo, tipologia, cfu, data, ora, voto, lode, diario)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `,
+        [
+          nome,
+          corsoDiStudi,
+          docente,
+          luogo,
+          tipologia,
+          CFU,
+          data,
+          ora,
+          voto,
+          lode,
+          diario,
+        ]
+      );
+    }
+  } catch (error) {
+    console.error('Failed to insert or replace esame in database:', error);
+    throw error;
+  }
+};

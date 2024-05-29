@@ -4,16 +4,16 @@ import { Ionicons } from '@expo/vector-icons';
 
 import Dashboard from '../../screens/Dashboard';
 import Statistica from '../../screens/Statistica';
-import Aggiunta from '../../screens/Aggiunta';
 import AggiuntaNav from './AggiuntaNav';
 import LibrettoNav from './LibrettoNav';
 import { useRoute } from '@react-navigation/native';
+import { RootStackParamList } from '../../types';
 
 /*
  * Navigazione BottomTab per l'intera App
  */
 
-const BottomTab = createBottomTabNavigator();
+const BottomTab = createBottomTabNavigator<RootStackParamList>();
 
 export default function AppNav() {
   return (

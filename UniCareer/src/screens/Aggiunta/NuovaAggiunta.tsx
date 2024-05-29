@@ -1,34 +1,39 @@
 import styled from 'styled-components/native';
-import { Platform, ScrollView, TextInput, View, Dimensions } from 'react-native';
+import { Dimensions, Platform, ScrollView, TextInput } from 'react-native';
 import { Button, List, Snackbar, Text } from 'react-native-paper';
 import LabelInput from '../../components/aggiunta/LabelInput';
 import React, { useContext, useEffect, useState } from 'react';
-import { useFocusEffect, useRoute } from '@react-navigation/native';
-import { Categoria, Esame } from '../../types';
+import { RouteProp, useFocusEffect, useRoute } from '@react-navigation/native';
+import { AggiuntaNavParams, Categoria, Esame } from '../../types';
 import NumericInput from '../../components/aggiunta/NumericInput';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import CategoriaPicker from '../../components/aggiunta/CategoriaPicker';
 import ExamsContext from '../../EsamiContext';
-import SQLite from 'react-native-sqlite-storage';
-import { aggiungiEsame } from '../../../database';
 import LodeSwitch from '../../components/aggiunta/LodeSwitch';
+
+type FormEsameRouteProp = RouteProp<AggiuntaNavParams, 'FormEsame'>;
 
 const w = Dimensions.get('window').width;
 const h = Dimensions.get('window').height;
 
-const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
+const NuovaAggiunta = () => {
+
+
   const context = useContext(ExamsContext);
   if (!context) {
     // Gestisci il caso in cui il contesto non sia definito
     return <Text>Il contesto non è disponibile</Text>;
   }
-  const { categorie } = context;
-  const route = useRoute();
+  const { categorie, insertOrReplaceExam } = context;
 
+  const route = useRoute<FormEsameRouteProp>();
+  const esame: Esame = route.params?.esame;
+
+  const [id,setId] = useState<string>('');
   const [nome, setNome] = useState<string>('');
-  const [corso_studi, setCorsoStudio] = useState<string>('');
+  const [corsoDiStudi, setCorsoStudio] = useState<string>('');
   const [docente, setDocente] = useState<string>('');
-  const [cfu, setCfu] = useState<number>(1);
+  const [CFU, setCfu] = useState<number>(1);
   const [luogo, setLuogo] = useState<string>('');
   const [tipologia, setTipologia] = useState<string>('');
   const [voto, setVoto] = useState<number>(24);
@@ -41,9 +46,11 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
   const [infoAggExpanded, setInfoAggExpanded] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [snackbarVisible, setSnackbarVisible] = useState<boolean>(false);
+  const [selectedCategorie,setSelectedCategorie] = useState<Categoria[]>([]);
 
   useEffect(() => {
     if (esame) {
+      setId(esame.id || '');
       setNome(esame.nome || '');
       setCorsoStudio(esame.corsoDiStudi || '');
       setDocente(esame.docente || '');
@@ -62,7 +69,8 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
     React.useCallback(() => {
       return () => {
         console.log(route);
-        if (route.name !== 'FormCategorie') {
+
+          setId('');
           setNome('');
           setCorsoStudio('');
           setDocente('');
@@ -74,13 +82,14 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
           setTime(new Date());
           setLode(false);
           setDiario('');
-        }
+          setSelectedCategorie([]);
+
       };
-    }, [route.name])
+    }, [route])
   );
 
   const handleSelect = (selectedCategories: Categoria[]) => {
-    console.log('Selected Categories:', selectedCategories);
+    setSelectedCategorie(selectedCategories);
   };
 
   const onChangeDate = (event: any, selectedDate: Date | undefined) => {
@@ -109,14 +118,17 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
   };
 
   const formatDate = (date: Date) => {
-    return date.toLocaleDateString('en-GB');
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
   };
 
   const formatTime = (time: Date) => {
-    return time.toLocaleTimeString('en-GB', {
-      hour: '2-digit',
-      minute: '2-digit',
-    });
+    const hours = String(time.getHours()).padStart(2, '0');
+    const minutes = String(time.getMinutes()).padStart(2, '0');
+    const seconds = String(time.getSeconds()).padStart(2, '0');
+    return `${hours}:${minutes}:${seconds}`;
   };
 
   const isSuperato = (date: Date) => {
@@ -141,28 +153,14 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
     setVoto((prevVoto) => (prevVoto > 18 ? prevVoto - 1 : prevVoto));
   };
 
-  const handleSubmit = () => {
-    SQLite.enablePromise(true);
-    const dbPromise = SQLite.openDatabase({
-      name: 'gruppo13.db',
-      location: 'default',
-    });
-    aggiungiEsame(
-      dbPromise,
-      nome,
-      corso_studi,
-      docente,
-      luogo,
-      tipologia,
-      Number(cfu),
-      formatDate(date),
-      formatTime(time),
-      Number(voto),
-      lode,
-      diario
-    );
+  const handleSubmit =  () => {
+
+    const temp: Esame = {id,nome,corsoDiStudi,CFU,data: formatDate(date),ora: formatTime(time),luogo,tipologia,voto,lode,diario,categorie: selectedCategorie}
+    insertOrReplaceExam(temp);
     setSnackbarVisible(true);
   };
+
+  const isFormValid = nome && corsoDiStudi && CFU;
 
   return (
     <ScrollContainer>
@@ -177,7 +175,7 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
           <LabelInput
             label="Corso di Studi:"
             placeholder="Aggiungi il Corso di Studi dell'esame"
-            value={corso_studi}
+            value={corsoDiStudi}
             onChangeText={setCorsoStudio}
           />
           <StyledListAccordion
@@ -217,7 +215,7 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
         <NumericContainer>
           <NumericText>CFU:</NumericText>
           <NumericInput
-            number={cfu}
+            number={CFU}
             increment={incrementCfu}
             decrement={decrementCfu}
             min={1}
@@ -326,13 +324,12 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
           multiline
           numberOfLines={15}
         />
-
       </StyledListSection>
 
       <StyledListSection>
-        <CustomButton mode="contained" onPress={handleSubmit}>
+        <SubmitButton mode="contained" onPress={handleSubmit} disabled={!isFormValid}>
           {isEditing ? 'Modifica Esame' : 'Inserisci Esame'}
-        </CustomButton>
+        </SubmitButton>
         <Snackbar
           visible={snackbarVisible}
           onDismiss={() => setSnackbarVisible(false)}
@@ -348,82 +345,89 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
 };
 
 const ScrollContainer = styled(ScrollView)`
-    background-color: #f5f5f5;
-    overflow: hidden;
-    height: ${h}px;
+  background-color: #f5f5f5;
+  overflow: hidden;
+  height: ${h}px;
 `;
 
 const Label = styled(Text)`
-    font-size: 18px;
-    margin: 4px 0;
-    color: #333;
+  font-size: 18px;
+  margin: 4px 0;
+  color: #333;
 `;
 
 const StyledListSection = styled(List.Section)`
-    background-color: #fafafa;
-    border-radius: 20px;
-    padding: 8px 16px;
-    margin: 4px 4px;
-    border: 1px solid #afafaf;
+  background-color: #fafafa;
+  border-radius: 20px;
+  padding: 8px 16px;
+  margin: 4px 4px;
+  border: 1px solid #afafaf;
 `;
 
 const StyledListAccordion = styled(List.Accordion)`
-    background-color: #fafafa;
-    border-radius: 10px;
-    border: 1px solid #afafaf;
-    padding: 8px;
-    margin: 0 0 8px 0;
+  background-color: #fafafa;
+  border-radius: 10px;
+  border: 1px solid #afafaf;
+  padding: 8px;
+  margin: 0 0 8px 0;
 `;
 
 const Container = styled.View`
-    margin: 0 0 0 0;
+  margin: 0 0 0 0;
 `;
 
 const InlineContainer = styled.View`
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 const NumericContainer = styled.View`
-    flex-direction: row;
-    align-items: center;
+  flex-direction: row;
+  align-items: center;
 `;
 
 const NumericText = styled.Text`
-    flex: 1;
-    font-size: 20px;
-    padding-left: 3%;
-    font-weight: 500;
+  flex: 1;
+  font-size: 20px;
+  padding-left: 3%;
+  font-weight: 500;
 `;
 
 const StyledDateTimePicker = styled(DateTimePicker)`
-    padding: 2px 8px;
-    margin: 4px auto;
+  padding: 2px 8px;
+  margin: 4px auto;
 `;
 
 const CustomButton = styled(Button)`
-    margin: 4px 0;
-    background-color: #6854a4;
-    border-radius: 10px;
-    padding: 10px;
+  margin: 4px 0;
+  background-color: #6854a4;
+  border-radius: 10px;
+  padding: 10px;
 `;
 
 const DateTimeText = styled(Text)`
-    margin-top: 20px;
-    font-size: 16px;
-    color: #fff;
-    text-align: center;
+  margin-top: 20px;
+  font-size: 16px;
+  color: #fff;
+  text-align: center;
 `;
 
 const DiaryInput = styled(TextInput)`
-    height: 150px;
-    border: 1px solid #ccc;
-    margin-bottom: 20px;
-    padding: 10px;
-    border-radius: 5px;
-    background-color: #fff;
-    text-align-vertical: top;
+  height: 150px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #fff;
+  text-align-vertical: top;
+`;
+
+const SubmitButton = styled(Button)<{ disabled: boolean }>`
+  margin: 4px 0;
+  background-color: ${({ disabled }) => (disabled ? '#cccccc70' : '#6854a4')};
+  border-radius: 10px;
+  padding: 10px;
 `;
 
 export default NuovaAggiunta;

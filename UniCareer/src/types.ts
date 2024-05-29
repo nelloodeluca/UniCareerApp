@@ -5,8 +5,16 @@ export type RootStackParamList = {
   Dashboard: undefined;
   Statistica: undefined;
   Libretto: undefined;
-  Aggiunta: { esame?: Esame };
-  DettagliEsame: { esame: Esame };
+  Aggiunta: { screen: keyof AggiuntaNavParams; params?: any };
+};
+
+export type LibrettoNavParams = {
+  CarrieraEsami: undefined;
+};
+
+export type AggiuntaNavParams = {
+  FormEsame: { esame: Esame };
+  FormCategorie: undefined;
 };
 
 export type Categoria = {
@@ -44,12 +52,10 @@ export interface ExamsContextType {
   getGraduationGrade: () => any;
   getExamsSummary: () => any;
   getGrades: () => any;
+  insertOrReplaceExam: (exam: any) => void;
+
 }
 
-export interface DettagliEsameProps {
-  route: RouteProp<RootStackParamList, 'DettagliEsame'>;
-  navigation: NativeStackNavigationProp<RootStackParamList>;
-}
 
 export interface DashboardProps {
   route: RouteProp<RootStackParamList, 'Dashboard'>;
@@ -59,3 +65,4 @@ export interface DashboardProps {
 export interface CalendarDay {
   dateString: string;
 }
+

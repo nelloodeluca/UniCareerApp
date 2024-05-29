@@ -3,16 +3,18 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { Text } from 'react-native';
 import NuovaAggiunta from '../../screens/Aggiunta/NuovaAggiunta';
 import CategoriaAggiunta from '../../screens/Aggiunta/CategorieAggiunta';
-import { useRoute } from '@react-navigation/native';
+import { RouteProp, useRoute } from '@react-navigation/native';
+import { AggiuntaNavParams, Esame, RootStackParamList } from '../../types';
 
 /*
  * Navigazione TopTab per la schermata Aggiunta
  */
 
-const AggiuntaTopBar = createMaterialTopTabNavigator();
+
+const AggiuntaTopBar = createMaterialTopTabNavigator<AggiuntaNavParams>();
 
 function AggiuntaNav() {
-  const route = useRoute();
+
 
   return (
     <AggiuntaTopBar.Navigator

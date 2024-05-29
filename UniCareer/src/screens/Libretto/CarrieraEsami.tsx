@@ -10,8 +10,9 @@ import {
   getExamsWithGrades,
   getExamsWithoutGrades,
 } from '../../utils/carriera';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-type CarrieraScreenProp = StackNavigationProp<RootStackParamList, 'Libretto'>;
+type CarrieraEsamiNavigationProp = StackNavigationProp<RootStackParamList, 'Libretto'>;
 
 type CarrieraEsamiProps = {
   showVoto: boolean;
@@ -28,7 +29,7 @@ const CarrieraEsami: React.FC<CarrieraEsamiProps> = ({ showVoto }) => {
   const { exams, deleteExam } = context;
   const [selectedEsame, setSelectedEsame] = useState<Esame | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
-  const navigation = useNavigation<CarrieraScreenProp>();
+  const navigation = useNavigation<CarrieraEsamiNavigationProp>();
 
   const [listKey, setListKey] = useState(0);
 
@@ -43,7 +44,10 @@ const CarrieraEsami: React.FC<CarrieraEsamiProps> = ({ showVoto }) => {
   };
 
   const handleEdit = (esame: Esame) => {
-    navigation.navigate('Aggiunta', { esame });
+    navigation.navigate('Aggiunta', {
+      screen: 'FormEsame',
+      params: {esame},
+    });
     closeModal();
   };
 
