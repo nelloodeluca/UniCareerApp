@@ -35,8 +35,8 @@ export default function AppNav() {
 
           return <Ionicons name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: '#000000',
-        tabBarInactiveTintColor: 'gray',
+        tabBarActiveTintColor: '#000',
+        tabBarInactiveTintColor: '#7e7e7e',
       })}
     >
       <BottomTab.Screen
@@ -56,18 +56,9 @@ export default function AppNav() {
       />
       <BottomTab.Screen
         name="Aggiunta"
-        component={Aggiunta}
-        options={{
-          title: 'Add Exam',
-          headerTitleAlign: 'center',
-          headerShown: false,
-        }}
-      />
-      <BottomTab.Screen
-        name="Nuova"
         component={AggiuntaNav}
         options={{
-          title: 'Nuova Form',
+          title: 'Aggiungi Informazioni',
           headerTitleAlign: 'center',
           headerShown: true,
         }}

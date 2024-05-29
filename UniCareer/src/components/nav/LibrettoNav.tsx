@@ -4,6 +4,10 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { Text } from 'react-native';
 import CarrieraEsami from '../../screens/Libretto/CarrieraEsami';
 
+/*
+ * Navigazione TopTab per la schermata Libretto
+ */
+
 const LibrettoTopBar = createMaterialTopTabNavigator();
 
 function LibrettoNav() {
@@ -21,6 +25,8 @@ function LibrettoNav() {
             <Text style={{ color: focused ? '#6854a4' : '#000' }}>{label}</Text>
           );
         },
+        tabBarIndicatorStyle: { backgroundColor: '#6854a4' },
+        tabBarPressColor: '#cccccc70'
       })}
     >
       <LibrettoTopBar.Screen name="EsamiDati">

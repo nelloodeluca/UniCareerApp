@@ -5,6 +5,10 @@ import NuovaAggiunta from '../../screens/Aggiunta/NuovaAggiunta';
 import CategoriaAggiunta from '../../screens/Aggiunta/CategorieAggiunta';
 import { useRoute } from '@react-navigation/native';
 
+/*
+ * Navigazione TopTab per la schermata Aggiunta
+ */
+
 const AggiuntaTopBar = createMaterialTopTabNavigator();
 
 function AggiuntaNav() {
@@ -24,6 +28,8 @@ function AggiuntaNav() {
             <Text style={{ color: focused ? '#6854a4' : '#000' }}>{label}</Text>
           );
         },
+        tabBarIndicatorStyle: { backgroundColor: '#6854a4' },
+        tabBarPressColor: '#cccccc70'
       })}
     >
       <AggiuntaTopBar.Screen

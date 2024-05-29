@@ -318,7 +318,7 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
       </StyledListSection>
 
       <StyledListSection>
-        <Label>Note dell'Esame:</Label>
+        <Label>Diario Esame:</Label>
         <DiaryInput
           placeholder="Scrivi le note riguardanti il tuo esame"
           value={diario}
