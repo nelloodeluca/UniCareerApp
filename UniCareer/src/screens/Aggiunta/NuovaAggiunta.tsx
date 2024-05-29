@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 import { Platform, ScrollView, TextInput, View } from 'react-native';
-import { Button, List, MD3Colors, Snackbar, Text } from 'react-native-paper';
+import { Button, List, Snackbar, Text } from 'react-native-paper';
 import LabelInput from '../../components/aggiunta/LabelInput';
 import React, { useContext, useEffect, useState } from 'react';
 import { useFocusEffect, useRoute } from '@react-navigation/native';
@@ -12,6 +12,7 @@ import CategoriaPicker from '../../components/aggiunta/CategoriaPicker';
 import ExamsContext from '../../EsamiContext';
 import SQLite from 'react-native-sqlite-storage';
 import { aggiungiEsame } from '../../../database';
+import LodeSwitch from '../../components/aggiunta/LodeSwitch';
 
 const w = Dimensions.get('window').width;
 const h = Dimensions.get('window').height;
@@ -31,10 +32,11 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
   const [cfu, setCfu] = useState<number>(1);
   const [luogo, setLuogo] = useState<string>('');
   const [tipologia, setTipologia] = useState<string>('');
-  const [voto, setVoto] = useState<number>(18);
+  const [voto, setVoto] = useState<number>(24);
   const [date, setDate] = useState<Date>(new Date());
   const [time, setTime] = useState<Date>(new Date());
   const [lode, setLode] = useState<boolean>(false);
+  const [isLodeOn, setIsLodeOn] = useState(false);
   const [mode, setMode] = useState<'date' | 'time'>('date');
   const [show, setShow] = useState<boolean>(false);
   const [diario, setDiario] = useState<string>('');
@@ -174,37 +176,37 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
               max={12}
             />
           </NumericContainer>
-
-          <View>
-            <Label>Seleziona fino a 3 categorie:</Label>
-            <CategoriaPicker categorie={categorie} onSelect={handleSelect} />
-          </View>
+          <StyledListAccordion
+            title="Altre Informazioni"
+            left={(props) => <List.Icon {...props} icon="animation" />}
+          >
+            <LabelInput
+              label="Tipologia"
+              placeholder="Aggiungi la tipologia dell'esame"
+              value={tipologia}
+              onChangeText={setTipologia}
+            />
+            <LabelInput
+              label="Docente"
+              placeholder="Aggiungi il docente dell'esame"
+              value={docente}
+              onChangeText={setDocente}
+            />
+            <LabelInput
+              label="Luogo"
+              placeholder="Aggiungi il docente dell'esame"
+              value={luogo}
+              onChangeText={setLuogo}
+            />
+          </StyledListAccordion>
         </Container>
       </StyledListSection>
+
       <StyledListSection>
-        <StyledListAccordion
-          title="Altre Informazioni"
-          left={(props) => <List.Icon {...props} icon="animation" />}
-        >
-          <LabelInput
-            label="Tipologia"
-            placeholder="Aggiungi la tipologia dell'esame"
-            value={tipologia}
-            onChangeText={setTipologia}
-          />
-          <LabelInput
-            label="Docente"
-            placeholder="Aggiungi il docente dell'esame"
-            value={docente}
-            onChangeText={setDocente}
-          />
-          <LabelInput
-            label="Luogo"
-            placeholder="Aggiungi il docente dell'esame"
-            value={luogo}
-            onChangeText={setLuogo}
-          />
-        </StyledListAccordion>
+        <Container>
+          <Label>Seleziona fino a 3 categorie:</Label>
+          <CategoriaPicker categorie={categorie} onSelect={handleSelect} />
+        </Container>
       </StyledListSection>
 
       <StyledListSection>
@@ -228,16 +230,19 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
               />
             )}
             {isSuperato(date) && (
-              <NumericContainer>
-                <NumericText>VOTO:</NumericText>
-                <NumericInput
-                  number={voto}
-                  increment={incrementVoto}
-                  decrement={decrementVoto}
-                  min={18}
-                  max={30}
-                />
-              </NumericContainer>
+              <Container>
+                <NumericContainer>
+                  <NumericText>VOTO:</NumericText>
+                  <NumericInput
+                    number={voto}
+                    increment={incrementVoto}
+                    decrement={decrementVoto}
+                    min={18}
+                    max={30}
+                  />
+                </NumericContainer>
+                <LodeSwitch voto={voto} lode={lode} setLode={setLode} />
+              </Container>
             )}
           </Container>
         ) : (
@@ -261,16 +266,19 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
               style={{ backgroundColor: '#fff' }}
             />
             {isSuperato(date) && (
-              <NumericContainer>
-                <NumericText>VOTO:</NumericText>
-                <NumericInput
-                  number={voto}
-                  increment={incrementVoto}
-                  decrement={decrementVoto}
-                  min={18}
-                  max={30}
-                />
-              </NumericContainer>
+              <Container>
+                <NumericContainer>
+                  <NumericText>VOTO:</NumericText>
+                  <NumericInput
+                    number={voto}
+                    increment={incrementVoto}
+                    decrement={decrementVoto}
+                    min={18}
+                    max={30}
+                  />
+                </NumericContainer>
+                <LodeSwitch voto={voto} lode={lode} setLode={setLode} />
+              </Container>
             )}
           </Container>
         )}
@@ -310,7 +318,7 @@ const StyledListSection = styled(List.Section)`
   background-color: #fafafa;
   border-radius: 20px;
 
-  padding: 16px;
+  padding: 8px 16px;
   margin: 4px 4px;
   border: 1px solid #afafaf;
 `;
@@ -339,7 +347,7 @@ const NumericText = styled.Text`
 `;
 
 const CustomButton = styled(Button)`
-  margin-top: 20px;
+  margin: 4px 0;
   background-color: #6854a4;
   border-radius: 10px;
   padding: 10px;

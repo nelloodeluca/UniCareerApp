@@ -37,12 +37,6 @@ const Container = styled(View)`
   padding: 20px;
 `;
 
-const Label = styled(Text)`
-  font-size: 18px;
-  margin: 4px 0;
-  color: #333;
-`;
-
 const StyledTextInput = styled(TextInput)`
   height: 40px;
   width: 60px;
