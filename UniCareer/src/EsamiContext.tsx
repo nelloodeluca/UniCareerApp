@@ -68,6 +68,18 @@ export const ExamsProvider: React.FC<ExamsProviderProps> = ({ children }) => {
     }
   };
 
+  const addCategory = (newCategory: Categoria) => {
+    setCategorie((prevCategories) => [...prevCategories, newCategory]);
+  };
+
+  const updateCategory = (updatedCategory: Categoria) => {
+    setCategorie((prevCategories) =>
+      prevCategories.map((cat) =>
+        cat.id === updatedCategory.id ? updatedCategory : cat
+      )
+    );
+  };
+
   const getMaxGrade = () => {
     let maxGrade = 0;
     exams.forEach((exam) => {
@@ -167,6 +179,8 @@ export const ExamsProvider: React.FC<ExamsProviderProps> = ({ children }) => {
         exams,
         categorie,
         deleteExam,
+        addCategory,
+        updateCategory,
         getMaxGrade,
         getMinGrade,
         getArithmeticMean,
