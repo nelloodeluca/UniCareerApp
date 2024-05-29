@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect, useContext } from 'react';
-import { ScrollView, Dimensions, View, Text } from 'react-native';
+import { ScrollView, Dimensions, View, Text, Platform } from 'react-native';
 import {
   format,
   startOfWeek,
@@ -211,11 +211,14 @@ const Dashboard: React.FC<DashboardProps> = ({ route, navigation }) => {
         viewMode={viewMode}
         handleViewModeChange={handleViewModeChange}
       />
-      <MonthPicker
-        months={months}
-        selectedMonth={selectedMonth}
-        handleMonthChange={handleMonthChange}
-      />
+      {Platform.OS === 'android' ??(
+        <MonthPicker
+          months={months}
+          selectedMonth={selectedMonth}
+          handleMonthChange={handleMonthChange}
+        />
+      )}
+
       {selectedDay ? (
         <ExamsList
           title={`Esami del ${selectedDay}:`}

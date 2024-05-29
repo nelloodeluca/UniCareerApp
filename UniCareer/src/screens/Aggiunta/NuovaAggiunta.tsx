@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import { Platform, ScrollView, TextInput, View } from 'react-native';
+import { Platform, ScrollView, TextInput, View, Dimensions } from 'react-native';
 import { Button, List, Snackbar, Text } from 'react-native-paper';
 import LabelInput from '../../components/aggiunta/LabelInput';
 import React, { useContext, useEffect, useState } from 'react';
@@ -7,7 +7,6 @@ import { useFocusEffect, useRoute } from '@react-navigation/native';
 import { Categoria, Esame } from '../../types';
 import NumericInput from '../../components/aggiunta/NumericInput';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { Dimensions } from 'react-native';
 import CategoriaPicker from '../../components/aggiunta/CategoriaPicker';
 import ExamsContext from '../../EsamiContext';
 import SQLite from 'react-native-sqlite-storage';
@@ -36,7 +35,6 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
   const [date, setDate] = useState<Date>(new Date());
   const [time, setTime] = useState<Date>(new Date());
   const [lode, setLode] = useState<boolean>(false);
-  const [isLodeOn, setIsLodeOn] = useState(false);
   const [mode, setMode] = useState<'date' | 'time'>('date');
   const [show, setShow] = useState<boolean>(false);
   const [diario, setDiario] = useState<string>('');
@@ -54,7 +52,7 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
       setTipologia(esame.tipologia || '');
       setVoto(esame.voto || 18);
       setDate(new Date(esame.data));
-      setTime(new Date(esame.data + ' ' + esame.ora));
+      setTime(new Date(esame.ora));
       setDiario(esame.diario || '');
       setLode(esame.lode || false);
     }
@@ -85,10 +83,24 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
     console.log('Selected Categories:', selectedCategories);
   };
 
-  const onChange = (event: any, selectedDate: Date | undefined) => {
-    const currentDate = selectedDate || date;
+  const onChangeDate = (event: any, selectedDate: Date | undefined) => {
+    if (selectedDate) {
+      const currentDate = new Date(selectedDate);
+      currentDate.setHours(date.getHours());
+      currentDate.setMinutes(date.getMinutes());
+      setDate(currentDate);
+    }
     setShow(Platform.OS === 'ios');
-    setDate(currentDate);
+  };
+
+  const onChangeTime = (event: any, selectedTime: Date | undefined) => {
+    if (selectedTime) {
+      const currentTime = new Date(time);
+      currentTime.setHours(selectedTime.getHours());
+      currentTime.setMinutes(selectedTime.getMinutes());
+      setTime(currentTime);
+    }
+    setShow(Platform.OS === 'ios');
   };
 
   const showMode = (currentMode: 'date' | 'time') => {
@@ -99,6 +111,7 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
   const formatDate = (date: Date) => {
     return date.toLocaleDateString('en-GB');
   };
+
   const formatTime = (time: Date) => {
     return time.toLocaleTimeString('en-GB', {
       hour: '2-digit',
@@ -111,6 +124,7 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
     today.setHours(0, 0, 0, 0);
     return date <= today;
   };
+
   const incrementCfu = () => {
     setCfu((prevCfu) => (prevCfu < 12 ? prevCfu + 1 : prevCfu));
   };
@@ -166,16 +180,6 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
             value={corso_studi}
             onChangeText={setCorsoStudio}
           />
-          <NumericContainer>
-            <NumericText>CFU:</NumericText>
-            <NumericInput
-              number={cfu}
-              increment={incrementCfu}
-              decrement={decrementCfu}
-              min={1}
-              max={12}
-            />
-          </NumericContainer>
           <StyledListAccordion
             title="Altre Informazioni"
             left={(props) => <List.Icon {...props} icon="animation" />}
@@ -194,7 +198,7 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
             />
             <LabelInput
               label="Luogo"
-              placeholder="Aggiungi il docente dell'esame"
+              placeholder="Aggiungi il luogo dell'esame"
               value={luogo}
               onChangeText={setLuogo}
             />
@@ -210,6 +214,16 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
       </StyledListSection>
 
       <StyledListSection>
+        <NumericContainer>
+          <NumericText>CFU:</NumericText>
+          <NumericInput
+            number={cfu}
+            increment={incrementCfu}
+            decrement={decrementCfu}
+            min={1}
+            max={12}
+          />
+        </NumericContainer>
         {Platform.OS === 'android' ? (
           <Container>
             <CustomButton mode="contained" onPress={() => showMode('date')}>
@@ -219,15 +233,30 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
               <DateTimeText>Ora selezionata: {formatTime(time)}</DateTimeText>
             </CustomButton>
             {show && (
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={mode === 'date' ? date : time}
-                mode={mode}
-                is24Hour={true}
-                display="default"
-                onChange={onChange}
-                style={{ backgroundColor: '#fff' }}
-              />
+              <>
+                {mode === 'date' && (
+                  <DateTimePicker
+                    testID="dateTimePicker"
+                    value={date}
+                    mode="date"
+                    is24Hour={true}
+                    display="default"
+                    onChange={onChangeDate}
+                    style={{ backgroundColor: '#fff' }}
+                  />
+                )}
+                {mode === 'time' && (
+                  <DateTimePicker
+                    testID="timePicker"
+                    value={time}
+                    mode="time"
+                    is24Hour={true}
+                    display="default"
+                    onChange={onChangeTime}
+                    style={{ backgroundColor: '#fff' }}
+                  />
+                )}
+              </>
             )}
             {isSuperato(date) && (
               <Container>
@@ -246,25 +275,29 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
             )}
           </Container>
         ) : (
-          <Container style={{ backgroundColor: '#fff', borderRadius: 5 }}>
-            <DateTimePicker
-              testID="dateTimePicker"
-              value={date}
-              mode="date"
-              is24Hour={true}
-              display="default"
-              onChange={onChange}
-              style={{ backgroundColor: '#fff' }}
-            />
-            <DateTimePicker
-              testID="timePicker"
-              value={time}
-              mode="time"
-              is24Hour={true}
-              display="default"
-              onChange={onChange}
-              style={{ backgroundColor: '#fff' }}
-            />
+          <Container>
+            <InlineContainer>
+              <Label>Data dell'Esame:</Label>
+              <StyledDateTimePicker
+                testID="dateTimePicker"
+                value={date}
+                mode="date"
+                is24Hour={true}
+                display="default"
+                onChange={onChangeDate}
+              />
+            </InlineContainer>
+            <InlineContainer>
+              <Label>Ora dell'Esame:</Label>
+              <StyledDateTimePicker
+                testID="timePicker"
+                value={time}
+                mode="time"
+                is24Hour={true}
+                display="default"
+                onChange={onChangeTime}
+              />
+            </InlineContainer>
             {isSuperato(date) && (
               <Container>
                 <NumericContainer>
@@ -282,6 +315,18 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
             )}
           </Container>
         )}
+      </StyledListSection>
+
+      <StyledListSection>
+        <Label>Note dell'Esame:</Label>
+        <DiaryInput
+          placeholder="Scrivi le note riguardanti il tuo esame"
+          value={diario}
+          onChangeText={setDiario}
+          multiline
+          numberOfLines={15}
+        />
+
       </StyledListSection>
 
       <StyledListSection>
@@ -303,71 +348,82 @@ const NuovaAggiunta: React.FC<{ esame?: Esame }> = ({ esame }) => {
 };
 
 const ScrollContainer = styled(ScrollView)`
-  background-color: #f5f5f5;
-  overflow: hidden;
-  height: ${h}px;
+    background-color: #f5f5f5;
+    overflow: hidden;
+    height: ${h}px;
 `;
 
 const Label = styled(Text)`
-  font-size: 18px;
-  margin: 4px 0;
-  color: #333;
+    font-size: 18px;
+    margin: 4px 0;
+    color: #333;
 `;
 
 const StyledListSection = styled(List.Section)`
-  background-color: #fafafa;
-  border-radius: 20px;
-
-  padding: 8px 16px;
-  margin: 4px 4px;
-  border: 1px solid #afafaf;
+    background-color: #fafafa;
+    border-radius: 20px;
+    padding: 8px 16px;
+    margin: 4px 4px;
+    border: 1px solid #afafaf;
 `;
 
 const StyledListAccordion = styled(List.Accordion)`
-  background-color: #fafafa;
-  border-radius: 10px;
-  border: 1px solid #afafaf;
-  padding: 8px;
-  margin: 0 0 8px 0;
+    background-color: #fafafa;
+    border-radius: 10px;
+    border: 1px solid #afafaf;
+    padding: 8px;
+    margin: 0 0 8px 0;
 `;
 
 const Container = styled.View`
-  margin: 0 0 0 0;
+    margin: 0 0 0 0;
+`;
+
+const InlineContainer = styled.View`
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
 `;
 
 const NumericContainer = styled.View`
-  flex-direction: row;
-  align-items: center;
+    flex-direction: row;
+    align-items: center;
 `;
+
 const NumericText = styled.Text`
-  flex: 1;
-  font-size: 20px;
-  padding-left: 3%;
-  font-weight: 500;
+    flex: 1;
+    font-size: 20px;
+    padding-left: 3%;
+    font-weight: 500;
+`;
+
+const StyledDateTimePicker = styled(DateTimePicker)`
+    padding: 2px 8px;
+    margin: 4px auto;
 `;
 
 const CustomButton = styled(Button)`
-  margin: 4px 0;
-  background-color: #6854a4;
-  border-radius: 10px;
-  padding: 10px;
+    margin: 4px 0;
+    background-color: #6854a4;
+    border-radius: 10px;
+    padding: 10px;
 `;
 
 const DateTimeText = styled(Text)`
-  margin-top: 20px;
-  font-size: 16px;
-  color: #fff;
-  text-align: center;
+    margin-top: 20px;
+    font-size: 16px;
+    color: #fff;
+    text-align: center;
 `;
 
 const DiaryInput = styled(TextInput)`
-  height: 150px;
-  border: 1px solid #ccc;
-  margin-bottom: 20px;
-  padding: 10px;
-  border-radius: 5px;
-  background-color: #fff;
-  text-align-vertical: top;
+    height: 150px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #fff;
+    text-align-vertical: top;
 `;
 
 export default NuovaAggiunta;

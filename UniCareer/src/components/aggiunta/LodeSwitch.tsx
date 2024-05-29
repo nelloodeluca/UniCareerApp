@@ -29,8 +29,9 @@ const SwitchContainer = styled.View`
 `;
 
 const StyledSwitch = styled(Switch)`
-  transform: scale(1.5);
-  margin: 0 20px;
+  transform: scale(1.2);
+    
+  margin: 0 3%;
 `;
 
 const Label = styled.Text`

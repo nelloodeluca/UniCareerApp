@@ -34,7 +34,7 @@ const Container = styled(View)`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 2%;
 `;
 
 const StyledTextInput = styled(TextInput)`
@@ -49,7 +49,7 @@ const StyledTextInput = styled(TextInput)`
 
 const StyledTouchableOpacity = styled(TouchableOpacity)<{ disabled: boolean }>`
   margin: 0 10px;
-  padding: 4px 36px;
+  padding: 4px 32px;
   background-color: ${({ disabled }) => (disabled ? '#a8a8a8' : '#6854a4')};
   border-radius: 20px;
 `;
