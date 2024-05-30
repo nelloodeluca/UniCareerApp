@@ -52,60 +52,70 @@ function CategoriaAggiunta() {
 
   return (
     <ScrollView>
-    <Container>
-      <InlineForm>
-        <Input
-          value={newCategoryName}
-          onChangeText={setNewCategoryName}
-          placeholder="Aggiungi una Nuova Categoria..."
-        />
-        <IconButton
-          icon="plus"
-          size={40}
-          onPress={handleAddCategory}
-          style={{ flex: 1 }}
-        />
-      </InlineForm>
-      {categorie.map((categoria: Categoria) => (
-        <CategoriaCard
-          key={categoria.id}
-          categoria={categoria}
-          onModify={handleModifica}
-          onDelete={handleElimina}
-        />
-      ))}
-      {selectedCategory && (
-        <ModificaCategoriaModal
-          visible={!!selectedCategory}
-          category={selectedCategory}
-          onClose={handleCloseModal}
-          onSave={handleSaveCategory}
-        />
-      )}
-    </Container>
+      <Container>
+        <InlineForm>
+          <Input
+            value={newCategoryName}
+            onChangeText={(text) => {
+              if (text.length <= 50) {
+                setNewCategoryName(text);
+              }
+            }}
+            placeholder="Aggiungi una Nuova Categoria..."
+            maxLength={50}
+          />
+          <AddButton onPress={handleAddCategory}>
+            <IconButton icon="plus" iconColor="#fff" size={24} />
+          </AddButton>
+        </InlineForm>
+        {categorie.map((categoria: Categoria) => (
+          <CategoriaCard
+            key={categoria.id}
+            categoria={categoria}
+            onModify={handleModifica}
+            onDelete={handleElimina}
+          />
+        ))}
+        {selectedCategory && (
+          <ModificaCategoriaModal
+            visible={!!selectedCategory}
+            category={selectedCategory}
+            onClose={handleCloseModal}
+            onSave={handleSaveCategory}
+          />
+        )}
+      </Container>
     </ScrollView>
   );
 }
 
 const Container = styled.View`
-  flex: 1;
-  padding: 16px;
+    flex: 1;
+    padding: 16px;
 `;
 
 const Input = styled.TextInput`
-  height: 40px;
-  border: 1px solid #cccccc70;
-  padding: 0 10px;
-  border-radius: 5px;
-  background-color: #fff;
-  flex: 3;
+    height: 40px;
+    border: 1px solid #cccccc70;
+    padding: 0 10px;
+    border-radius: 5px;
+    background-color: #fff;
+    margin-right: 8px;
+    flex: 3;
 `;
 
 const InlineForm = styled.View`
-  flex-direction: row;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    margin-bottom: 20px;
+`;
+
+const AddButton = styled.TouchableOpacity`
+  background-color: #6854a4;
+  border-radius: 50px;
+  justify-content: center;
   align-items: center;
-  justify-content: space-around;
-  margin-bottom: 20px;
 `;
 
 export default CategoriaAggiunta;

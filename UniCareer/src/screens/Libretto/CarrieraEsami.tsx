@@ -10,7 +10,6 @@ import {
   getExamsWithGrades,
   getExamsWithoutGrades,
 } from '../../utils/carriera';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 type CarrieraEsamiNavigationProp = StackNavigationProp<
   RootStackParamList,
