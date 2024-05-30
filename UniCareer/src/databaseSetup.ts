@@ -102,7 +102,6 @@ export const prepareDB = async () => {
   ((SELECT id FROM esame WHERE nome='Sistemi Operativi'), (SELECT id FROM categoria WHERE nome='Fondamentali')),
   ((SELECT id FROM esame WHERE nome='Reti di Calcolatori'), (SELECT id FROM categoria WHERE nome='Informatica')),
   ((SELECT id FROM esame WHERE nome='Algoritmi'), (SELECT id FROM categoria WHERE nome='Informatica')),
-  ((SELECT id FROM esame WHERE nome='Basi di Dati'), (SELECT id FROM categoria WHERE nome='Informatica')),
   ((SELECT id FROM esame WHERE nome='Sicurezza Informatica'), (SELECT id FROM categoria WHERE nome='Informatica'));`
   );
 };

@@ -80,18 +80,22 @@ const EsameCard: React.FC<Props> = ({ esame }) => {
             Data: {esame.data} - ore {esame.ora}
           </DetailText>
           <ChipContainer>
-            {esame.categorie.map((categoria, index) => (
-              <Chip
-                key={categoria.id}
-                style={{
-                  backgroundColor: categoria.colore,
-                  marginRight: 4,
-                  marginBottom: 4,
-                }}
-              >
-                {categoria.nome}
-              </Chip>
-            ))}
+            {esame.categorie.length > 0 ? (
+              esame.categorie.map((categoria) => (
+                <Chip
+                  key={categoria.id}
+                  style={{
+                    backgroundColor: categoria.colore,
+                    marginRight: 4,
+                    marginBottom: 4,
+                  }}
+                >
+                  {categoria.nome}
+                </Chip>
+              ))
+            ) : (
+              <Chip style={{backgroundColor:'#cccccc60'}}>Nessuna Categoria Assegnata</Chip>
+            )}
           </ChipContainer>
         </InfoContainer>
         <VotoContainer haveVoto={haveVoto}>
