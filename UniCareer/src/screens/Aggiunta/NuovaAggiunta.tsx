@@ -17,8 +17,6 @@ const w = Dimensions.get('window').width;
 const h = Dimensions.get('window').height;
 
 const NuovaAggiunta = () => {
-
-
   const context = useContext(ExamsContext);
   if (!context) {
     // Gestisci il caso in cui il contesto non sia definito
@@ -29,7 +27,7 @@ const NuovaAggiunta = () => {
   const route = useRoute<FormEsameRouteProp>();
   const esame: Esame = route.params?.esame;
 
-  const [id,setId] = useState<string>('');
+  const [id, setId] = useState<string>('');
   const [nome, setNome] = useState<string>('');
   const [corsoDiStudi, setCorsoStudio] = useState<string>('');
   const [docente, setDocente] = useState<string>('');
@@ -46,7 +44,7 @@ const NuovaAggiunta = () => {
   const [infoAggExpanded, setInfoAggExpanded] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [snackbarVisible, setSnackbarVisible] = useState<boolean>(false);
-  const [selectedCategorie,setSelectedCategorie] = useState<Categoria[]>([]);
+  const [selectedCategorie, setSelectedCategorie] = useState<Categoria[]>([]);
 
   useEffect(() => {
     if (esame) {
@@ -70,20 +68,19 @@ const NuovaAggiunta = () => {
       return () => {
         console.log(route);
 
-          setId('');
-          setNome('');
-          setCorsoStudio('');
-          setDocente('');
-          setCfu(1);
-          setLuogo('');
-          setTipologia('');
-          setVoto(18);
-          setDate(new Date());
-          setTime(new Date());
-          setLode(false);
-          setDiario('');
-          setSelectedCategorie([]);
-
+        setId('');
+        setNome('');
+        setCorsoStudio('');
+        setDocente('');
+        setCfu(1);
+        setLuogo('');
+        setTipologia('');
+        setVoto(18);
+        setDate(new Date());
+        setTime(new Date());
+        setLode(false);
+        setDiario('');
+        setSelectedCategorie([]);
       };
     }, [route])
   );
@@ -153,9 +150,21 @@ const NuovaAggiunta = () => {
     setVoto((prevVoto) => (prevVoto > 18 ? prevVoto - 1 : prevVoto));
   };
 
-  const handleSubmit =  () => {
-
-    const temp: Esame = {id,nome,corsoDiStudi,CFU,data: formatDate(date),ora: formatTime(time),luogo,tipologia,voto,lode,diario,categorie: selectedCategorie}
+  const handleSubmit = () => {
+    const temp: Esame = {
+      id,
+      nome,
+      corsoDiStudi,
+      CFU,
+      data: formatDate(date),
+      ora: formatTime(time),
+      luogo,
+      tipologia,
+      voto,
+      lode,
+      diario,
+      categorie: selectedCategorie,
+    };
     insertOrReplaceExam(temp);
     setSnackbarVisible(true);
   };
@@ -327,7 +336,11 @@ const NuovaAggiunta = () => {
       </StyledListSection>
 
       <StyledListSection>
-        <SubmitButton mode="contained" onPress={handleSubmit} disabled={!isFormValid}>
+        <SubmitButton
+          mode="contained"
+          onPress={handleSubmit}
+          disabled={!isFormValid}
+        >
           {isEditing ? 'Modifica Esame' : 'Inserisci Esame'}
         </SubmitButton>
         <Snackbar

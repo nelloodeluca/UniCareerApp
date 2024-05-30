@@ -12,7 +12,10 @@ import {
 } from '../../utils/carriera';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-type CarrieraEsamiNavigationProp = StackNavigationProp<RootStackParamList, 'Libretto'>;
+type CarrieraEsamiNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'Libretto'
+>;
 
 type CarrieraEsamiProps = {
   showVoto: boolean;
@@ -46,7 +49,7 @@ const CarrieraEsami: React.FC<CarrieraEsamiProps> = ({ showVoto }) => {
   const handleEdit = (esame: Esame) => {
     navigation.navigate('Aggiunta', {
       screen: 'FormEsame',
-      params: {esame},
+      params: { esame },
     });
     closeModal();
   };

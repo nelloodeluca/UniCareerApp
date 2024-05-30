@@ -53,9 +53,7 @@ export interface ExamsContextType {
   getExamsSummary: () => any;
   getGrades: () => any;
   insertOrReplaceExam: (exam: any) => void;
-
 }
-
 
 export interface DashboardProps {
   route: RouteProp<RootStackParamList, 'Dashboard'>;
@@ -65,4 +63,3 @@ export interface DashboardProps {
 export interface CalendarDay {
   dateString: string;
 }
-

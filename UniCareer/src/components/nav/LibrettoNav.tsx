@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { Text } from 'react-native';
 import CarrieraEsami from '../../screens/Libretto/CarrieraEsami';
@@ -26,7 +25,7 @@ function LibrettoNav() {
           );
         },
         tabBarIndicatorStyle: { backgroundColor: '#6854a4' },
-        tabBarPressColor: '#cccccc70'
+        tabBarPressColor: '#cccccc70',
       })}
     >
       <LibrettoTopBar.Screen name="EsamiDati">

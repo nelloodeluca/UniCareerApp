@@ -5,7 +5,7 @@ import ExamsContext from '../../EsamiContext';
 import CategoriaCard from '../../components/aggiunta/CategoriaCard';
 import ModificaCategoriaModal from '../../components/aggiunta/ModificaCategoriaModal';
 import { Categoria } from '../../types';
-import { IconButton} from 'react-native-paper';
+import { IconButton } from 'react-native-paper';
 import { getRandomColor } from '../../utils/getColor';
 
 function CategoriaAggiunta() {
@@ -15,11 +15,13 @@ function CategoriaAggiunta() {
   }
 
   const { categorie, addCategory, updateCategory } = context;
-  const [selectedCategory, setSelectedCategory] = useState<Categoria | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<Categoria | null>(
+    null
+  );
   const [newCategoryName, setNewCategoryName] = useState('');
 
   const handleModifica = (id: string) => {
-    const categoria = categorie.find(cat => cat.id === id);
+    const categoria = categorie.find((cat) => cat.id === id);
     setSelectedCategory(categoria || null);
   };
 
@@ -56,7 +58,12 @@ function CategoriaAggiunta() {
           onChangeText={setNewCategoryName}
           placeholder="Aggiungi una Nuova Categoria..."
         />
-        <IconButton icon="plus" size={40} onPress={handleAddCategory} style={{flex:1}}/>
+        <IconButton
+          icon="plus"
+          size={40}
+          onPress={handleAddCategory}
+          style={{ flex: 1 }}
+        />
       </InlineForm>
       {categorie.map((categoria: Categoria) => (
         <CategoriaCard
@@ -84,9 +91,9 @@ const Container = styled.View`
 `;
 
 const Label = styled(Text)`
-    font-size: 18px;
-    margin: 4px 0;
-    color: #333;
+  font-size: 18px;
+  margin: 4px 0;
+  color: #333;
 `;
 
 const Input = styled.TextInput`
@@ -95,14 +102,14 @@ const Input = styled.TextInput`
   padding: 0 10px;
   border-radius: 5px;
   background-color: #fff;
-  flex:3;
+  flex: 3;
 `;
 
 const InlineForm = styled.View`
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-around;
-    margin-bottom: 20px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  margin-bottom: 20px;
 `;
 
 export default CategoriaAggiunta;

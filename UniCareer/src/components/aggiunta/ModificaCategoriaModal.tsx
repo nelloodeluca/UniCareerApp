@@ -13,52 +13,57 @@ interface ModificaCategoriaModalProps {
 }
 
 const ModalContainer = styled.View`
-    flex: 1;
-    justify-content: center;
-    align-items: center;
-    background-color: #00000050;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  background-color: #00000050;
 `;
 
 const ModalContent = styled.View`
-    width: 80%;
-    padding: 16px;
-    background-color: #fff;
-    border-radius: 8px;
+  width: 80%;
+  padding: 16px;
+  background-color: #fff;
+  border-radius: 8px;
 `;
 
 const ModalTitle = styled.Text`
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 16px;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 16px;
 `;
 
 const ModalInput = styled.TextInput`
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 8px;
-    margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px;
+  margin-bottom: 16px;
 `;
 
 const ButtonContainer = styled.View`
-    flex-direction: row;
-    justify-content: space-between;
+  flex-direction: row;
+  justify-content: space-between;
 `;
 
 const Circle = styled.View<{ color: string }>`
-    width: 20px;
-    height: 20px;
-    border-radius: 10px;
-    background-color: ${(props) => props.color};
-    margin-right: 8px;
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  background-color: ${(props) => props.color};
+  margin-right: 8px;
 `;
 
 const ColorPickerButton = styled(TouchableOpacity)`
-    flex-direction: row;
-    align-items: center;
-    margin-bottom: 16px;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 16px;
 `;
 
-const ModificaCategoriaModal: React.FC<ModificaCategoriaModalProps> = ({ visible, category, onClose, onSave }) => {
+const ModificaCategoriaModal: React.FC<ModificaCategoriaModalProps> = ({
+  visible,
+  category,
+  onClose,
+  onSave,
+}) => {
   const [nome, setNome] = useState(category.nome);
   const [colore, setColore] = useState(category.colore);
 

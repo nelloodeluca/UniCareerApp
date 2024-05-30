@@ -3,19 +3,15 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { Text } from 'react-native';
 import NuovaAggiunta from '../../screens/Aggiunta/NuovaAggiunta';
 import CategoriaAggiunta from '../../screens/Aggiunta/CategorieAggiunta';
-import { RouteProp, useRoute } from '@react-navigation/native';
-import { AggiuntaNavParams, Esame, RootStackParamList } from '../../types';
+import { AggiuntaNavParams } from '../../types';
 
 /*
  * Navigazione TopTab per la schermata Aggiunta
  */
 
-
 const AggiuntaTopBar = createMaterialTopTabNavigator<AggiuntaNavParams>();
 
 function AggiuntaNav() {
-
-
   return (
     <AggiuntaTopBar.Navigator
       screenOptions={({ route }) => ({
@@ -31,7 +27,7 @@ function AggiuntaNav() {
           );
         },
         tabBarIndicatorStyle: { backgroundColor: '#6854a4' },
-        tabBarPressColor: '#cccccc70'
+        tabBarPressColor: '#cccccc70',
       })}
     >
       <AggiuntaTopBar.Screen

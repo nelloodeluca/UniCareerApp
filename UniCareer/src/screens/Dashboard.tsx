@@ -211,7 +211,7 @@ const Dashboard: React.FC<DashboardProps> = ({ route, navigation }) => {
         viewMode={viewMode}
         handleViewModeChange={handleViewModeChange}
       />
-      {Platform.OS === 'android' ??(
+      {Platform.OS === 'android' ?? (
         <MonthPicker
           months={months}
           selectedMonth={selectedMonth}

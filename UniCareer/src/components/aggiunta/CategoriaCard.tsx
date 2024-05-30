@@ -10,39 +10,43 @@ interface CategoryCardProps {
 }
 
 const CategoryCardContainer = styled.View`
-    margin-bottom: 16px;
-    padding: 16px;
-    background-color: #fff;
-    border-radius: 8px;
-    elevation: 4;
+  margin-bottom: 16px;
+  padding: 16px;
+  background-color: #fff;
+  border-radius: 8px;
+  elevation: 4;
 `;
 
 const Row = styled.View`
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 const Circle = styled.View<{ color: string }>`
-    width: 20px;
-    height: 20px;
-    border-radius: 10px;
-    background-color: ${(props) => props.color};
-    margin-right: 8px;
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  background-color: ${(props) => props.color};
+  margin-right: 8px;
 `;
 
 const CategoryName = styled.Text`
-    flex: 1;
-    font-size: 18px;
-    font-weight: bold;
+  flex: 1;
+  font-size: 18px;
+  font-weight: bold;
 `;
 
 const ButtonContainer = styled.View`
-    flex-direction: row;
-    align-items: center;
+  flex-direction: row;
+  align-items: center;
 `;
 
-const CategoriaCard: React.FC<CategoryCardProps> = ({ categoria, onModify, onDelete }) => {
+const CategoriaCard: React.FC<CategoryCardProps> = ({
+  categoria,
+  onModify,
+  onDelete,
+}) => {
   return (
     <CategoryCardContainer>
       <Row>

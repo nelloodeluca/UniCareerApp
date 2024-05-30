@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Text } from 'react-native-paper';
+import { Switch } from 'react-native-paper';
 import styled from 'styled-components/native';
 
 interface LodeSwitchProps {
@@ -30,7 +30,7 @@ const SwitchContainer = styled.View`
 
 const StyledSwitch = styled(Switch)`
   transform: scale(1.2);
-    
+
   margin: 0 3%;
 `;
 

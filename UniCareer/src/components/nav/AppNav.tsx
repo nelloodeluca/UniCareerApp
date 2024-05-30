@@ -1,12 +1,10 @@
 import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
-
 import Dashboard from '../../screens/Dashboard';
 import Statistica from '../../screens/Statistica';
 import AggiuntaNav from './AggiuntaNav';
 import LibrettoNav from './LibrettoNav';
-import { useRoute } from '@react-navigation/native';
 import { RootStackParamList } from '../../types';
 
 /*
@@ -21,7 +19,7 @@ export default function AppNav() {
       screenOptions={({ route }) => ({
         tabBarShowLabel: false,
         tabBarIcon: ({ focused, color, size }) => {
-          let iconName: string = '';
+          let iconName: keyof typeof Ionicons.glyphMap = 'home-outline';
 
           if (route.name === 'Dashboard') {
             iconName = focused ? 'home-sharp' : 'home-outline';

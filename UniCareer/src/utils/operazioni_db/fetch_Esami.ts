@@ -40,7 +40,20 @@ export const getCategorie = async (): Promise<Categoria[]> => {
 
 export const updateInsert = async (esame: Esame): Promise<void> => {
   try {
-    const { id, nome, corsoDiStudi, CFU, data, ora, luogo, tipologia, docente, voto, lode, diario } = esame;
+    const {
+      id,
+      nome,
+      corsoDiStudi,
+      CFU,
+      data,
+      ora,
+      luogo,
+      tipologia,
+      docente,
+      voto,
+      lode,
+      diario,
+    } = esame;
     const db = await dbPromise;
 
     if (id) {
