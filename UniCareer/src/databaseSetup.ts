@@ -26,7 +26,7 @@ export const prepareDB = async () => {
       tipologia VARCHAR(50),
       cfu INTEGER NOT NULL,
       data DATE NOT NULL,
-      ora TIMESTAP,
+      ora TIMESTAMP,
       voto INTEGER,
       lode BOOLEAN,
       diario VARCHAR(1500)

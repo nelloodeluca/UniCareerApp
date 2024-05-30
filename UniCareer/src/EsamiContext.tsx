@@ -59,11 +59,7 @@ export const ExamsProvider: React.FC<ExamsProviderProps> = ({ children }) => {
   const deleteExam = async (id: string) => {
     try {
       await deleteEsami(id); // Assicurati di avere questa funzione che elimina l'esame dal database
-      setExams((prevExams) => {
-        const newExams = prevExams.filter((exam) => exam.id !== id);
-        console.log('Updated exams after deletion:', newExams); // Log per debugging
-        return newExams;
-      });
+      await fetchEsami();
     } catch (error) {
       console.error('Failed to delete exam from database:', error);
     }
@@ -84,14 +80,7 @@ export const ExamsProvider: React.FC<ExamsProviderProps> = ({ children }) => {
   const insertOrReplaceExam = async (esame: Esame) => {
     try {
       await updateInsert(esame); // Insert or replace the exam in the database
-      setExams((prevExams) => {
-        const examExists = prevExams.some((exam) => exam.id === esame.id);
-        if (examExists) {
-          return prevExams.map((exam) => (exam.id === esame.id ? esame : exam));
-        } else {
-          return [...prevExams, esame];
-        }
-      });
+      await fetchEsami();
     } catch (error) {
       console.error('Failed to insert or replace exam in database:', error);
     }

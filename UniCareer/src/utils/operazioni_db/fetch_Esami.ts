@@ -40,24 +40,17 @@ export const getCategorie = async (): Promise<Categoria[]> => {
 
 export const updateInsert = async (esame: Esame): Promise<void> => {
   try {
-    const {
-      id,
-      nome,
-      corsoDiStudi,
-      CFU,
-      data,
-      ora,
-      luogo,
-      tipologia,
-      docente,
-      voto,
-      lode,
-      diario,
-    } = esame;
     const db = await dbPromise;
+    let temp;
+    if(esame.voto === 0) {
+      temp = null;
+    } else {
+      temp = esame.voto;
+    }
+    if (esame.id !== '') {
 
-    if (id) {
       // Update the existing record
+
       await db.executeSql(
         `
         UPDATE esame
@@ -65,18 +58,18 @@ export const updateInsert = async (esame: Esame): Promise<void> => {
         WHERE id = ?
       `,
         [
-          nome,
-          corsoDiStudi,
-          docente,
-          luogo,
-          tipologia,
-          CFU,
-          data,
-          ora,
-          voto,
-          lode,
-          diario,
-          id,
+          esame.nome,
+          esame.corsoDiStudi,
+          esame.docente,
+          esame.luogo,
+          esame.tipologia,
+          esame.CFU,
+          esame.data,
+          esame.ora,
+          temp,
+          esame.lode,
+          esame.diario,
+          esame.id,
         ]
       );
     } else {
@@ -87,17 +80,17 @@ export const updateInsert = async (esame: Esame): Promise<void> => {
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `,
         [
-          nome,
-          corsoDiStudi,
-          docente,
-          luogo,
-          tipologia,
-          CFU,
-          data,
-          ora,
-          voto,
-          lode,
-          diario,
+          esame.nome,
+          esame.corsoDiStudi,
+          esame.docente,
+          esame.luogo,
+          esame.tipologia,
+          esame.CFU,
+          esame.data,
+          esame.ora,
+          temp,
+          esame.lode,
+          esame.diario,
         ]
       );
     }
