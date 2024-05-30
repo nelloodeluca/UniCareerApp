@@ -35,7 +35,7 @@ function CategoriaAggiunta() {
 
   const handleSaveCategory = (updatedCategoria: Categoria) => {
     if(selectedCategory !== null) {
-      if(selectedCategory.nome !== updatedCategoria.nome)
+      if(selectedCategory.nome !== updatedCategoria.nome || selectedCategory.colore !== updatedCategoria.colore) {}
         aggiornaCategoria(updatedCategoria);
     }
     setSelectedCategory(null);

@@ -10,6 +10,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import CategoriaPicker from '../../components/aggiunta/CategoriaPicker';
 import ExamsContext from '../../EsamiContext';
 import LodeSwitch from '../../components/aggiunta/LodeSwitch';
+import TipoPicker from '../../components/TipoPicker';
 
 type FormEsameRouteProp = RouteProp<AggiuntaNavParams, 'FormEsame'>;
 
@@ -33,8 +34,9 @@ const NuovaAggiunta = () => {
   const [docente, setDocente] = useState<string>('');
   const [CFU, setCfu] = useState<number>(1);
   const [luogo, setLuogo] = useState<string>('');
-  const [tipologia, setTipologia] = useState<string>('');
+  const [tipologia, setTipologia] = useState<string>('Orale');
   const [voto, setVoto] = useState<number>(24);
+  const [tipoEsame, setTipoEsame] = useState<string>('Prossimo');
   const [date, setDate] = useState<Date>(new Date());
   const [time, setTime] = useState<Date>(new Date());
   const [lode, setLode] = useState<boolean>(false);
@@ -185,6 +187,7 @@ const NuovaAggiunta = () => {
   return (
     <ScrollContainer>
       <StyledListSection>
+
         <Container>
           <LabelInput
             label="Nome:"
@@ -198,16 +201,11 @@ const NuovaAggiunta = () => {
             value={corsoDiStudi}
             onChangeText={setCorsoStudio}
           />
+          <TipoPicker option1={'Orale'} option2={'Scritto'} selectedOption={tipologia} handleOptionChange={setTipologia}/>
           <StyledListAccordion
             title="Altre Informazioni"
             left={(props) => <List.Icon {...props} icon="animation" />}
           >
-            <LabelInput
-              label="Tipologia"
-              placeholder="Aggiungi la tipologia dell'esame"
-              value={tipologia}
-              onChangeText={setTipologia}
-            />
             <LabelInput
               label="Docente"
               placeholder="Aggiungi il docente dell'esame"
@@ -225,6 +223,7 @@ const NuovaAggiunta = () => {
       </StyledListSection>
 
       <StyledListSection>
+        <TipoPicker option1={'Superato'} option2={'Prossimo'} selectedOption={tipoEsame} handleOptionChange={setTipoEsame}/>
         <Container>
           <Label>Seleziona fino a 3 categorie:</Label>
           <CategoriaPicker categorie={categorie} onSelect={handleSelect} />
@@ -381,11 +380,11 @@ const Label = styled(Text)`
 `;
 
 const StyledListSection = styled(List.Section)`
-  background-color: #fafafa;
   border-radius: 20px;
   padding: 8px 16px;
-  margin: 4px 4px;
-  border: 1px solid #afafaf;
+  margin: 4px 4px; 
+  //background-color: #fafafa;
+  //border: 1px solid #afafaf;
 `;
 
 const StyledListAccordion = styled(List.Accordion)`
