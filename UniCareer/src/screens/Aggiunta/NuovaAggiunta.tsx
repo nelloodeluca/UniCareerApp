@@ -48,6 +48,12 @@ const NuovaAggiunta = () => {
 
   useEffect(() => {
     if (esame) {
+      const newTime = new Date();
+      if (esame && esame.ora) {
+        const [hours, minutes] = esame.ora.split(':');
+        newTime.setHours(Number(hours), Number(minutes));
+      }
+
       setId(esame.id || '');
       setNome(esame.nome || '');
       setCorsoStudio(esame.corsoDiStudi || '');
@@ -57,10 +63,12 @@ const NuovaAggiunta = () => {
       setTipologia(esame.tipologia || '');
       setVoto(esame.voto || 18);
       setDate(new Date(esame.data));
-      setTime(new Date(esame.ora));
+      setTime(new Date(newTime));
+      console.log(esame.ora);
       setDiario(esame.diario || '');
       setLode(esame.lode || false);
     }
+
   }, [esame]);
 
   useFocusEffect(
@@ -90,23 +98,25 @@ const NuovaAggiunta = () => {
   };
 
   const onChangeDate = (event: any, selectedDate: Date | undefined) => {
+    setShow(Platform.OS === 'ios');
     if (selectedDate) {
       const currentDate = new Date(selectedDate);
       currentDate.setHours(date.getHours());
       currentDate.setMinutes(date.getMinutes());
       setDate(currentDate);
     }
-    setShow(Platform.OS === 'ios');
+
   };
 
   const onChangeTime = (event: any, selectedTime: Date | undefined) => {
+    setShow(Platform.OS === 'ios');
     if (selectedTime) {
       const currentTime = new Date(time);
       currentTime.setHours(selectedTime.getHours());
       currentTime.setMinutes(selectedTime.getMinutes());
       setTime(currentTime);
     }
-    setShow(Platform.OS === 'ios');
+
   };
 
   const showMode = (currentMode: 'date' | 'time') => {
@@ -124,8 +134,7 @@ const NuovaAggiunta = () => {
   const formatTime = (time: Date) => {
     const hours = String(time.getHours()).padStart(2, '0');
     const minutes = String(time.getMinutes()).padStart(2, '0');
-    const seconds = String(time.getSeconds()).padStart(2, '0');
-    return `${hours}:${minutes}:${seconds}`;
+    return `${hours}:${minutes}`;
   };
 
   const isSuperato = (date: Date) => {
@@ -151,6 +160,7 @@ const NuovaAggiunta = () => {
   };
 
   const handleSubmit = () => {
+    
     const temp: Esame = {
       id,
       nome,
