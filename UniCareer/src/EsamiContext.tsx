@@ -9,10 +9,10 @@ import { Categoria, Esame, ExamsContextType } from './types';
 import {
   getEsami,
   deleteEsami,
-  getCategorie,
-  updateInsert,
+  updateInsert
 } from './utils/operazioni_db/fetch_Esami';
 import { prepareDB } from './databaseSetup';
+import { getCategorie, deleteCategoria, insertCategoria, modifyCategoria} from './utils/operazioni_db/op_Categoria';
 
 const ExamsContext = createContext<ExamsContextType | undefined>(undefined);
 
@@ -27,13 +27,20 @@ export const ExamsProvider: React.FC<ExamsProviderProps> = ({ children }) => {
   const fetchEsami = useCallback(async () => {
     try {
       const esami = await getEsami();
-      const categories = await getCategorie();
       console.log('Fetched exams:', esami); // Log per debugging
       setExams(esami);
+    } catch (error) {
+      console.error('Failed to fetch esami from database:', error);
+    }
+  }, []);
+
+  const fetchCategorie = useCallback(async () => {
+    try {
+      const categories = await getCategorie();
       console.log('Categorie:', categories);
       setCategorie(categories);
     } catch (error) {
-      console.error('Failed to fetch esami from database:', error);
+      console.error('Failed to fetch categorie from database:', error);
     }
   }, []);
 
@@ -42,6 +49,7 @@ export const ExamsProvider: React.FC<ExamsProviderProps> = ({ children }) => {
       try {
         await prepareDB(); // Inizializza il database
         await fetchEsami(); // Esegui la fetch degli esami
+        await fetchCategorie();
       } catch (error) {
         console.error(
           'Error during database initialization or fetching exams:',
@@ -65,16 +73,41 @@ export const ExamsProvider: React.FC<ExamsProviderProps> = ({ children }) => {
     }
   };
 
-  const addCategory = (newCategory: Categoria) => {
-    setCategorie((prevCategories) => [...prevCategories, newCategory]);
+
+  const aggiungiCategoria = async (categoria: Categoria) => {
+    try {
+      await insertCategoria(categoria.nome,categoria.colore);
+      await fetchCategorie();
+    } catch (error) {
+      console.error(
+        'Errore nell\'aggiunta della Categoria',
+        error
+      );
+    }
   };
 
-  const updateCategory = (updatedCategory: Categoria) => {
-    setCategorie((prevCategories) =>
-      prevCategories.map((cat) =>
-        cat.id === updatedCategory.id ? updatedCategory : cat
-      )
-    );
+  const aggiornaCategoria = async (categoria: Categoria) => {
+    try {
+      await modifyCategoria(categoria.id, categoria.nome, categoria.colore);
+      await fetchCategorie();
+    } catch (error) {
+      console.error(
+        'Errore nella modifica di Categoria',
+        error
+      );
+    }
+  };
+
+  const eliminaCategoria = async (id: string) => {
+    try {
+      await deleteCategoria(id);
+      await fetchCategorie();
+    } catch (error) {
+      console.error(
+        'Errore nell\'aggiunta della Categoria',
+        error
+      );
+    }
   };
 
   const insertOrReplaceExam = async (esame: Esame) => {
@@ -185,8 +218,9 @@ export const ExamsProvider: React.FC<ExamsProviderProps> = ({ children }) => {
         exams,
         categorie,
         deleteExam,
-        addCategory,
-        updateCategory,
+        aggiungiCategoria,
+        aggiornaCategoria,
+        eliminaCategoria,
         insertOrReplaceExam,
         getMaxGrade,
         getMinGrade,

@@ -32,12 +32,6 @@ export const deleteEsami = async (id: string): Promise<void> => {
   }
 };
 
-export const getCategorie = async (): Promise<Categoria[]> => {
-  const db = await dbPromise;
-  const result = await db.executeSql('SELECT * FROM categoria');
-  return result[0].rows.raw().map(mapRowToCategoria);
-};
-
 export const updateInsert = async (esame: Esame): Promise<void> => {
   try {
     const db = await dbPromise;

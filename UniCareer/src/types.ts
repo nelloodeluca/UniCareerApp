@@ -43,8 +43,9 @@ export interface ExamsContextType {
   exams: Esame[];
   categorie: Categoria[];
   deleteExam: (id: string) => void;
-  addCategory: (category: Categoria) => void;
-  updateCategory: (category: Categoria) => void;
+  aggiungiCategoria: (category: Categoria) => void;
+  aggiornaCategoria: (category: Categoria) => void;
+  eliminaCategoria: (id: string) => void;
   getMaxGrade: () => any;
   getMinGrade: () => any;
   getArithmeticMean: () => any;

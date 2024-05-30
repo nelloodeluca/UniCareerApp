@@ -73,6 +73,7 @@ export default function Statistica() {
           title="Voto Minimo"
           value={getMinGrade()}
         ></CardStatisticaSmall>
+        <StatisticaGrafico grades={grades}></StatisticaGrafico>
         <CardStatisticaSmall
           title="Media Aritmetica"
           value={getArithmeticMean()}
@@ -87,7 +88,6 @@ export default function Statistica() {
           title="Voto di Laurea"
           value1={getGraduationGrade()}
         ></CardStatisticaVotoLaurea>
-        <StatisticaGrafico grades={grades}></StatisticaGrafico>
       </CardContainer>
     </StyledScrollView>
   );

@@ -14,11 +14,11 @@ function CategoriaAggiunta() {
     return <Text>Il contesto non è disponibile</Text>;
   }
 
-  const { categorie, addCategory, updateCategory } = context;
+  const { categorie, aggiungiCategoria, aggiornaCategoria, eliminaCategoria } = context;
   const [selectedCategory, setSelectedCategory] = useState<Categoria | null>(
     null
   );
-  const [newCategoryName, setNewCategoryName] = useState('');
+  const [newCategoriaNome, setNewCategoria] = useState('');
 
   const handleModifica = (id: string) => {
     const categoria = categorie.find((cat) => cat.id === id);
@@ -26,27 +26,30 @@ function CategoriaAggiunta() {
   };
 
   const handleElimina = (id: string) => {
-    console.log(`Elimina categoria con id: ${id}`);
+    eliminaCategoria(id);
   };
 
   const handleCloseModal = () => {
     setSelectedCategory(null);
   };
 
-  const handleSaveCategory = (updatedCategory: Categoria) => {
-    updateCategory(updatedCategory);
+  const handleSaveCategory = (updatedCategoria: Categoria) => {
+    if(selectedCategory !== null) {
+      if(selectedCategory.nome !== updatedCategoria.nome)
+        aggiornaCategoria(updatedCategoria);
+    }
     setSelectedCategory(null);
   };
 
-  const handleAddCategory = () => {
-    if (newCategoryName.trim() !== '') {
-      const newCategory: Categoria = {
+  const handleAggiungiCategoria = () => {
+    if (newCategoriaNome.trim() !== '') {
+      const nuovaCategoria: Categoria = {
         id: Math.random().toString(36).substring(7), // Generate a random id
-        nome: newCategoryName,
+        nome: newCategoriaNome,
         colore: getRandomColor(),
       };
-      addCategory(newCategory);
-      setNewCategoryName('');
+      aggiungiCategoria(nuovaCategoria);
+      setNewCategoria('');
     }
   };
 
@@ -55,16 +58,16 @@ function CategoriaAggiunta() {
       <Container>
         <InlineForm>
           <Input
-            value={newCategoryName}
+            value={newCategoriaNome}
             onChangeText={(text) => {
               if (text.length <= 50) {
-                setNewCategoryName(text);
+                setNewCategoria(text);
               }
             }}
             placeholder="Aggiungi una Nuova Categoria..."
             maxLength={50}
           />
-          <AddButton onPress={handleAddCategory}>
+          <AddButton onPress={handleAggiungiCategoria}>
             <IconButton icon="plus" iconColor="#fff" size={24} />
           </AddButton>
         </InlineForm>

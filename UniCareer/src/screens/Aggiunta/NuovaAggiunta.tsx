@@ -175,6 +175,7 @@ const NuovaAggiunta = () => {
       diario,
       categorie: selectedCategorie,
     };
+    console.log(esame);
     insertOrReplaceExam(temp);
     setSnackbarVisible(true);
   };
@@ -358,9 +359,9 @@ const NuovaAggiunta = () => {
           onDismiss={() => setSnackbarVisible(false)}
           duration={3000}
         >
-          <Text>
+          <Label style={{color:'#fafafa'}}>
             Esame {isEditing ? 'modificato' : 'inserito'} correttamente
-          </Text>
+          </Label>
         </Snackbar>
       </StyledListSection>
     </ScrollContainer>

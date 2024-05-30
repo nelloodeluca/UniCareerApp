@@ -73,7 +73,7 @@ export const prepareDB = async () => {
   ('Algebra Lineare', 'Ingegneria Informatica', 'Prof.ssa Gialli', 'Aula 303', 'Scritto', 9, '2025-05-15', '08:00', 29, 0, ''),
   ('Statistica', 'Ingegneria Informatica', 'Prof. Viola', 'Aula 401', 'Scritto', 6, '2025-06-10', '10:00', 30, 1, ''),
   ('Economia', 'Ingegneria Gestionale', 'Prof. Rosa', 'Aula 102', 'Orale', 9, '2025-07-12', '11:00', 27, 0, ''),
-  ('Inglese Tecnico', 'Ingegneria Informatica', 'Prof. Marrone', 'Aula 205', 'Scritto', 3, '2025-08-20', '09:00', null, 0, ''),
+  ('Inglese Tecnico', 'Ingegneria Informatica', 'Prof. Marrone', 'Aula 205', 'Scritto', 3, '2023-08-20', '09:00', null, 0, ''),
   ('Calcolo Numerico', 'Ingegneria Informatica', 'Prof. Verde', 'Laboratorio 2', 'Scritto', 6, '2025-09-05', '15:00', 28, 0, ''),
   ('Sistemi Operativi', 'Ingegneria Informatica', 'Prof. Nero', 'Aula 501', 'Scritto', 12, '2025-10-15', '13:00', 29, 0, ''),
   ('Reti di Calcolatori', 'Ingegneria Informatica', 'Prof. Blu', 'Aula 602', 'Scritto', 6, '2024-06-15', '10:00', null, 0, ''),
