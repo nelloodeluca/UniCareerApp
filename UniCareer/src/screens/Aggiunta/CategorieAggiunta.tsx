@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Text } from 'react-native';
+import { ScrollView, Text } from 'react-native';
 import styled from 'styled-components/native';
 import ExamsContext from '../../EsamiContext';
 import CategoriaCard from '../../components/aggiunta/CategoriaCard';
@@ -51,6 +51,7 @@ function CategoriaAggiunta() {
   };
 
   return (
+    <ScrollView>
     <Container>
       <InlineForm>
         <Input
@@ -82,18 +83,13 @@ function CategoriaAggiunta() {
         />
       )}
     </Container>
+    </ScrollView>
   );
 }
 
 const Container = styled.View`
   flex: 1;
   padding: 16px;
-`;
-
-const Label = styled(Text)`
-  font-size: 18px;
-  margin: 4px 0;
-  color: #333;
 `;
 
 const Input = styled.TextInput`
