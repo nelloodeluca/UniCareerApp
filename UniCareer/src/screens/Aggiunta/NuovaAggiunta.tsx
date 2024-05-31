@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import { Dimensions, Platform, ScrollView, TextInput } from 'react-native';
+import { Alert, Dimensions, Platform, ScrollView, TextInput } from 'react-native';
 import { Button, List, Snackbar, Text } from 'react-native-paper';
 import LabelInput from '../../components/aggiunta/LabelInput';
 import React, { useContext, useEffect, useState } from 'react';
@@ -51,12 +51,10 @@ const NuovaAggiunta = () => {
 
   useEffect(() => {
     setEsame(param);
-    console.log("ciao");
   }, [route]);
 
   useEffect(() => {
     if (esame) {
-      console.log("ciao2");
       const newTime = new Date();
       if (esame && esame.ora) {
         const [hours, minutes] = esame.ora.split(':');
@@ -76,6 +74,11 @@ const NuovaAggiunta = () => {
       console.log(esame.ora);
       setDiario(esame.diario || '');
       setLode(esame.lode || false);
+      if(esame.voto === null) {
+        setTipoEsame('Prossimo');
+      } else {
+        setTipoEsame('Superato');
+      }
     }
 
   }, [esame]);
@@ -90,6 +93,22 @@ const NuovaAggiunta = () => {
     }
   }, [tipoEsame]);
 
+  const getCurrentDate = () => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Ignorare ore, minuti, secondi e millisecondi
+    return today;
+  };
+
+
+  useEffect(() => {
+    const today = getCurrentDate();
+    const selected = date;
+    selected.setHours(0, 0, 0, 0); // Ignorare ore, minuti, secondi e millisecondi
+    if (selected.getTime() < today.getTime() && tipoEsame == 'Prossimo') {
+      Alert.alert("Attenzione", "Esame prossimo in una data passata!");
+    }
+  }, [tipoEsame === 'Prossimo' && date]);
+
   useFocusEffect(
     React.useCallback(() => {
       return () => {
@@ -99,7 +118,7 @@ const NuovaAggiunta = () => {
         setDocente('');
         setCfu(1);
         setLuogo('');
-        setTipologia('');
+        setTipoEsame('');
         setVoto(18);
         setDate(new Date());
         setTime(new Date());
