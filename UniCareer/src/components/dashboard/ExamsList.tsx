@@ -14,33 +14,35 @@ interface ExamsListProps {
 }
 
 const ExamsList: React.FC<ExamsListProps> = ({
-  title,
-  esami,
-  selectedWeekIndex,
-  weeks,
-  setSelectedWeekIndex,
-}) => {
+                                               title,
+                                               esami,
+                                               selectedWeekIndex,
+                                               weeks,
+                                               setSelectedWeekIndex,
+                                             }) => {
   return (
-    <View>
-      <Card style={{ margin: 10, padding: 10 }}>
+    <Container>
+      <StyledCard>
         <ExamsTitle>{title}</ExamsTitle>
         {selectedWeekIndex !== undefined && weeks && setSelectedWeekIndex && (
-          <Picker
-            selectedValue={selectedWeekIndex}
-            onValueChange={(itemValue: number) =>
-              setSelectedWeekIndex(itemValue)
-            }
-          >
-            {weeks.map((week, index) => (
-              <Picker.Item
-                key={index}
-                label={`Settimana ${index + 1}: ${week.start.split('-')[2]}/${
-                  week.start.split('-')[1]
-                } - ${week.end.split('-')[2]}/${week.end.split('-')[1]}`}
-                value={index}
-              />
-            ))}
-          </Picker>
+          <PickerContainer>
+            <Picker
+              selectedValue={selectedWeekIndex}
+              onValueChange={(itemValue: number) =>
+                setSelectedWeekIndex(itemValue)
+              }
+            >
+              {weeks.map((week, index) => (
+                <Picker.Item
+                  key={index}
+                  label={`Settimana ${index + 1}: ${week.start.split('-')[2]}/${
+                    week.start.split('-')[1]
+                  } - ${week.end.split('-')[2]}/${week.end.split('-')[1]}`}
+                  value={index}
+                />
+              ))}
+            </Picker>
+          </PickerContainer>
         )}
         {esami.length > 0 ? (
           esami.map((exam, index) => (
@@ -49,22 +51,47 @@ const ExamsList: React.FC<ExamsListProps> = ({
             }: ${exam.nome}`}</ExamText>
           ))
         ) : (
-          <Text>Nessun esame</Text>
+          <NoExamText>Nessun esame</NoExamText>
         )}
-      </Card>
-    </View>
+      </StyledCard>
+    </Container>
   );
 };
 
+const Container = styled.View`
+    padding: 4px;
+`;
+
+const StyledCard = styled(Card)`
+    background-color: #fafafa;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    elevation: 3;
+`;
+
 const ExamsTitle = styled.Text`
-  font-size: 18px;
+  font-size: 20px;
   font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+`;
+
+const PickerContainer = styled.View`
   margin-bottom: 10px;
 `;
 
 const ExamText = styled.Text`
   font-size: 16px;
   margin-top: 5px;
+  color: #555;
+`;
+
+const NoExamText = styled(Text)`
+  font-size: 16px;
+  color: #999;
+  text-align: center;
+  margin-top: 10px;
 `;
 
 export default ExamsList;

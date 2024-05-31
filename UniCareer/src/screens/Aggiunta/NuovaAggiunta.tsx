@@ -76,8 +76,6 @@ const NuovaAggiunta = () => {
   useFocusEffect(
     React.useCallback(() => {
       return () => {
-        console.log(route);
-
         setId('');
         setNome('');
         setCorsoStudio('');
