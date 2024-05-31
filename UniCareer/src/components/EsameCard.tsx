@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Text, Chip } from 'react-native-paper';
+import { Card, Text, Chip, Badge } from 'react-native-paper';
 import styled from 'styled-components/native';
 import { Esame } from '../types';
 
@@ -70,6 +70,7 @@ const EsameCard: React.FC<Props> = ({ esame }) => {
 
   const haveVoto = esame.voto !== null;
   const haveLode = esame.lode == true;
+  const isSuperato = new Date(esame.data) < new Date();
 
   return (
     <CardContainer>
@@ -108,6 +109,7 @@ const EsameCard: React.FC<Props> = ({ esame }) => {
           </VotoText>
         </VotoContainer>
       </CardContentContainer>
+      <Badge size={12} visible={isSuperato && !haveVoto}></Badge>
     </CardContainer>
   );
 };
