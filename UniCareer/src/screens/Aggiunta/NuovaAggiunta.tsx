@@ -26,7 +26,8 @@ const NuovaAggiunta = () => {
   const { categorie, insertOrReplaceExam } = context;
 
   const route = useRoute<FormEsameRouteProp>();
-  const esame: Esame = route.params?.esame;
+  const param = route.params?.esame;
+  const [esame,setEsame] = useState<Esame | null>(null);
 
   const [id, setId] = useState<string>('');
   const [nome, setNome] = useState<string>('');
@@ -48,8 +49,15 @@ const NuovaAggiunta = () => {
   const [snackbarVisible, setSnackbarVisible] = useState<boolean>(false);
   const [selectedCategorie, setSelectedCategorie] = useState<Categoria[]>([]);
 
+
+  useEffect(() => {
+    setEsame(param);
+    console.log("ciao");
+  }, [route]);
+
   useEffect(() => {
     if (esame) {
+      console.log("ciao2");
       const newTime = new Date();
       if (esame && esame.ora) {
         const [hours, minutes] = esame.ora.split(':');
@@ -89,6 +97,7 @@ const NuovaAggiunta = () => {
         setLode(false);
         setDiario('');
         setSelectedCategorie([]);
+        setEsame(null);
       };
     }, [route])
   );
