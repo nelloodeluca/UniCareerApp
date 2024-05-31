@@ -26,7 +26,7 @@ const MonthPicker: React.FC<MonthPickerProps> = ({
 };
 
 const PickerContainer = styled.View`
-  margin-horizontal: 10px;
+  margin: 0 10px;
 `;
 
 export default MonthPicker;

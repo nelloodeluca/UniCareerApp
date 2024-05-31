@@ -60,7 +60,7 @@ const EncouragementText = styled.Text`
 
 const InspirationalQuoteContainer = styled.View`
   margin-top: 20px;
-  padding-horizontal: 20px;
+  padding: 0 20px;
 `;
 
 const InspirationalQuote = styled.Text`
