@@ -44,7 +44,6 @@ const NuovaAggiunta = () => {
   const [mode, setMode] = useState<'date' | 'time'>('date');
   const [show, setShow] = useState<boolean>(false);
   const [diario, setDiario] = useState<string>('');
-  const [infoAggExpanded, setInfoAggExpanded] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [snackbarVisible, setSnackbarVisible] = useState<boolean>(false);
   const [selectedCategorie, setSelectedCategorie] = useState<Categoria[]>([]);
@@ -63,7 +62,7 @@ const NuovaAggiunta = () => {
         const [hours, minutes] = esame.ora.split(':');
         newTime.setHours(Number(hours), Number(minutes));
       }
-
+      setIsEditing(true);
       setId(esame.id || '');
       setNome(esame.nome || '');
       setCorsoStudio(esame.corsoDiStudi || '');
@@ -80,6 +79,16 @@ const NuovaAggiunta = () => {
     }
 
   }, [esame]);
+
+  useEffect(() => {
+    if (tipoEsame == 'Prossimo') {
+      setVoto(0);
+      setLode(false);
+    }else{
+      setVoto(24);
+      setLode(false);
+    }
+  }, [tipoEsame]);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -98,8 +107,9 @@ const NuovaAggiunta = () => {
         setDiario('');
         setSelectedCategorie([]);
         setEsame(null);
+        setIsEditing(false);
       };
-    }, [route])
+    }, [])
   );
 
   const handleSelect = (selectedCategories: Categoria[]) => {
@@ -169,7 +179,6 @@ const NuovaAggiunta = () => {
   };
 
   const handleSubmit = () => {
-    
     const temp: Esame = {
       id,
       nome,
@@ -231,6 +240,7 @@ const NuovaAggiunta = () => {
 
       <StyledListSection>
         <TipoPicker option1={'Superato'} option2={'Prossimo'} selectedOption={tipoEsame} handleOptionChange={setTipoEsame}/>
+
         <Container>
           <Label>Seleziona fino a 3 categorie:</Label>
           <CategoriaPicker categorie={categorie} onSelect={handleSelect} />
@@ -282,7 +292,7 @@ const NuovaAggiunta = () => {
                 )}
               </>
             )}
-            {isSuperato(date) && (
+            {tipoEsame == 'Superato' && (
               <Container>
                 <NumericContainer>
                   <NumericText>VOTO:</NumericText>
