@@ -2,17 +2,22 @@ import React from 'react';
 import { View, Dimensions } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 import styled from 'styled-components/native';
+import { Card } from 'react-native-paper';
 
 const screenWidth = Dimensions.get('window').width;
 
-const Container = styled(View)`
-  padding: 16px;
+const Container = styled(Card)`
+  padding: 16px 16px 0 16px;
   justify-content: center;
   align-items: center;
   background-color: #ffffff;
+    border-radius: 20px;
 `;
 
 const chartConfig = {
+  style: {
+    borderRadius: 30
+  },
   backgroundGradientFrom: '#ffffff',
   backgroundGradientTo: '#ffffff',
   color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`,
@@ -40,7 +45,7 @@ const StatisticaGrafico = ({ grades }: StatisticaGraficoProps) => {
     <Container>
       <LineChart
         data={data}
-        width={screenWidth - 32}
+        width={screenWidth - 68}
         height={220}
         chartConfig={chartConfig}
         bezier
