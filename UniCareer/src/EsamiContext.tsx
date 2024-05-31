@@ -78,6 +78,7 @@ export const ExamsProvider: React.FC<ExamsProviderProps> = ({ children }) => {
     try {
       await insertCategoria(categoria.nome,categoria.colore);
       await fetchCategorie();
+      await fetchEsami();
     } catch (error) {
       console.error(
         'Errore nell\'aggiunta della Categoria',
@@ -90,6 +91,7 @@ export const ExamsProvider: React.FC<ExamsProviderProps> = ({ children }) => {
     try {
       await modifyCategoria(categoria.id, categoria.nome, categoria.colore);
       await fetchCategorie();
+      await fetchEsami();
     } catch (error) {
       console.error(
         'Errore nella modifica di Categoria',
@@ -102,6 +104,7 @@ export const ExamsProvider: React.FC<ExamsProviderProps> = ({ children }) => {
     try {
       await deleteCategoria(id);
       await fetchCategorie();
+      await fetchEsami();
     } catch (error) {
       console.error(
         'Errore nell\'aggiunta della Categoria',
