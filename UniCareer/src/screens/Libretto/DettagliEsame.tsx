@@ -151,7 +151,7 @@ const DettagliEsame: React.FC<EsameModalProps> = ({
               <Label>Diario:</Label>
               <DiaryContainer>
                 <StyledParagraph>
-                  {esame.diario ? esame.diario : 'Aggiungi Note al tuo Diario...'}
+                  {esame.diario ? esame.diario : 'Diario non presente...'}
                 </StyledParagraph>
               </DiaryContainer>
             </ModalContent>
