@@ -20,7 +20,7 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
   return (
     <Card
       style={{
-        marginTop: 10,
+        marginVertical: 10,
         marginHorizontal: 10,
         backgroundColor: '#fafafa',
       }}

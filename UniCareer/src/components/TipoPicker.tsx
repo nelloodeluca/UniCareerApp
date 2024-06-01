@@ -40,7 +40,8 @@ const ButtonsContainer = styled.View`
 `;
 
 const StyledButton = styled(PaperButton)`
-  flex: 1;
+  width: 50%;
+  flex:1;
   margin: 0 8px;
   font-size: 16px;
 `;

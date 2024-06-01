@@ -218,13 +218,6 @@ const Dashboard: React.FC<DashboardProps> = ({ route, navigation }) => {
         selectedOption={viewMode}
         handleOptionChange={handleOptionChange}
       />
-      {Platform.OS === 'web' && (
-        <MonthPicker
-          months={months}
-          selectedMonth={selectedMonth}
-          handleMonthChange={handleMonthChange}
-        />
-      )}
       {selectedDay ? (
         <ExamsList
           title={`Esami del ${selectedDay}:`}
@@ -237,7 +230,7 @@ const Dashboard: React.FC<DashboardProps> = ({ route, navigation }) => {
         />
       ) : (
         <ExamsList
-          title="Esami di questa settimana:"
+          title="Esami per Settimana:"
           esami={weeklyExams}
           selectedWeekIndex={selectedWeekIndex}
           weeks={weeks}

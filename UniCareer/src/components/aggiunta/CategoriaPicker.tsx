@@ -16,7 +16,7 @@ const CategoriaPicker: React.FC<CategoriaPickerProps> = ({
   initialSelected, // Aggiungere questa linea
 }) => {
   const [selectedCategorie, setSelectedCategories] =
-    useState<Categoria[]>(initialSelected); // Modificare questa linea
+    useState<Categoria[]>(initialSelected);
 
   useEffect(() => {
     onSelect(selectedCategorie);
