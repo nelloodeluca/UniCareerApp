@@ -1,5 +1,11 @@
 import styled from 'styled-components/native';
-import { Alert, Dimensions, Platform, ScrollView, TextInput } from 'react-native';
+import {
+  Alert,
+  Dimensions,
+  Platform,
+  ScrollView,
+  TextInput,
+} from 'react-native';
 import { Button, List, Snackbar, Text } from 'react-native-paper';
 import LabelInput from '../../components/aggiunta/LabelInput';
 import React, { useContext, useEffect, useState } from 'react';
@@ -11,23 +17,21 @@ import CategoriaPicker from '../../components/aggiunta/CategoriaPicker';
 import ExamsContext from '../../EsamiContext';
 import LodeSwitch from '../../components/aggiunta/LodeSwitch';
 import TipoPicker from '../../components/TipoPicker';
+import { formatTime, formatDate, getCurrentDate } from '../../utils/aggiunta';
 
 type FormEsameRouteProp = RouteProp<AggiuntaNavParams, 'FormEsame'>;
-
-const w = Dimensions.get('window').width;
 const h = Dimensions.get('window').height;
 
 const NuovaAggiunta = () => {
   const context = useContext(ExamsContext);
   if (!context) {
-    // Gestisci il caso in cui il contesto non sia definito
     return <Text>Il contesto non è disponibile</Text>;
   }
   const { categorie, insertOrReplaceExam } = context;
 
   const route = useRoute<FormEsameRouteProp>();
   const param = route.params?.esame;
-  const [esame,setEsame] = useState<Esame | null>(null);
+  const [esame, setEsame] = useState<Esame | null>(null);
 
   const [id, setId] = useState<string>('');
   const [nome, setNome] = useState<string>('');
@@ -36,18 +40,17 @@ const NuovaAggiunta = () => {
   const [CFU, setCfu] = useState<number>(1);
   const [luogo, setLuogo] = useState<string>('');
   const [tipologia, setTipologia] = useState<string>('Orale');
-  const [voto, setVoto] = useState<number>(24);
   const [tipoEsame, setTipoEsame] = useState<string>('Prossimo');
+  const [voto, setVoto] = useState<number>(24);
   const [date, setDate] = useState<Date>(new Date());
   const [time, setTime] = useState<Date>(new Date());
-  const [lode, setLode] = useState<boolean>(false);
   const [mode, setMode] = useState<'date' | 'time'>('date');
+  const [lode, setLode] = useState<boolean>(false);
   const [show, setShow] = useState<boolean>(false);
   const [diario, setDiario] = useState<string>('');
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [snackbarVisible, setSnackbarVisible] = useState<boolean>(false);
   const [selectedCategorie, setSelectedCategorie] = useState<Categoria[]>([]);
-
 
   useEffect(() => {
     setEsame(param);
@@ -71,41 +74,33 @@ const NuovaAggiunta = () => {
       setVoto(esame.voto || 18);
       setDate(new Date(esame.data));
       setTime(new Date(newTime));
-      console.log(esame.ora);
       setDiario(esame.diario || '');
       setLode(esame.lode || false);
-      if(esame.voto === null) {
+      if (esame.voto === null) {
         setTipoEsame('Prossimo');
       } else {
         setTipoEsame('Superato');
       }
+      setSelectedCategorie(esame.categorie || []);
     }
-
   }, [esame]);
 
   useEffect(() => {
     if (tipoEsame == 'Prossimo') {
       setVoto(0);
       setLode(false);
-    }else{
+    } else {
       setVoto(24);
       setLode(false);
     }
   }, [tipoEsame]);
-
-  const getCurrentDate = () => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0); // Ignorare ore, minuti, secondi e millisecondi
-    return today;
-  };
-
 
   useEffect(() => {
     const today = getCurrentDate();
     const selected = date;
     selected.setHours(0, 0, 0, 0); // Ignorare ore, minuti, secondi e millisecondi
     if (selected.getTime() < today.getTime() && tipoEsame == 'Prossimo') {
-      Alert.alert("Attenzione", "Esame prossimo in una data passata!");
+      Alert.alert('Attenzione', 'Esame prossimo in una data passata!');
     }
   }, [tipoEsame === 'Prossimo' && date]);
 
@@ -118,7 +113,8 @@ const NuovaAggiunta = () => {
         setDocente('');
         setCfu(1);
         setLuogo('');
-        setTipoEsame('');
+        setTipologia('Orale');
+        setTipoEsame('Prossimo');
         setVoto(18);
         setDate(new Date());
         setTime(new Date());
@@ -127,6 +123,7 @@ const NuovaAggiunta = () => {
         setSelectedCategorie([]);
         setEsame(null);
         setIsEditing(false);
+        setSelectedCategorie([]);
       };
     }, [])
   );
@@ -143,7 +140,6 @@ const NuovaAggiunta = () => {
       currentDate.setMinutes(date.getMinutes());
       setDate(currentDate);
     }
-
   };
 
   const onChangeTime = (event: any, selectedTime: Date | undefined) => {
@@ -154,31 +150,11 @@ const NuovaAggiunta = () => {
       currentTime.setMinutes(selectedTime.getMinutes());
       setTime(currentTime);
     }
-
   };
 
   const showMode = (currentMode: 'date' | 'time') => {
     setShow(true);
     setMode(currentMode);
-  };
-
-  const formatDate = (date: Date) => {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  };
-
-  const formatTime = (time: Date) => {
-    const hours = String(time.getHours()).padStart(2, '0');
-    const minutes = String(time.getMinutes()).padStart(2, '0');
-    return `${hours}:${minutes}`;
-  };
-
-  const isSuperato = (date: Date) => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    return date <= today;
   };
 
   const incrementCfu = () => {
@@ -217,12 +193,11 @@ const NuovaAggiunta = () => {
     setSnackbarVisible(true);
   };
 
-  const isFormValid = nome && corsoDiStudi && CFU;
+  const isFormValid = nome && corsoDiStudi && CFU && date;
 
   return (
     <ScrollContainer>
       <StyledListSection>
-
         <Container>
           <LabelInput
             label="Nome:"
@@ -236,7 +211,12 @@ const NuovaAggiunta = () => {
             value={corsoDiStudi}
             onChangeText={setCorsoStudio}
           />
-          <TipoPicker option1={'Orale'} option2={'Scritto'} selectedOption={tipologia} handleOptionChange={setTipologia}/>
+          <TipoPicker
+            option1={'Orale'}
+            option2={'Scritto'}
+            selectedOption={tipologia}
+            handleOptionChange={setTipologia}
+          />
           <StyledListAccordion
             title="Altre Informazioni"
             left={(props) => <List.Icon {...props} icon="animation" />}
@@ -258,11 +238,20 @@ const NuovaAggiunta = () => {
       </StyledListSection>
 
       <StyledListSection>
-        <TipoPicker option1={'Superato'} option2={'Prossimo'} selectedOption={tipoEsame} handleOptionChange={setTipoEsame}/>
+        <TipoPicker
+          option1={'Superato'}
+          option2={'Prossimo'}
+          selectedOption={tipoEsame}
+          handleOptionChange={setTipoEsame}
+        />
 
         <Container>
           <Label>Seleziona fino a 3 categorie:</Label>
-          <CategoriaPicker categorie={categorie} onSelect={handleSelect} />
+          <CategoriaPicker
+            categorie={categorie}
+            onSelect={handleSelect}
+            initialSelected={selectedCategorie}
+          />
         </Container>
       </StyledListSection>
 
@@ -378,6 +367,7 @@ const NuovaAggiunta = () => {
           onChangeText={setDiario}
           multiline
           numberOfLines={15}
+          style={{ textAlignVertical: 'top' }}
         />
       </StyledListSection>
 
@@ -394,7 +384,7 @@ const NuovaAggiunta = () => {
           onDismiss={() => setSnackbarVisible(false)}
           duration={3000}
         >
-          <Label style={{color:'#fafafa'}}>
+          <Label style={{ color: '#fafafa' }}>
             Esame {isEditing ? 'modificato' : 'inserito'} correttamente
           </Label>
         </Snackbar>
@@ -418,7 +408,7 @@ const Label = styled(Text)`
 const StyledListSection = styled(List.Section)`
   border-radius: 20px;
   padding: 8px 16px;
-  margin: 4px 4px; 
+  margin: 4px 4px;
   //background-color: #fafafa;
   //border: 1px solid #afafaf;
 `;
@@ -479,7 +469,6 @@ const DiaryInput = styled(TextInput)`
   padding: 10px;
   border-radius: 5px;
   background-color: #fff;
-  text-align-vertical: top;
 `;
 
 const SubmitButton = styled(Button)<{ disabled: boolean }>`

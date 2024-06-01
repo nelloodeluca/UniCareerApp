@@ -2,21 +2,29 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components/native';
 import { Chip, Text } from 'react-native-paper';
 import { Categoria } from '../../types';
+import { useFocusEffect } from '@react-navigation/native';
 
 type CategoriaPickerProps = {
   categorie: Categoria[];
   onSelect: (selectedCategorie: Categoria[]) => void;
+  initialSelected: Categoria[]; // Aggiungere questa linea
 };
 
 const CategoriaPicker: React.FC<CategoriaPickerProps> = ({
   categorie,
   onSelect,
+  initialSelected, // Aggiungere questa linea
 }) => {
-  const [selectedCategorie, setSelectedCategories] = useState<Categoria[]>([]);
+  const [selectedCategorie, setSelectedCategories] =
+    useState<Categoria[]>(initialSelected); // Modificare questa linea
 
   useEffect(() => {
     onSelect(selectedCategorie);
   }, [selectedCategorie]);
+
+  useEffect(() => {
+    setSelectedCategories(initialSelected);
+  }, [initialSelected]);
 
   const handleSelect = (category: Categoria) => {
     if (selectedCategorie.some((cat) => cat.id === category.id)) {
