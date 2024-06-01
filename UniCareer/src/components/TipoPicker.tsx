@@ -36,7 +36,7 @@ const ToggleButtonGroup: React.FC<ToggleButtonGroupProps> = ({
 const ButtonsContainer = styled.View`
   flex-direction: row;
   justify-content: space-around;
-  margin: 10px 4px;
+  margin: 4px 4px;
 `;
 
 const StyledButton = styled(PaperButton)`

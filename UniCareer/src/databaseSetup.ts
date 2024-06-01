@@ -48,8 +48,8 @@ export const prepareDB = async () => {
       id_e INTEGER NOT NULL,
       id_c INTEGER NOT NULL,
       PRIMARY KEY (id_e, id_c),
-      FOREIGN KEY (id_e) REFERENCES esame(id),
-      FOREIGN KEY (id_c) REFERENCES categoria(id)
+      FOREIGN KEY (id_e) REFERENCES esame(id) ON DELETE CASCADE ON UPDATE CASCADE,
+      FOREIGN KEY (id_c) REFERENCES categoria(id) ON DELETE CASCADE ON UPDATE CASCADE
     );`
   );
 

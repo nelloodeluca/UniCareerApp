@@ -32,7 +32,7 @@ export const ExamsProvider: React.FC<ExamsProviderProps> = ({ children }) => {
   const fetchEsami = useCallback(async () => {
     try {
       const esami = await getEsami();
-      console.log('Fetched exams:', esami); // Log per debugging
+      console.log('Fetched exams:', esami.length);
       setExams(esami);
     } catch (error) {
       console.error('Failed to fetch esami from database:', error);
@@ -42,7 +42,7 @@ export const ExamsProvider: React.FC<ExamsProviderProps> = ({ children }) => {
   const fetchCategorie = useCallback(async () => {
     try {
       const categories = await getCategorie();
-      console.log('Categorie:', categories);
+      console.log('Categorie:', categories.length);
       setCategorie(categories);
     } catch (error) {
       console.error('Failed to fetch categorie from database:', error);
@@ -52,12 +52,12 @@ export const ExamsProvider: React.FC<ExamsProviderProps> = ({ children }) => {
   useEffect(() => {
     const initializeDatabaseAndFetchExams = async () => {
       try {
-        await prepareDB(); // Inizializza il database
-        await fetchEsami(); // Esegui la fetch degli esami
+        await prepareDB();
+        await fetchEsami();
         await fetchCategorie();
       } catch (error) {
         console.error(
-          'Error during database initialization or fetching exams:',
+          'Error during database initialization or fetching:',
           error
         );
       }
@@ -215,6 +215,7 @@ export const ExamsProvider: React.FC<ExamsProviderProps> = ({ children }) => {
       value={{
         exams,
         categorie,
+        fetchEsami,
         deleteExam,
         aggiungiCategoria,
         aggiornaCategoria,
