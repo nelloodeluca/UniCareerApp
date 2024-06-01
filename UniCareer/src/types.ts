@@ -42,6 +42,7 @@ export type Esame = {
 export interface ExamsContextType {
   exams: Esame[];
   categorie: Categoria[];
+  fetchEsami: () => void;
   deleteExam: (id: string) => void;
   aggiungiCategoria: (category: Categoria) => void;
   aggiornaCategoria: (category: Categoria) => void;
