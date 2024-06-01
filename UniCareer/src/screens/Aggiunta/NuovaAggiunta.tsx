@@ -351,7 +351,7 @@ const NuovaAggiunta = () => {
                 onChange={onChangeTime}
               />
             </InlineContainer>
-            {isSuperato(date) && (
+            {tipoEsame == 'Superato' && (
               <Container>
                 <NumericContainer>
                   <NumericText>VOTO:</NumericText>
