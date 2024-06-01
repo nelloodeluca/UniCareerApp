@@ -8,8 +8,7 @@ import React, {
 import { Categoria, Esame, ExamsContextType } from './types';
 import {
   getEsami,
-  deleteEsami,
-  updateInsert,
+  deleteEsami, insertEsame, updateEsame,
 } from './utils/operazioni_db/fetch_Esami';
 import { prepareDB } from './databaseSetup';
 import {
@@ -69,6 +68,24 @@ export const ExamsProvider: React.FC<ExamsProviderProps> = ({ children }) => {
     })();
   }, [fetchEsami]);
 
+  const aggiungiEsame = async (esame: Esame) => {
+    try {
+      await insertEsame(esame); // Insert or replace the exam in the database
+      await fetchEsami();
+    } catch (error) {
+      console.error('Failed to insert or replace exam in database:', error);
+    }
+  };
+
+  const aggiornaEsame = async (esame: Esame) => {
+    try {
+      await updateEsame(esame); // Insert or replace the exam in the database
+      await fetchEsami();
+    } catch (error) {
+      console.error('Failed to insert or replace exam in database:', error);
+    }
+  };
+
   const deleteExam = async (id: string) => {
     try {
       await deleteEsami(id); // Assicurati di avere questa funzione che elimina l'esame dal database
@@ -108,14 +125,7 @@ export const ExamsProvider: React.FC<ExamsProviderProps> = ({ children }) => {
     }
   };
 
-  const insertOrReplaceExam = async (esame: Esame) => {
-    try {
-      await updateInsert(esame); // Insert or replace the exam in the database
-      await fetchEsami();
-    } catch (error) {
-      console.error('Failed to insert or replace exam in database:', error);
-    }
-  };
+
 
   const getMaxGrade = () => {
     let maxGrade = 0;
@@ -206,7 +216,7 @@ export const ExamsProvider: React.FC<ExamsProviderProps> = ({ children }) => {
 
   const getGrades = () => {
     return exams
-      .filter((exam) => exam.voto !== undefined && exam.voto > 0)
+      .filter((exam) => exam.voto !== null)
       .map((exam) => exam.voto);
   };
 
@@ -220,7 +230,8 @@ export const ExamsProvider: React.FC<ExamsProviderProps> = ({ children }) => {
         aggiungiCategoria,
         aggiornaCategoria,
         eliminaCategoria,
-        insertOrReplaceExam,
+        aggiungiEsame,
+        aggiornaEsame,
         getMaxGrade,
         getMinGrade,
         getArithmeticMean,

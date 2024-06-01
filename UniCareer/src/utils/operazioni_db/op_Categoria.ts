@@ -54,3 +54,16 @@ export const modifyCategoria = async (
   const query = 'UPDATE categoria SET nome = ?, colore = ? WHERE id = ?';
   await db.executeSql(query, [nome, colore, Number(id)]);
 };
+
+export const insert_Esame_Categorie = async (id: string, categoria_id: string) => {
+  const db = await dbPromise;
+  await db.executeSql(`INSERT INTO esame_categoria (id_e,id_c) VALUES (?,?)`, [Number(id),Number(categoria_id)]);
+
+}
+
+
+export const deleteAll_Esami_Categoria = async (id: string) => {
+  const db = await dbPromise;
+  const query = 'DELETE FROM esame_categoria WHERE id_e = ?';
+  await db.executeSql(query, [Number(id)]);
+}

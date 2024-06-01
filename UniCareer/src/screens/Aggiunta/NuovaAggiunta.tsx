@@ -27,7 +27,7 @@ const NuovaAggiunta = () => {
   if (!context) {
     return <Text>Il contesto non è disponibile</Text>;
   }
-  const { categorie, insertOrReplaceExam } = context;
+  const { categorie, aggiornaEsame, aggiungiEsame } = context;
 
   const route = useRoute<FormEsameRouteProp>();
   const param = route.params?.esame;
@@ -93,7 +93,7 @@ const NuovaAggiunta = () => {
       setVoto(24);
       setLode(false);
     }
-  }, [tipoEsame]);
+  }, [tipoEsame, route]);
 
   useEffect(() => {
     const today = getCurrentDate();
@@ -188,8 +188,16 @@ const NuovaAggiunta = () => {
       diario,
       categorie: selectedCategorie,
     };
-    console.log(esame);
-    insertOrReplaceExam(temp);
+    console.log('Voto Esame:',temp.voto);
+    if(temp.voto === 0 || tipoEsame === "Prossimo") {
+      temp.voto = null;
+    }
+
+    if(isEditing) {
+      aggiornaEsame(temp);
+    } else{
+      aggiungiEsame(temp);
+    }
     setSnackbarVisible(true);
   };
 

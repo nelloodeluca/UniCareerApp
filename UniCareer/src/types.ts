@@ -33,7 +33,7 @@ export type Esame = {
   luogo?: string;
   tipologia?: string;
   docente?: string;
-  voto?: number;
+  voto?: number | null;
   lode?: boolean;
   diario?: string;
   categorie: Categoria[];
@@ -43,6 +43,8 @@ export interface ExamsContextType {
   exams: Esame[];
   categorie: Categoria[];
   fetchEsami: () => void;
+  aggiungiEsame: (esame: Esame) => void;
+  aggiornaEsame: (esame: Esame) => void;
   deleteExam: (id: string) => void;
   aggiungiCategoria: (category: Categoria) => void;
   aggiornaCategoria: (category: Categoria) => void;
@@ -54,7 +56,6 @@ export interface ExamsContextType {
   getGraduationGrade: () => any;
   getExamsSummary: () => any;
   getGrades: () => any;
-  insertOrReplaceExam: (exam: any) => void;
 }
 
 export interface DashboardProps {

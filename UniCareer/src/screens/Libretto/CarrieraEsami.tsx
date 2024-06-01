@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react';
-import { FlatList, TouchableOpacity, View, Text } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { FlatList, TouchableOpacity, View, Text, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import EsameCard from '../../components/EsameCard';
 import DettagliEsame from './DettagliEsame';
@@ -31,9 +31,17 @@ const CarrieraEsami: React.FC<CarrieraEsamiProps> = ({ showVoto }) => {
   const { exams, deleteExam } = context;
   const [selectedEsame, setSelectedEsame] = useState<Esame | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
+  const [loading, setLoading] = useState(true);
   const navigation = useNavigation<CarrieraEsamiNavigationProp>();
 
   const [listKey, setListKey] = useState(0);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setListKey(prevKey => prevKey + 1);
+      setLoading(false);
+    }, 500); // Simula un piccolo ritardo per il caricamento
+  }, [exams]);
 
   const openModal = (esame: Esame) => {
     setSelectedEsame(esame);
@@ -54,14 +62,22 @@ const CarrieraEsami: React.FC<CarrieraEsamiProps> = ({ showVoto }) => {
   };
 
   const handleDelete = async (id: string) => {
+    setLoading(true);
     deleteExam(id);
     closeModal();
-    setListKey(listKey + 1); // Forza il ri-rendering della FlatList
   };
 
   const filteredExams = showVoto
     ? getExamsWithGrades(exams)
     : getExamsWithoutGrades(exams);
+
+  if (loading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
 
   return (
     <View style={{ flex: 1 }}>
