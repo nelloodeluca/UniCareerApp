@@ -18,7 +18,13 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
   windowWidth,
 }) => {
   return (
-    <Card style={{ marginTop: 10, marginHorizontal: 10, backgroundColor: '#fafafa'}}>
+    <Card
+      style={{
+        marginTop: 10,
+        marginHorizontal: 10,
+        backgroundColor: '#fafafa',
+      }}
+    >
       <CalendarList
         onDayPress={onDayPress}
         markedDates={markedDates}

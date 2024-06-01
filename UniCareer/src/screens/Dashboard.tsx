@@ -1,7 +1,20 @@
 import React, { useState, useMemo, useEffect, useContext } from 'react';
 import { ScrollView, Dimensions, View, Text, Platform } from 'react-native';
-import { format, startOfWeek, endOfWeek, eachDayOfInterval, startOfMonth, endOfMonth, addDays } from 'date-fns';
-import { RootStackParamList, Esame, CalendarDay, DashboardProps } from '../types';
+import {
+  format,
+  startOfWeek,
+  endOfWeek,
+  eachDayOfInterval,
+  startOfMonth,
+  endOfMonth,
+  addDays,
+} from 'date-fns';
+import {
+  RootStackParamList,
+  Esame,
+  CalendarDay,
+  DashboardProps,
+} from '../types';
 import CalendarComponent from '../components/dashboard/CalendarComponent';
 import MonthPicker from '../components/dashboard/MonthPicker';
 import ExamsList from '../components/dashboard/ExamsList';
@@ -12,14 +25,26 @@ import TipoPicker from '../components/TipoPicker';
 import { Divider } from 'react-native-paper';
 
 const months = [
-  'Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno',
-  'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre',
+  'Gennaio',
+  'Febbraio',
+  'Marzo',
+  'Aprile',
+  'Maggio',
+  'Giugno',
+  'Luglio',
+  'Agosto',
+  'Settembre',
+  'Ottobre',
+  'Novembre',
+  'Dicembre',
 ];
 
 const getWeeksInMonth = (month: number, year: number) => {
   const firstDayOfMonth = new Date(year, month, 1);
   const startOfFirstWeek = startOfWeek(firstDayOfMonth, { weekStartsOn: 1 });
-  const endOfLastWeek = endOfWeek(endOfMonth(firstDayOfMonth), { weekStartsOn: 1 });
+  const endOfLastWeek = endOfWeek(endOfMonth(firstDayOfMonth), {
+    weekStartsOn: 1,
+  });
 
   const weeks = [];
   let start = startOfFirstWeek;
@@ -46,7 +71,9 @@ const Dashboard: React.FC<DashboardProps> = ({ route, navigation }) => {
   const { exams } = context;
   const [selectedDay, setSelectedDay] = useState<string>('');
   const [viewMode, setViewMode] = useState<string>('Mensile');
-  const [selectedMonth, setSelectedMonth] = useState<number>(new Date().getMonth());
+  const [selectedMonth, setSelectedMonth] = useState<number>(
+    new Date().getMonth()
+  );
   const [selectedWeekIndex, setSelectedWeekIndex] = useState<number>(0);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [daysAhead, setDaysAhead] = useState<string>('7');
@@ -58,7 +85,10 @@ const Dashboard: React.FC<DashboardProps> = ({ route, navigation }) => {
     setSelectedMonth(currentDate.getMonth());
   }, [currentDate]);
 
-  const weeks = useMemo(() => getWeeksInMonth(selectedMonth, year), [selectedMonth, year]);
+  const weeks = useMemo(
+    () => getWeeksInMonth(selectedMonth, year),
+    [selectedMonth, year]
+  );
 
   const examsByDate = useMemo(() => {
     return exams.reduce((acc: { [key: string]: Esame[] }, exam: Esame) => {
@@ -70,7 +100,13 @@ const Dashboard: React.FC<DashboardProps> = ({ route, navigation }) => {
   }, [exams]);
 
   const markedDates = useMemo(() => {
-    const marks: { [date: string]: { dots: Array<{ color: string }>; selected: boolean; selectedColor: string; } } = {};
+    const marks: {
+      [date: string]: {
+        dots: Array<{ color: string }>;
+        selected: boolean;
+        selectedColor: string;
+      };
+    } = {};
 
     Object.keys(examsByDate).forEach((date) => {
       marks[date] = {
@@ -118,7 +154,9 @@ const Dashboard: React.FC<DashboardProps> = ({ route, navigation }) => {
     const endOfTargetWeek = new Date(`${week.end}T23:59:59`);
 
     const interval = { start: startOfTargetWeek, end: endOfTargetWeek };
-    const daysInInterval = eachDayOfInterval(interval).map((date) => format(date, 'yyyy-MM-dd'));
+    const daysInInterval = eachDayOfInterval(interval).map((date) =>
+      format(date, 'yyyy-MM-dd')
+    );
 
     return daysInInterval.flatMap((date) =>
       (examsByDate[date] || []).map((exam) => ({ ...exam, date }))
@@ -128,7 +166,9 @@ const Dashboard: React.FC<DashboardProps> = ({ route, navigation }) => {
   const getImminentExams = () => {
     const targetDate = addDays(new Date(), parseInt(daysAhead) || 7);
     return Object.keys(examsByDate)
-      .filter((date) => new Date(date) <= targetDate && new Date(date) >= new Date())
+      .filter(
+        (date) => new Date(date) <= targetDate && new Date(date) >= new Date()
+      )
       .sort((a, b) => new Date(a).getTime() - new Date(b).getTime())
       .slice(0, 3)
       .flatMap((date) =>

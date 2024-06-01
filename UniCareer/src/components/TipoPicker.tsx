@@ -10,11 +10,11 @@ interface ToggleButtonGroupProps {
 }
 
 const ToggleButtonGroup: React.FC<ToggleButtonGroupProps> = ({
-                                                               option1,
-                                                               option2,
-                                                               selectedOption,
-                                                               handleOptionChange,
-                                                             }) => {
+  option1,
+  option2,
+  selectedOption,
+  handleOptionChange,
+}) => {
   return (
     <ButtonsContainer>
       <StyledButton
@@ -34,15 +34,15 @@ const ToggleButtonGroup: React.FC<ToggleButtonGroupProps> = ({
 };
 
 const ButtonsContainer = styled.View`
-    flex-direction: row;
-    justify-content: space-around;
-    margin: 10px 4px;
+  flex-direction: row;
+  justify-content: space-around;
+  margin: 10px 4px;
 `;
 
 const StyledButton = styled(PaperButton)`
-    flex: 1;
-    margin: 0 8px;
-    font-size: 16px;
+  flex: 1;
+  margin: 0 8px;
+  font-size: 16px;
 `;
 
 export default ToggleButtonGroup;

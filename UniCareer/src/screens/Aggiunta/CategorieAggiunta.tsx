@@ -14,7 +14,8 @@ function CategoriaAggiunta() {
     return <Text>Il contesto non è disponibile</Text>;
   }
 
-  const { categorie, aggiungiCategoria, aggiornaCategoria, eliminaCategoria } = context;
+  const { categorie, aggiungiCategoria, aggiornaCategoria, eliminaCategoria } =
+    context;
   const [selectedCategory, setSelectedCategory] = useState<Categoria | null>(
     null
   );
@@ -34,9 +35,13 @@ function CategoriaAggiunta() {
   };
 
   const handleSaveCategory = (updatedCategoria: Categoria) => {
-    if(selectedCategory !== null) {
-      if(selectedCategory.nome !== updatedCategoria.nome || selectedCategory.colore !== updatedCategoria.colore) {}
-        aggiornaCategoria(updatedCategoria);
+    if (selectedCategory !== null) {
+      if (
+        selectedCategory.nome !== updatedCategoria.nome ||
+        selectedCategory.colore !== updatedCategoria.colore
+      ) {
+      }
+      aggiornaCategoria(updatedCategoria);
     }
     setSelectedCategory(null);
   };
@@ -93,25 +98,25 @@ function CategoriaAggiunta() {
 }
 
 const Container = styled.View`
-    flex: 1;
-    padding: 16px;
+  flex: 1;
+  padding: 16px;
 `;
 
 const Input = styled.TextInput`
-    height: 40px;
-    border: 1px solid #cccccc70;
-    padding: 0 10px;
-    border-radius: 5px;
-    background-color: #fff;
-    margin-right: 8px;
-    flex: 3;
+  height: 40px;
+  border: 1px solid #cccccc70;
+  padding: 0 10px;
+  border-radius: 5px;
+  background-color: #fff;
+  margin-right: 8px;
+  flex: 3;
 `;
 
 const InlineForm = styled.View`
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-around;
-    margin-bottom: 20px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  margin-bottom: 20px;
 `;
 
 const AddButton = styled.TouchableOpacity`

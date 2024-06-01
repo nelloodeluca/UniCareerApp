@@ -18,7 +18,10 @@ export const getCategorie = async (): Promise<Categoria[]> => {
  * @param {string} colore - Il colore della categoria.
  * @returns {Promise<void>} - Una promessa che viene risolta quando l'inserimento è completato.
  */
-export const insertCategoria = async (nome: string, colore: string): Promise<void> => {
+export const insertCategoria = async (
+  nome: string,
+  colore: string
+): Promise<void> => {
   const db = await dbPromise;
   const query = 'INSERT INTO categoria (nome, colore) VALUES (?, ?)';
   await db.executeSql(query, [nome, colore]);
@@ -42,7 +45,11 @@ export const deleteCategoria = async (id: string): Promise<void> => {
  * @param {string} colore - Il nuovo colore della categoria.
  * @returns {Promise<void>} - Una promessa che viene risolta quando la modifica è completata.
  */
-export const modifyCategoria = async (id: string, nome: string, colore: string): Promise<void> => {
+export const modifyCategoria = async (
+  id: string,
+  nome: string,
+  colore: string
+): Promise<void> => {
   const db = await dbPromise;
   const query = 'UPDATE categoria SET nome = ?, colore = ? WHERE id = ?';
   await db.executeSql(query, [nome, colore, Number(id)]);

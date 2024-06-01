@@ -14,12 +14,12 @@ interface ExamsListProps {
 }
 
 const ExamsList: React.FC<ExamsListProps> = ({
-                                               title,
-                                               esami,
-                                               selectedWeekIndex,
-                                               weeks,
-                                               setSelectedWeekIndex,
-                                             }) => {
+  title,
+  esami,
+  selectedWeekIndex,
+  weeks,
+  setSelectedWeekIndex,
+}) => {
   return (
     <Container>
       <StyledCard>
@@ -59,15 +59,15 @@ const ExamsList: React.FC<ExamsListProps> = ({
 };
 
 const Container = styled.View`
-    padding: 4px;
+  padding: 4px;
 `;
 
 const StyledCard = styled(Card)`
-    background-color: #fafafa;
-    margin: 10px;
-    padding: 10px;
-    border-radius: 8px;
-    elevation: 3;
+  background-color: #fafafa;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  elevation: 3;
 `;
 
 const ExamsTitle = styled.Text`

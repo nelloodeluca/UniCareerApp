@@ -36,13 +36,12 @@ export const updateInsert = async (esame: Esame): Promise<void> => {
   try {
     const db = await dbPromise;
     let temp;
-    if(esame.voto === 0) {
+    if (esame.voto === 0) {
       temp = null;
     } else {
       temp = esame.voto;
     }
     if (esame.id !== '') {
-
       // Update the existing record
 
       await db.executeSql(

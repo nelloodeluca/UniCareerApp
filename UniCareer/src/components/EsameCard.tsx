@@ -95,7 +95,9 @@ const EsameCard: React.FC<Props> = ({ esame }) => {
                 </Chip>
               ))
             ) : (
-              <Chip style={{backgroundColor:'#cccccc60'}}>Nessuna Categoria Assegnata</Chip>
+              <Chip style={{ backgroundColor: '#cccccc60' }}>
+                Nessuna Categoria Assegnata
+              </Chip>
             )}
           </ChipContainer>
         </InfoContainer>

@@ -11,10 +11,10 @@ interface ImminentExamsProps {
 }
 
 const ImminentExams: React.FC<ImminentExamsProps> = ({
-                                                       daysAhead,
-                                                       setDaysAhead,
-                                                       imminentExams,
-                                                     }) => {
+  daysAhead,
+  setDaysAhead,
+  imminentExams,
+}) => {
   return (
     <Container>
       <StyledCard>
@@ -43,21 +43,21 @@ const ImminentExams: React.FC<ImminentExamsProps> = ({
 };
 
 const Container = styled.View`
-    padding: 4px;
+  padding: 4px;
 `;
 
 const StyledCard = styled(Card)`
-    background-color: #fafafa;
-    margin: 10px;
-    padding: 10px;
-    border-radius: 8px;
-    elevation: 3;
+  background-color: #fafafa;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  elevation: 3;
 `;
 
 const DaysAheadContainer = styled.View`
-    flex-direction: row;
-    align-items: center;
-    margin-bottom: 10px;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 10px;
 `;
 
 const LabelText = styled.Text`

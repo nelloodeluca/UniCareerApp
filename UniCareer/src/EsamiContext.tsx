@@ -9,10 +9,15 @@ import { Categoria, Esame, ExamsContextType } from './types';
 import {
   getEsami,
   deleteEsami,
-  updateInsert
+  updateInsert,
 } from './utils/operazioni_db/fetch_Esami';
 import { prepareDB } from './databaseSetup';
-import { getCategorie, deleteCategoria, insertCategoria, modifyCategoria} from './utils/operazioni_db/op_Categoria';
+import {
+  getCategorie,
+  deleteCategoria,
+  insertCategoria,
+  modifyCategoria,
+} from './utils/operazioni_db/op_Categoria';
 
 const ExamsContext = createContext<ExamsContextType | undefined>(undefined);
 
@@ -73,17 +78,13 @@ export const ExamsProvider: React.FC<ExamsProviderProps> = ({ children }) => {
     }
   };
 
-
   const aggiungiCategoria = async (categoria: Categoria) => {
     try {
-      await insertCategoria(categoria.nome,categoria.colore);
+      await insertCategoria(categoria.nome, categoria.colore);
       await fetchCategorie();
       await fetchEsami();
     } catch (error) {
-      console.error(
-        'Errore nell\'aggiunta della Categoria',
-        error
-      );
+      console.error("Errore nell'aggiunta della Categoria", error);
     }
   };
 
@@ -93,10 +94,7 @@ export const ExamsProvider: React.FC<ExamsProviderProps> = ({ children }) => {
       await fetchCategorie();
       await fetchEsami();
     } catch (error) {
-      console.error(
-        'Errore nella modifica di Categoria',
-        error
-      );
+      console.error('Errore nella modifica di Categoria', error);
     }
   };
 
@@ -106,10 +104,7 @@ export const ExamsProvider: React.FC<ExamsProviderProps> = ({ children }) => {
       await fetchCategorie();
       await fetchEsami();
     } catch (error) {
-      console.error(
-        'Errore nell\'aggiunta della Categoria',
-        error
-      );
+      console.error("Errore nell'aggiunta della Categoria", error);
     }
   };
 

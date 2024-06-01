@@ -11,12 +11,12 @@ const Container = styled(Card)`
   justify-content: center;
   align-items: center;
   background-color: #ffffff;
-    border-radius: 20px;
+  border-radius: 20px;
 `;
 
 const chartConfig = {
   style: {
-    borderRadius: 30
+    borderRadius: 30,
   },
   backgroundGradientFrom: '#ffffff',
   backgroundGradientTo: '#ffffff',
