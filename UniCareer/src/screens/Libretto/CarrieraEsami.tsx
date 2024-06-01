@@ -54,7 +54,7 @@ const CarrieraEsami: React.FC<CarrieraEsamiProps> = ({ showVoto }) => {
   };
 
   const handleDelete = async (id: string) => {
-    await deleteExam(id);
+    deleteExam(id);
     closeModal();
     setListKey(listKey + 1); // Forza il ri-rendering della FlatList
   };
