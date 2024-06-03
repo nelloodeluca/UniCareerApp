@@ -73,14 +73,14 @@ export default function Statistica() {
 
   const grades = getGrades();
 
-  if (exams.length < 5) {
+  if (examsTaken < 5) {
     return (
       <View style={{width: '100%',height: '100%', padding: '5%',  alignItems: 'center', justifyContent: 'center'}}>
         <EmptyContainer>
           <IconWrapper>
             <MaterialIcons name="error-outline" size={56} color="#6854a4" />
           </IconWrapper>
-          <Label>Aggiungi almeno 5 esami per visualizzare le tue statistiche!</Label>
+          <Label>Aggiungi almeno 5 Esami Conclusi per visualizzare le tue statistiche!</Label>
         </EmptyContainer>
         </View>
     );
