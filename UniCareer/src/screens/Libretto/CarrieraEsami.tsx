@@ -10,6 +10,22 @@ import {
   getExamsWithGrades,
   getExamsWithoutGrades,
 } from '../../utils/carriera';
+import styled from 'styled-components/native';
+import { Button, Card, Paragraph } from 'react-native-paper';
+
+const Container = styled.View`
+    flex: 1;
+    padding: 16px;
+    align-items: center;
+    justify-content: center;
+`;
+
+const Label = styled(Paragraph)`
+    font-weight: 400;
+    margin-top: 10px;
+    font-size: 16px;
+`;
+
 
 type CarrieraEsamiNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -74,38 +90,56 @@ const CarrieraEsami: React.FC<CarrieraEsamiProps> = ({ showVoto }) => {
   if (loading) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size="large" color="#0000ff" />
+        <ActivityIndicator size="large" color="#6854a4" />
       </View>
     );
   }
 
   return (
     <View style={{ flex: 1 }}>
-      <FlatList
-        key={listKey}
-        data={filteredExams} // Usa gli esami filtrati
-        extraData={filteredExams}
-        renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => openModal(item)}>
-            <EsameCard esame={item} />
-          </TouchableOpacity>
+      {filteredExams.length > 0 ? (
+        <>
+          <FlatList
+            key={listKey}
+            data={filteredExams}
+            renderItem={({ item }) => (
+              <TouchableOpacity onPress={() => openModal(item)}>
+                <EsameCard esame={item} />
+              </TouchableOpacity>
+            )}
+            keyExtractor={(item) => item.id.toString()} // Aggiungi il metodo toString se id è un numero
+            getItemLayout={(data, index) => ({
+              length: 100,
+              offset: 100 * index,
+              index,
+            })}
+          />
+          {selectedEsame && (
+          <DettagliEsame
+            visible={modalVisible}
+            onClose={closeModal}
+            esame={selectedEsame}
+            onDelete={() => handleDelete(selectedEsame.id)}
+            onEdit={handleEdit}
+            />
         )}
-        keyExtractor={(item) => item.id.toString()} // Aggiungi il metodo toString se id è un numero
-        getItemLayout={(data, index) => ({
-          length: 100,
-          offset: 100 * index,
-          index,
-        })}
-      />
-      {selectedEsame && (
-        <DettagliEsame
-          visible={modalVisible}
-          onClose={closeModal}
-          esame={selectedEsame}
-          onDelete={() => handleDelete(selectedEsame.id)}
-          onEdit={handleEdit}
-        />
+        </>
+        ):(
+        <Container>
+
+            <Label>Ehm, non hai inserito alcun esame...</Label>
+            <Button
+              mode="contained"
+              onPress={() => navigation.navigate('Aggiunta', { screen: 'FormEsame' })}
+              style={{ marginTop: 20 }}
+            >
+              Creane uno subito!
+            </Button>
+
+
+        </Container>
       )}
+
     </View>
   );
 };
