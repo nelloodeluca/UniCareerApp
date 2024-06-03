@@ -30,9 +30,10 @@ const ModalContainer = styled.View`
 const ModalCard = styled(Card)`
   width: 100%;
   max-width: 600px;
-  max-height: 90%; /* Aumenta l'altezza massima del modale */
+  height: 90%;
   border-radius: 20px;
   overflow: hidden;
+  justify-content: space-between;
   elevation: 5;
 `;
 
@@ -93,6 +94,9 @@ const DettagliEsame: React.FC<EsameModalProps> = ({
 }) => {
   if (!esame) return null;
 
+  const haveVoto = esame.voto !== null;
+  const isuperato = new Date(esame.data) < new Date();
+
   return (
     <Modal
       transparent={true}
@@ -136,17 +140,21 @@ const DettagliEsame: React.FC<EsameModalProps> = ({
                 <BoldText>Ora:</BoldText> {esame.ora}
               </StyledParagraph>
               <StyledParagraph>
-                <BoldText>Luogo:</BoldText> {esame.luogo}
+                <BoldText>Luogo:</BoldText> {esame.luogo != '' ? esame.luogo : 'Info Non Disponibile'}
               </StyledParagraph>
               <StyledParagraph>
                 <BoldText>Tipologia:</BoldText> {esame.tipologia}
               </StyledParagraph>
               <StyledParagraph>
-                <BoldText>Docente:</BoldText> {esame.docente}
+                <BoldText>Docente:</BoldText> {esame.docente != '' || esame.docente != null ? esame.docente : 'Info Non Disponibile'}
               </StyledParagraph>
-              {esame.voto !== undefined && (
+              {esame.voto !== null ? (
                 <StyledParagraph>
                   <BoldText>Voto:</BoldText> {esame.voto}
+                </StyledParagraph>
+              ):(
+                <StyledParagraph>
+                  <BoldText>Voto:</BoldText> Aggiugere voto!
                 </StyledParagraph>
               )}
               <Label>Categorie Assegnate:</Label>
