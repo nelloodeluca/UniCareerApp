@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
 import styled from 'styled-components/native';
 import ExamsContext from '../../EsamiContext';
 import CategoriaCard from '../../components/aggiunta/CategoriaCard';
@@ -20,7 +20,14 @@ function CategoriaAggiunta() {
     null
   );
   const [newCategoriaNome, setNewCategoria] = useState('');
+  const [loading, setLoading] = useState(true);
   const [snackbarVisible, setSnackbarVisible] = useState<boolean>(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 50); // Simula un piccolo ritardo per il caricamento
+  }, [categorie]);
 
   const handleModifica = (id: string) => {
     const categoria = categorie.find((cat) => cat.id === id);
@@ -30,6 +37,7 @@ function CategoriaAggiunta() {
   const handleElimina = (id: string) => {
     const categoria = categorie.find((cat) => cat.id === id);
     if (categoria) {
+      setLoading(true);
       eliminaCategoria(id, categoria.colore);
     }
   };
@@ -44,6 +52,7 @@ function CategoriaAggiunta() {
         selectedCategory.nome !== updatedCategoria.nome ||
         selectedCategory.colore !== updatedCategoria.colore
       ) {
+        setLoading(true);
         aggiornaCategoria(selectedCategory,updatedCategoria);
       }
     }
@@ -59,6 +68,7 @@ function CategoriaAggiunta() {
           nome: newCategoriaNome,
           colore: getRandomColor(),
         };
+        setLoading(true);
         aggiungiCategoria(nuovaCategoria);
         setNewCategoria('');
       }
@@ -66,6 +76,16 @@ function CategoriaAggiunta() {
       setSnackbarVisible(true);
     }
   };
+
+  /*
+  if(loading){
+    return(
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginBottom: 16}}>
+        <ActivityIndicator size="large" color="#6854a4" />
+      </View>
+    );
+  }
+   */
 
   return (
     <>
@@ -86,31 +106,40 @@ function CategoriaAggiunta() {
               <IconButton icon="plus" iconColor="#fff" size={24} />
             </AddButton>
           </InlineForm>
-          {categorie.length > 0 ? (
-            categorie.map((categoria: Categoria) => (
-              <CategoriaCard
-                key={categoria.id}
-                categoria={categoria}
-                onModify={handleModifica}
-                onDelete={handleElimina}
-              />
-            ))
+
+          {loading ? (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginBottom: 16 }}>
+              <ActivityIndicator size="large" color="#6854a4" />
+            </View>
           ) : (
             <>
-              <Label>Ehm, non ci sono categorie...</Label>
-              <Label>Creane una da qui in alto!</Label>
+              {categorie.length > 0 ? (
+                categorie.map((categoria: Categoria) => (
+                  <CategoriaCard
+                    key={categoria.id}
+                    categoria={categoria}
+                    onModify={handleModifica}
+                    onDelete={handleElimina}
+                  />
+                ))
+              ) : (
+                <>
+                  <Label>Ehm, non ci sono categorie...</Label>
+                  <Label>Creane una da qui in alto!</Label>
+                </>
+              )}
+              {selectedCategory && (
+                <ModificaCategoriaModal
+                  visible={!!selectedCategory}
+                  category={selectedCategory}
+                  onClose={handleCloseModal}
+                  onSave={handleSaveCategory}
+                />
+              )}
             </>
           )}
-          {selectedCategory && (
-            <ModificaCategoriaModal
-              visible={!!selectedCategory}
-              category={selectedCategory}
-              onClose={handleCloseModal}
-              onSave={handleSaveCategory}
-            />
-          )}
-        </Container>
-      </ScrollView>
+      </Container>
+    </ScrollView>
       <Snackbar
         visible={snackbarVisible}
         onDismiss={() => setSnackbarVisible(false)}
