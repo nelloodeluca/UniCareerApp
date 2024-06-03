@@ -189,6 +189,8 @@ const NuovaAggiunta = () => {
       categorie: selectedCategorie,
     };
     console.log('Voto Esame:',temp.voto);
+    console.log('Luogo Esame:',temp.luogo);
+    console.log('Docente Esame:',temp.docente);
     if(temp.voto === 0 || tipoEsame === "Prossimo") {
       temp.voto = null;
     }
@@ -204,6 +206,7 @@ const NuovaAggiunta = () => {
   const isFormValid = nome && corsoDiStudi && CFU && date;
 
   return (
+<>
     <ScrollContainer>
       <StyledListSection>
         <Container>
@@ -387,17 +390,19 @@ const NuovaAggiunta = () => {
         >
           {isEditing ? 'Modifica Esame' : 'Inserisci Esame'}
         </SubmitButton>
-        <Snackbar
-          visible={snackbarVisible}
-          onDismiss={() => setSnackbarVisible(false)}
-          duration={3000}
-        >
-          <Label style={{ color: '#fafafa' }}>
-            Esame {isEditing ? 'modificato' : 'inserito'} correttamente
-          </Label>
-        </Snackbar>
       </StyledListSection>
     </ScrollContainer>
+  <Snackbar
+    visible={snackbarVisible}
+    onDismiss={() => setSnackbarVisible(false)}
+    duration={3000}
+    style={{ position: 'absolute', bottom: 0, width: '90%', alignSelf: 'center'}}
+  >
+    <Label style={{ color: '#fafafa' }}>
+      Esame {isEditing ? 'modificato' : 'inserito'} correttamente
+    </Label>
+  </Snackbar>
+  </>
   );
 };
 

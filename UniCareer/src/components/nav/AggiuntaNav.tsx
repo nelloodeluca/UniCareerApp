@@ -18,9 +18,9 @@ function AggiuntaNav() {
         tabBarLabel: ({ focused }) => {
           let label;
           if (route.name === 'FormEsame') {
-            label = 'Aggiungi Esame';
+            label = 'Nuovo Esame';
           } else if (route.name === 'FormCategorie') {
-            label = 'Aggiungi Categorie';
+            label = 'Nuova Categoria';
           }
           return (
             <Text style={{ color: focused ? '#6854a4' : '#000' }}>{label}</Text>
