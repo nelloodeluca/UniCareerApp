@@ -20,82 +20,83 @@ type EsameModalProps = {
 };
 
 const ModalContainer = styled.View`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.5);
-  padding: 20px;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 20px;
 `;
 
 const ModalCard = styled(Card)`
-  width: 100%;
-  max-width: 600px;
-  height: 90%;
-  border-radius: 20px;
-  overflow: hidden;
-  justify-content: space-between;
-  elevation: 5;
+    width: 100%;
+    max-width: 600px;
+    height: 90%;
+    border-radius: 20px;
+    overflow: hidden;
+    justify-content: space-between;
+    elevation: 5;
 `;
 
 const StyledHeader = styled(Appbar.Header)`
-  background-color: #6854a4;
-  align-items: center;
-  justify-content: space-between;
+    background-color: #6854a4;
+    align-items: center;
+    justify-content: space-between;
 `;
 
 const ScrollContainer = styled(ScrollView)`
-  max-height: 80%; /* Aumenta l'altezza massima del contenuto scrollabile */
+    max-height: 80%; /* Aumenta l'altezza massima del contenuto scrollabile */
 `;
 
 const ModalContent = styled(Card.Content)`
-  padding: 20px;
+    padding: 20px;
 `;
 
 const ModalAction = styled(Card.Actions)`
-  justify-content: flex-end;
-  padding: 10px 20px;
+    justify-content: flex-end;
+    padding: 10px 20px;
 `;
 
 const StyledParagraph = styled(Paragraph)`
-  margin-bottom: 10px;
-  font-size: 16px;
+    margin-bottom: 10px;
+    font-size: 16px;
 `;
 
 const ChipContainer = styled.View`
-  flex-direction: row;
-  flex-wrap: wrap;
-  margin-top: 10px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 10px;
 `;
 
 const Label = styled(Paragraph)`
-  font-weight: bold;
-  margin-top: 10px;
-  font-size: 16px;
+    font-weight: bold;
+    margin-top: 10px;
+    font-size: 16px;
 `;
 
 const BoldText = styled(Text)`
-  font-weight: bold;
-  font-size: 16px;
+    font-weight: bold;
+    font-size: 16px;
 `;
 
 const DiaryContainer = styled.View`
-  border: 1px solid #ccc;
-  padding: 10px;
-  border-radius: 5px;
-  margin-top: 10px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
 `;
 
 const DettagliEsame: React.FC<EsameModalProps> = ({
-  visible,
-  onClose,
-  esame,
-  onDelete,
-  onEdit,
-}) => {
+                                                    visible,
+                                                    onClose,
+                                                    esame,
+                                                    onDelete,
+                                                    onEdit,
+                                                  }) => {
   if (!esame) return null;
 
-  const haveVoto = esame.voto !== null;
-  const isuperato = new Date(esame.data) < new Date();
+  const isSuperato = new Date(esame.data) < new Date();
+  console.log('Docente:', esame.docente);
+  console.log('Luogo:', esame.luogo);
 
   return (
     <Modal
@@ -137,25 +138,31 @@ const DettagliEsame: React.FC<EsameModalProps> = ({
                 <BoldText>Data:</BoldText> {esame.data}
               </StyledParagraph>
               <StyledParagraph>
-                <BoldText>Ora:</BoldText> {esame.ora}
+                <BoldText>Ora:</BoldText> {esame.ora != null ? esame.ora : 'Info Non Disponibile'}
               </StyledParagraph>
               <StyledParagraph>
-                <BoldText>Luogo:</BoldText> {esame.luogo != '' ? esame.luogo : 'Info Non Disponibile'}
+                <BoldText>Luogo:</BoldText> {esame.luogo != ''  ? esame.luogo : 'Info Non Disponibile'}
               </StyledParagraph>
               <StyledParagraph>
                 <BoldText>Tipologia:</BoldText> {esame.tipologia}
               </StyledParagraph>
               <StyledParagraph>
-                <BoldText>Docente:</BoldText> {esame.docente != '' || esame.docente != null ? esame.docente : 'Info Non Disponibile'}
+                <BoldText>Docente:</BoldText> {esame.docente != null ? esame.docente : 'Info Non Disponibile'}
               </StyledParagraph>
               {esame.voto !== null ? (
                 <StyledParagraph>
                   <BoldText>Voto:</BoldText> {esame.voto}
                 </StyledParagraph>
-              ):(
-                <StyledParagraph>
-                  <BoldText>Voto:</BoldText> Aggiugere voto!
-                </StyledParagraph>
+              ) : (
+                isSuperato ? (
+                  <StyledParagraph>
+                    <BoldText>Voto:</BoldText> Aggiungi voto!
+                  </StyledParagraph>
+                ) : (
+                  <StyledParagraph>
+                    <BoldText>Voto:</BoldText> In bocca al lupo!
+                  </StyledParagraph>
+                )
               )}
               <Label>Categorie Assegnate:</Label>
               <ChipContainer>
