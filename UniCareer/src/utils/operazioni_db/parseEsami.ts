@@ -20,6 +20,7 @@ export const mapRowToEsame = (row: any): Esame => {
     docente: row.docente,
     voto: row.voto,
     lode: row.lode,
+    diario: row.diario,
     categorie,
   };
 };

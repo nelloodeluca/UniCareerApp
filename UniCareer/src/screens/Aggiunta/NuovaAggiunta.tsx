@@ -181,6 +181,7 @@ const NuovaAggiunta = () => {
       CFU,
       data: formatDate(date),
       ora: formatTime(time),
+      docente,
       luogo,
       tipologia,
       voto,
@@ -188,7 +189,7 @@ const NuovaAggiunta = () => {
       diario,
       categorie: selectedCategorie,
     };
-    console.log('Voto Esame:',temp.voto);
+    console.log('Diario Esame:',temp.diario);
     console.log('Luogo Esame:',temp.luogo);
     console.log('Docente Esame:',temp.docente);
     if(temp.voto === 0 || tipoEsame === "Prossimo") {

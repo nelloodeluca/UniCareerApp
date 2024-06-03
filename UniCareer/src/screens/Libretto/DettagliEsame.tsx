@@ -97,6 +97,7 @@ const DettagliEsame: React.FC<EsameModalProps> = ({
   const isSuperato = new Date(esame.data) < new Date();
   console.log('Docente:', esame.docente);
   console.log('Luogo:', esame.luogo);
+  console.log('Diario:', esame.diario);
 
   return (
     <Modal
@@ -147,7 +148,7 @@ const DettagliEsame: React.FC<EsameModalProps> = ({
                 <BoldText>Tipologia:</BoldText> {esame.tipologia}
               </StyledParagraph>
               <StyledParagraph>
-                <BoldText>Docente:</BoldText> {esame.docente != null ? esame.docente : 'Info Non Disponibile'}
+                <BoldText>Docente:</BoldText> {esame.docente != '' ? esame.docente : 'Info Non Disponibile'}
               </StyledParagraph>
               {esame.voto !== null ? (
                 <StyledParagraph>
@@ -188,7 +189,7 @@ const DettagliEsame: React.FC<EsameModalProps> = ({
               <Label>Diario:</Label>
               <DiaryContainer>
                 <StyledParagraph>
-                  {esame.diario ? esame.diario : 'Diario non presente...'}
+                  {esame.diario != '' ? esame.diario : 'Diario non presente...'}
                 </StyledParagraph>
               </DiaryContainer>
             </ModalContent>
