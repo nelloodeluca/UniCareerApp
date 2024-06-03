@@ -47,8 +47,8 @@ export interface ExamsContextType {
   aggiornaEsame: (esame: Esame) => void;
   deleteExam: (id: string) => void;
   aggiungiCategoria: (category: Categoria) => void;
-  aggiornaCategoria: (category: Categoria) => void;
-  eliminaCategoria: (id: string) => void;
+  aggiornaCategoria: (exCat: Categoria, category: Categoria) => void;
+  eliminaCategoria: (id: string, colore: string) => void;
   getMaxGrade: () => any;
   getMinGrade: () => any;
   getArithmeticMean: () => any;

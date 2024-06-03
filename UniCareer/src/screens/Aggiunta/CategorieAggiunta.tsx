@@ -1,12 +1,12 @@
 import React, { useContext, useState } from 'react';
-import { ScrollView, Text } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import styled from 'styled-components/native';
 import ExamsContext from '../../EsamiContext';
 import CategoriaCard from '../../components/aggiunta/CategoriaCard';
 import ModificaCategoriaModal from '../../components/aggiunta/ModificaCategoriaModal';
 import { Categoria } from '../../types';
-import { IconButton } from 'react-native-paper';
-import { getRandomColor } from '../../utils/getColor';
+import { IconButton, Paragraph, Snackbar } from 'react-native-paper';
+import { addColor, getRandomColor, removeColor } from '../../utils/getColor';
 
 function CategoriaAggiunta() {
   const context = useContext(ExamsContext);
@@ -20,6 +20,7 @@ function CategoriaAggiunta() {
     null
   );
   const [newCategoriaNome, setNewCategoria] = useState('');
+  const [snackbarVisible, setSnackbarVisible] = useState<boolean>(false);
 
   const handleModifica = (id: string) => {
     const categoria = categorie.find((cat) => cat.id === id);
@@ -27,7 +28,10 @@ function CategoriaAggiunta() {
   };
 
   const handleElimina = (id: string) => {
-    eliminaCategoria(id);
+    const categoria = categorie.find((cat) => cat.id === id);
+    if (categoria) {
+      eliminaCategoria(id, categoria.colore);
+    }
   };
 
   const handleCloseModal = () => {
@@ -40,90 +44,121 @@ function CategoriaAggiunta() {
         selectedCategory.nome !== updatedCategoria.nome ||
         selectedCategory.colore !== updatedCategoria.colore
       ) {
+        aggiornaCategoria(selectedCategory,updatedCategoria);
       }
-      aggiornaCategoria(updatedCategoria);
     }
     setSelectedCategory(null);
   };
 
   const handleAggiungiCategoria = () => {
-    if (newCategoriaNome.trim() !== '') {
-      const nuovaCategoria: Categoria = {
-        id: Math.random().toString(36).substring(7), // Generate a random id
-        nome: newCategoriaNome,
-        colore: getRandomColor(),
-      };
-      aggiungiCategoria(nuovaCategoria);
-      setNewCategoria('');
+    //Numero predefinito massimo di categorie è 10.
+    if (categorie.length < 10) {
+      if (newCategoriaNome.trim() !== '') {
+        const nuovaCategoria: Categoria = {
+          id: '',
+          nome: newCategoriaNome,
+          colore: getRandomColor(),
+        };
+        aggiungiCategoria(nuovaCategoria);
+        setNewCategoria('');
+      }
+    } else {
+      setSnackbarVisible(true);
     }
   };
 
   return (
-    <ScrollView>
-      <Container>
-        <InlineForm>
-          <Input
-            value={newCategoriaNome}
-            onChangeText={(text) => {
-              if (text.length <= 50) {
-                setNewCategoria(text);
-              }
-            }}
-            placeholder="Aggiungi una Nuova Categoria..."
-            maxLength={50}
-          />
-          <AddButton onPress={handleAggiungiCategoria}>
-            <IconButton icon="plus" iconColor="#fff" size={24} />
-          </AddButton>
-        </InlineForm>
-        {categorie.map((categoria: Categoria) => (
-          <CategoriaCard
-            key={categoria.id}
-            categoria={categoria}
-            onModify={handleModifica}
-            onDelete={handleElimina}
-          />
-        ))}
-        {selectedCategory && (
-          <ModificaCategoriaModal
-            visible={!!selectedCategory}
-            category={selectedCategory}
-            onClose={handleCloseModal}
-            onSave={handleSaveCategory}
-          />
-        )}
-      </Container>
-    </ScrollView>
+    <>
+      <ScrollView>
+        <Container>
+          <InlineForm>
+            <Input
+              value={newCategoriaNome}
+              onChangeText={(text) => {
+                if (text.length <= 50) {
+                  setNewCategoria(text);
+                }
+              }}
+              placeholder="Aggiungi una Nuova Categoria..."
+              maxLength={50}
+            />
+            <AddButton onPress={handleAggiungiCategoria}>
+              <IconButton icon="plus" iconColor="#fff" size={24} />
+            </AddButton>
+          </InlineForm>
+          {categorie.length > 0 ? (
+            categorie.map((categoria: Categoria) => (
+              <CategoriaCard
+                key={categoria.id}
+                categoria={categoria}
+                onModify={handleModifica}
+                onDelete={handleElimina}
+              />
+            ))
+          ) : (
+            <>
+              <Label>Ehm, non ci sono categorie...</Label>
+              <Label>Creane una da qui in alto!</Label>
+            </>
+          )}
+          {selectedCategory && (
+            <ModificaCategoriaModal
+              visible={!!selectedCategory}
+              category={selectedCategory}
+              onClose={handleCloseModal}
+              onSave={handleSaveCategory}
+            />
+          )}
+        </Container>
+      </ScrollView>
+      <Snackbar
+        visible={snackbarVisible}
+        onDismiss={() => setSnackbarVisible(false)}
+        duration={3000}
+        style={{ position: 'absolute', bottom: 0, width: '90%', alignSelf: 'center'}}
+      >
+        <Label style={{ color: '#fafafa' }}>
+          Numero massimo di categorie raggiunto!
+        </Label>
+      </Snackbar>
+    </>
   );
 }
 
 const Container = styled.View`
-  flex: 1;
-  padding: 16px;
+    flex: 1;
+    padding: 16px;
+    align-items: center;
 `;
 
 const Input = styled.TextInput`
-  height: 40px;
-  border: 1px solid #cccccc70;
-  padding: 0 10px;
-  border-radius: 5px;
-  background-color: #fff;
-  margin-right: 8px;
-  flex: 3;
+    height: 40px;
+    border: 1px solid #cccccc70;
+    padding: 0 10px;
+    border-radius: 5px;
+    background-color: #fff;
+    margin-right: 8px;
+    flex: 3;
 `;
 
 const InlineForm = styled.View`
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-around;
-  margin-bottom: 20px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    margin-bottom: 20px;
 `;
 
 const AddButton = styled.TouchableOpacity`
-  background-color: #6854a4;
-  border-radius: 50px;
-  justify-content: center;
-  align-items: center;
+    background-color: #6854a4;
+    border-radius: 50px;
+    justify-content: center;
+    align-items: center;
+`;
+
+const Label = styled(Paragraph)`
+    font-weight: 400;
+    margin-top: 10px;
+    font-size: 16px;
 `;
 
 export default CategoriaAggiunta;

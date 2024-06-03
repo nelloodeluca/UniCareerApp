@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, TouchableOpacity, Text } from 'react-native';
 import styled from 'styled-components/native';
 import { Categoria } from '../../types';
@@ -10,7 +10,7 @@ import {
   Paragraph,
   Snackbar,
 } from 'react-native-paper';
-import { getRandomColor } from '../../utils/getColor';
+import { addColor, getRandomColor, removeColor, usedColors } from '../../utils/getColor';
 
 interface ModificaCategoriaModalProps {
   visible: boolean;

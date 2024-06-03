@@ -17,6 +17,7 @@ import {
   insertCategoria,
   modifyCategoria,
 } from './utils/operazioni_db/op_Categoria';
+import { addColor, removeColor } from './utils/getColor';
 
 const ExamsContext = createContext<ExamsContextType | undefined>(undefined);
 
@@ -98,16 +99,18 @@ export const ExamsProvider: React.FC<ExamsProviderProps> = ({ children }) => {
   const aggiungiCategoria = async (categoria: Categoria) => {
     try {
       await insertCategoria(categoria.nome, categoria.colore);
+      addColor(categoria.colore);
       await fetchCategorie();
-      await fetchEsami();
     } catch (error) {
       console.error("Errore nell'aggiunta della Categoria", error);
     }
   };
 
-  const aggiornaCategoria = async (categoria: Categoria) => {
+  const aggiornaCategoria = async (exCat: Categoria, categoria: Categoria) => {
     try {
       await modifyCategoria(categoria.id, categoria.nome, categoria.colore);
+      removeColor(exCat.colore);
+      addColor(categoria.colore);
       await fetchCategorie();
       await fetchEsami();
     } catch (error) {
@@ -115,9 +118,10 @@ export const ExamsProvider: React.FC<ExamsProviderProps> = ({ children }) => {
     }
   };
 
-  const eliminaCategoria = async (id: string) => {
+  const eliminaCategoria = async (id: string, colore: string) => {
     try {
       await deleteCategoria(id);
+      removeColor(colore);
       await fetchCategorie();
       await fetchEsami();
     } catch (error) {
