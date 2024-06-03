@@ -38,20 +38,35 @@ const CategoriaPicker: React.FC<CategoriaPickerProps> = ({
 
   return (
     <ChipContainer>
-      {categorie.map((categoria, index) => (
+      { categorie.length > 0 ? (
+        <>
+        {categorie.map((categoria, index) => (
+            <Chip
+              key={categoria.id}
+              selected={selectedCategorie.some((cat) => cat.id === categoria.id)}
+              onPress={() => handleSelect(categoria)}
+              style={{
+                backgroundColor: categoria.colore,
+                marginRight: 4,
+                marginBottom: 4,
+              }}
+            >
+              {categoria.nome}
+            </Chip>
+          ))}
+        </>
+      ):(
         <Chip
-          key={categoria.id}
-          selected={selectedCategorie.some((cat) => cat.id === categoria.id)}
-          onPress={() => handleSelect(categoria)}
           style={{
-            backgroundColor: categoria.colore,
+            backgroundColor: '#cccccc70',
             marginRight: 4,
             marginBottom: 4,
           }}
         >
-          {categoria.nome}
+          Nessuna categoria disponibile
         </Chip>
-      ))}
+      )
+      }
     </ChipContainer>
   );
 };

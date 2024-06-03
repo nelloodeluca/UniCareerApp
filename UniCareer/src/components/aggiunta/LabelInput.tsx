@@ -14,7 +14,7 @@ const Input = styled(TextInput)`
   height: 40px;
   border: 1px solid #cccccc70;
   margin-bottom: 10px;
-  padding: 0 10px;
+  padding: 0 10px 0 0;
   border-radius: 5px;
   background-color: #fff;
 `;
@@ -27,6 +27,7 @@ interface LabelInputProps {
   keyboardType?: KeyboardTypeOptions;
   multiline?: boolean;
   numberOfLines?: number;
+  maxLength?: number;
 }
 
 const LabelInput: React.FC<LabelInputProps> = ({
@@ -37,6 +38,7 @@ const LabelInput: React.FC<LabelInputProps> = ({
   keyboardType = 'default',
   multiline = false,
   numberOfLines = 1,
+  maxLength = 50,
 }) => {
   return (
     <>
@@ -48,6 +50,7 @@ const LabelInput: React.FC<LabelInputProps> = ({
         keyboardType={keyboardType}
         multiline={multiline}
         numberOfLines={numberOfLines}
+        maxLength={maxLength}
       />
     </>
   );
