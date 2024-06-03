@@ -41,7 +41,7 @@ const ButtonsContainer = styled.View`
 
 const StyledButton = styled(PaperButton)`
   width: 50%;
-  flex:1;
+  flex: 1;
   margin: 8px 8px;
   font-size: 16px;
 `;

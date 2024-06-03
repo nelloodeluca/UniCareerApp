@@ -1,9 +1,21 @@
 export const usedColors = new Set();
 
 const colorPalette = [
-  '#FF7F50', '#66FF66', '#6699FF', '#FF66FF', '#66FFFF',
-  '#FF66CC', '#FFA07A', '#66FFCC', '#B266FF', '#FF6666',
-  '#66FF99', '#6666FF', '#FF99FF', '#66FFFF', '#FFFF66'
+  '#FF7F50',
+  '#66FF66',
+  '#6699FF',
+  '#FF66FF',
+  '#66FFFF',
+  '#FF66CC',
+  '#FFA07A',
+  '#66FFCC',
+  '#B266FF',
+  '#FF6666',
+  '#66FF99',
+  '#6666FF',
+  '#FF99FF',
+  '#66FFFF',
+  '#FFFF66',
 ];
 
 export const getRandomColor = () => {

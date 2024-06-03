@@ -204,7 +204,7 @@ const Dashboard: React.FC<DashboardProps> = ({ route, navigation }) => {
   };
 
   return (
-    <ScrollView style={{ flex: 1 }}>
+    <ScrollView style={{ flex: 1, backgroundColor: '#f0f4f8' }}>
       <CalendarComponent
         onDayPress={onDayPress}
         markedDates={markedDates}

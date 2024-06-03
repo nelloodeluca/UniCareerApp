@@ -10,24 +10,24 @@ import ExamsContext from '../EsamiContext';
 import { MaterialIcons } from '@expo/vector-icons';
 
 const StyledScrollView = styled(ScrollView)`
-    flex: 1;
-    padding: 20px;
-    background-color: #f0f4f8;
+  flex: 1;
+  padding: 20px;
+  background-color: #f0f4f8;
 `;
 
 const CardContainer = styled(View)`
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-items: center;
-    margin-bottom: 20px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 20px;
 `;
 
 const Label = styled(Paragraph)`
-    font-weight: 400;
-    margin-top: 10px;
-    font-size: 16px;
-    text-align: center;
+  font-weight: 400;
+  margin-top: 10px;
+  font-size: 16px;
+  text-align: center;
 `;
 
 const EmptyContainer = styled(View)`
@@ -75,14 +75,25 @@ export default function Statistica() {
 
   if (examsTaken < 5) {
     return (
-      <View style={{width: '100%',height: '100%', padding: '5%',  alignItems: 'center', justifyContent: 'center'}}>
+      <View
+        style={{
+          width: '100%',
+          height: '100%',
+          padding: '5%',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
         <EmptyContainer>
           <IconWrapper>
             <MaterialIcons name="error-outline" size={56} color="#6854a4" />
           </IconWrapper>
-          <Label>Aggiungi almeno 5 Esami Conclusi per visualizzare le tue statistiche!</Label>
+          <Label>
+            Aggiungi almeno 5 Esami Conclusi per visualizzare le tue
+            statistiche!
+          </Label>
         </EmptyContainer>
-        </View>
+      </View>
     );
   }
 
@@ -103,14 +114,8 @@ export default function Statistica() {
         />
       </CardContainer>
       <CardContainer>
-        <CardStatisticaSmall
-          title="Voto Massimo"
-          value={getMaxGrade()}
-        />
-        <CardStatisticaSmall
-          title="Voto Minimo"
-          value={getMinGrade()}
-        />
+        <CardStatisticaSmall title="Voto Massimo" value={getMaxGrade()} />
+        <CardStatisticaSmall title="Voto Minimo" value={getMinGrade()} />
       </CardContainer>
       <CardContainer>
         <StatisticaGrafico grades={grades} />

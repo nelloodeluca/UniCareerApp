@@ -1,5 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { FlatList, TouchableOpacity, View, Text, ActivityIndicator } from 'react-native';
+import {
+  FlatList,
+  TouchableOpacity,
+  View,
+  Text,
+  ActivityIndicator,
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import EsameCard from '../../components/EsameCard';
 import DettagliEsame from './DettagliEsame';
@@ -14,18 +20,17 @@ import styled from 'styled-components/native';
 import { Button, Card, Paragraph } from 'react-native-paper';
 
 const Container = styled.View`
-    flex: 1;
-    padding: 16px;
-    align-items: center;
-    justify-content: center;
+  flex: 1;
+  padding: 16px;
+  align-items: center;
+  justify-content: center;
 `;
 
 const Label = styled(Paragraph)`
-    font-weight: 400;
-    margin-top: 10px;
-    font-size: 16px;
+  font-weight: 400;
+  margin-top: 10px;
+  font-size: 16px;
 `;
-
 
 type CarrieraEsamiNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -54,7 +59,7 @@ const CarrieraEsami: React.FC<CarrieraEsamiProps> = ({ showVoto }) => {
 
   useEffect(() => {
     setTimeout(() => {
-      setListKey(prevKey => prevKey + 1);
+      setListKey((prevKey) => prevKey + 1);
       setLoading(false);
     }, 500); // Simula un piccolo ritardo per il caricamento
   }, [exams]);
@@ -89,14 +94,21 @@ const CarrieraEsami: React.FC<CarrieraEsamiProps> = ({ showVoto }) => {
 
   if (loading) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: '#f0f4f8',
+        }}
+      >
         <ActivityIndicator size="large" color="#6854a4" />
       </View>
     );
   }
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: '#f0f4f8' }}>
       {filteredExams.length > 0 ? (
         <>
           <FlatList
@@ -115,31 +127,29 @@ const CarrieraEsami: React.FC<CarrieraEsamiProps> = ({ showVoto }) => {
             })}
           />
           {selectedEsame && (
-          <DettagliEsame
-            visible={modalVisible}
-            onClose={closeModal}
-            esame={selectedEsame}
-            onDelete={() => handleDelete(selectedEsame.id)}
-            onEdit={handleEdit}
+            <DettagliEsame
+              visible={modalVisible}
+              onClose={closeModal}
+              esame={selectedEsame}
+              onDelete={() => handleDelete(selectedEsame.id)}
+              onEdit={handleEdit}
             />
-        )}
+          )}
         </>
-        ):(
+      ) : (
         <Container>
-
-            <Label>Ehm, non hai inserito alcun esame...</Label>
-            <Button
-              mode="contained"
-              onPress={() => navigation.navigate('Aggiunta', { screen: 'FormEsame' })}
-              style={{ marginTop: 20 }}
-            >
-              Creane uno subito!
-            </Button>
-
-
+          <Label>Ehm, non hai inserito alcun esame...</Label>
+          <Button
+            mode="contained"
+            onPress={() =>
+              navigation.navigate('Aggiunta', { screen: 'FormEsame' })
+            }
+            style={{ marginTop: 20 }}
+          >
+            Creane uno subito!
+          </Button>
         </Container>
       )}
-
     </View>
   );
 };

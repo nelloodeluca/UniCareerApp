@@ -10,7 +10,7 @@ interface CategoryCardProps {
 }
 
 const CategoryCardContainer = styled.View`
-  width:100%;
+  width: 100%;
   margin-bottom: 16px;
   padding: 16px;
   background-color: #fff;

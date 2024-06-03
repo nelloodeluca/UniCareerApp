@@ -10,7 +10,12 @@ import {
   Paragraph,
   Snackbar,
 } from 'react-native-paper';
-import { addColor, getRandomColor, removeColor, usedColors } from '../../utils/getColor';
+import {
+  addColor,
+  getRandomColor,
+  removeColor,
+  usedColors,
+} from '../../utils/getColor';
 
 interface ModificaCategoriaModalProps {
   visible: boolean;

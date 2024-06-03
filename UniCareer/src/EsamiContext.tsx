@@ -8,9 +8,11 @@ import React, {
 import { Categoria, Esame, ExamsContextType } from './types';
 import {
   getEsami,
-  deleteEsami, insertEsame, updateEsame,
+  deleteEsami,
+  insertEsame,
+  updateEsame,
 } from './utils/operazioni_db/fetch_Esami';
-import { prepareDB } from './databaseSetup';
+
 import {
   getCategorie,
   deleteCategoria,
@@ -18,6 +20,7 @@ import {
   modifyCategoria,
 } from './utils/operazioni_db/op_Categoria';
 import { addColor, removeColor } from './utils/getColor';
+import { prepareDB } from './databaseSetup';
 
 const ExamsContext = createContext<ExamsContextType | undefined>(undefined);
 
@@ -129,8 +132,6 @@ export const ExamsProvider: React.FC<ExamsProviderProps> = ({ children }) => {
     }
   };
 
-
-
   const getMaxGrade = () => {
     let maxGrade = 0;
     exams.forEach((exam) => {
@@ -219,9 +220,7 @@ export const ExamsProvider: React.FC<ExamsProviderProps> = ({ children }) => {
   };
 
   const getGrades = () => {
-    return exams
-      .filter((exam) => exam.voto !== null)
-      .map((exam) => exam.voto);
+    return exams.filter((exam) => exam.voto !== null).map((exam) => exam.voto);
   };
 
   return (

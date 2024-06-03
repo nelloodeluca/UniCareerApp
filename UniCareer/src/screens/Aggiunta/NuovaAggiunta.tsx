@@ -189,16 +189,16 @@ const NuovaAggiunta = () => {
       diario,
       categorie: selectedCategorie,
     };
-    console.log('Diario Esame:',temp.diario);
-    console.log('Luogo Esame:',temp.luogo);
-    console.log('Docente Esame:',temp.docente);
-    if(temp.voto === 0 || tipoEsame === "Prossimo") {
+    console.log('Diario Esame:', temp.diario);
+    console.log('Luogo Esame:', temp.luogo);
+    console.log('Docente Esame:', temp.docente);
+    if (temp.voto === 0 || tipoEsame === 'Prossimo') {
       temp.voto = null;
     }
 
-    if(isEditing) {
+    if (isEditing) {
       aggiornaEsame(temp);
-    } else{
+    } else {
       aggiungiEsame(temp);
     }
     setSnackbarVisible(true);
@@ -242,7 +242,9 @@ const NuovaAggiunta = () => {
           {Platform.OS === 'android' ? (
             <Container>
               <CustomButton mode="contained" onPress={() => showMode('date')}>
-                <DateTimeText>Data selezionata: {formatDate(date)}</DateTimeText>
+                <DateTimeText>
+                  Data selezionata: {formatDate(date)}
+                </DateTimeText>
               </CustomButton>
               <CustomButton mode="contained" onPress={() => showMode('time')}>
                 <DateTimeText>Ora selezionata: {formatTime(time)}</DateTimeText>
@@ -306,7 +308,7 @@ const NuovaAggiunta = () => {
             selectedOption={tipologia}
             handleOptionChange={setTipologia}
           />
-          <Divider bold/>
+          <Divider bold />
           <Container>
             <Label>Seleziona fino a 3 categorie:</Label>
             <CategoriaPicker
@@ -324,7 +326,7 @@ const NuovaAggiunta = () => {
             selectedOption={tipoEsame}
             handleOptionChange={setTipoEsame}
           />
-          <Divider bold/>
+          <Divider bold />
           <NumericContainer>
             <NumericText>CFU:</NumericText>
             <NumericInput
@@ -350,7 +352,6 @@ const NuovaAggiunta = () => {
               <LodeSwitch voto={voto} lode={lode} setLode={setLode} />
             </>
           )}
-
         </StyledListSection>
 
         <StyledListSection>
@@ -379,7 +380,12 @@ const NuovaAggiunta = () => {
         visible={snackbarVisible}
         onDismiss={() => setSnackbarVisible(false)}
         duration={3000}
-        style={{ position: 'absolute', bottom: 0, width: '90%', alignSelf: 'center'}}
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          width: '90%',
+          alignSelf: 'center',
+        }}
       >
         <Label style={{ color: '#fafafa' }}>
           Esame {isEditing ? 'modificato' : 'inserito'} correttamente
@@ -390,83 +396,83 @@ const NuovaAggiunta = () => {
 };
 
 const ScrollContainer = styled(ScrollView)`
-    background-color: #f5f5f5;
-    overflow: hidden;
-    height: ${h}px;
-    padding: 8px;
+  background-color: #f0f4f8;
+  overflow: hidden;
+  height: ${h}px;
+  padding: 8px;
 `;
 
 const Label = styled(Text)`
-    font-size: 18px;
-    margin: 4px 0;
-    color: #333;
+  font-size: 18px;
+  margin: 4px 0;
+  color: #333;
 `;
 
 const StyledListSection = styled(List.Section)`
-    border-radius: 20px;
-    padding: 8px 16px;
-    margin: 8px 0;
-    background-color: #fafafa;
-    border: 1px solid #afafaf50;
+  border-radius: 20px;
+  padding: 8px 16px;
+  margin: 8px 0;
+  background-color: #fafafa;
+  border: 1px solid #afafaf50;
 `;
 
 const Container = styled.View`
-    margin: 8px 0;
+  margin: 8px 0;
 `;
 
 const InlineContainer = styled.View`
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    margin: 8px 0;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin: 8px 0;
 `;
 
 const NumericContainer = styled.View`
-    flex-direction: row;
-    align-items: center;
-    margin: 4px 0;
+  flex-direction: row;
+  align-items: center;
+  margin: 4px 0;
 `;
 
 const NumericText = styled.Text`
-    flex: 1;
-    font-size: 20px;
-    padding-left: 3%;
-    font-weight: 500;
+  flex: 1;
+  font-size: 20px;
+  padding-left: 3%;
+  font-weight: 500;
 `;
 
 const StyledDateTimePicker = styled(DateTimePicker)`
-    padding: 2px 8px;
-    margin: 8px 0;
+  padding: 2px 8px;
+  margin: 8px 0;
 `;
 
 const CustomButton = styled(Button)`
-    margin: 8px 0;
-    background-color: #6854a4;
-    border-radius: 10px;
-    padding: 10px;
+  margin: 8px 0;
+  background-color: #6854a4;
+  border-radius: 10px;
+  padding: 10px;
 `;
 
 const DateTimeText = styled(Text)`
-    margin-top: 20px;
-    font-size: 16px;
-    color: #fff;
-    text-align: center;
+  margin-top: 20px;
+  font-size: 16px;
+  color: #fff;
+  text-align: center;
 `;
 
 const DiaryInput = styled(TextInput)`
-    height: 150px;
-    border: 1px solid #ccc;
-    padding: 10px;
-    border-radius: 5px;
-    background-color: #fff;
-    margin: 8px 0 20px 0;
+  height: 150px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #fff;
+  margin: 8px 0 20px 0;
 `;
 
 const SubmitButton = styled(Button)<{ disabled: boolean }>`
-    margin: 8px 0;
-    background-color: ${({ disabled }) => (disabled ? '#cccccc70' : '#6854a4')};
-    border-radius: 10px;
-    padding: 10px;
+  margin: 8px 0;
+  background-color: ${({ disabled }) => (disabled ? '#cccccc70' : '#6854a4')};
+  border-radius: 10px;
+  padding: 10px;
 `;
 
 export default NuovaAggiunta;

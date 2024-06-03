@@ -53,7 +53,7 @@ function CategoriaAggiunta() {
         selectedCategory.colore !== updatedCategoria.colore
       ) {
         setLoading(true);
-        aggiornaCategoria(selectedCategory,updatedCategoria);
+        aggiornaCategoria(selectedCategory, updatedCategoria);
       }
     }
     setSelectedCategory(null);
@@ -108,7 +108,14 @@ function CategoriaAggiunta() {
           </InlineForm>
 
           {loading ? (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginBottom: 16 }}>
+            <View
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginBottom: 16,
+              }}
+            >
               <ActivityIndicator size="large" color="#6854a4" />
             </View>
           ) : (
@@ -138,13 +145,18 @@ function CategoriaAggiunta() {
               )}
             </>
           )}
-      </Container>
-    </ScrollView>
+        </Container>
+      </ScrollView>
       <Snackbar
         visible={snackbarVisible}
         onDismiss={() => setSnackbarVisible(false)}
         duration={3000}
-        style={{ position: 'absolute', bottom: 0, width: '90%', alignSelf: 'center'}}
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          width: '90%',
+          alignSelf: 'center',
+        }}
       >
         <Label style={{ color: '#fafafa' }}>
           Numero massimo di categorie raggiunto!
@@ -155,39 +167,40 @@ function CategoriaAggiunta() {
 }
 
 const Container = styled.View`
-    flex: 1;
-    padding: 16px;
-    align-items: center;
+  flex: 1;
+  padding: 16px;
+  align-items: center;
+  background-color: #f0f4f8;
 `;
 
 const Input = styled.TextInput`
-    height: 40px;
-    border: 1px solid #cccccc70;
-    padding: 0 10px;
-    border-radius: 5px;
-    background-color: #fff;
-    margin-right: 8px;
-    flex: 3;
+  height: 40px;
+  border: 1px solid #cccccc70;
+  padding: 0 10px;
+  border-radius: 5px;
+  background-color: #fff;
+  margin-right: 8px;
+  flex: 3;
 `;
 
 const InlineForm = styled.View`
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-around;
-    margin-bottom: 20px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  margin-bottom: 20px;
 `;
 
 const AddButton = styled.TouchableOpacity`
-    background-color: #6854a4;
-    border-radius: 50px;
-    justify-content: center;
-    align-items: center;
+  background-color: #6854a4;
+  border-radius: 50px;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Label = styled(Paragraph)`
-    font-weight: 400;
-    margin-top: 10px;
-    font-size: 16px;
+  font-weight: 400;
+  margin-top: 10px;
+  font-size: 16px;
 `;
 
 export default CategoriaAggiunta;

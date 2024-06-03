@@ -1,7 +1,10 @@
 import { Categoria, Esame } from '../../types';
 import { mapRowToCategoria, mapRowToEsame } from './parseEsami';
 import { dbPromise } from '../../databaseSetup';
-import { deleteAll_Esami_Categoria, insert_Esame_Categorie } from './op_Categoria';
+import {
+  deleteAll_Esami_Categoria,
+  insert_Esame_Categorie,
+} from './op_Categoria';
 
 // Funzione per ottenere tutti gli esami con categorie annesse
 export const getEsami = async (): Promise<Esame[]> => {
@@ -47,17 +50,14 @@ export const insertEsame = async (esame: Esame): Promise<void> => {
       ]
     );
 
-  for (const categoria of esame.categorie) {
-    await insert_Esame_Categorie(result.insertId.toString(), categoria.id);
-  }
-
-
-  }catch (error) {
+    for (const categoria of esame.categorie) {
+      await insert_Esame_Categorie(result.insertId.toString(), categoria.id);
+    }
+  } catch (error) {
     console.error('Failed to insert esame in database:', error);
     throw error;
   }
-
-}
+};
 
 export const deleteEsami = async (id: string): Promise<void> => {
   try {
@@ -72,33 +72,32 @@ export const deleteEsami = async (id: string): Promise<void> => {
 export const updateEsame = async (esame: Esame): Promise<void> => {
   try {
     const db = await dbPromise;
-      await db.executeSql(
-        `
+    await db.executeSql(
+      `
         UPDATE esame
         SET nome = ?, corso_di_studi = ?, docente = ?, luogo = ?, tipologia = ?, cfu = ?, data = ?, ora = ?, voto = ?, lode = ?, diario = ?
         WHERE id = ?
       `,
-        [
-          esame.nome,
-          esame.corsoDiStudi,
-          esame.docente,
-          esame.luogo,
-          esame.tipologia,
-          esame.CFU,
-          esame.data,
-          esame.ora,
-          esame.voto,
-          esame.lode,
-          esame.diario,
-          esame.id,
-        ]
-      );
+      [
+        esame.nome,
+        esame.corsoDiStudi,
+        esame.docente,
+        esame.luogo,
+        esame.tipologia,
+        esame.CFU,
+        esame.data,
+        esame.ora,
+        esame.voto,
+        esame.lode,
+        esame.diario,
+        esame.id,
+      ]
+    );
 
-      await deleteAll_Esami_Categoria(esame.id);
-      for (const categoria of esame.categorie) {
-        await insert_Esame_Categorie(esame.id, categoria.id);
-      }
-
+    await deleteAll_Esami_Categoria(esame.id);
+    for (const categoria of esame.categorie) {
+      await insert_Esame_Categorie(esame.id, categoria.id);
+    }
   } catch (error) {
     console.error('Failed to update esame in database:', error);
     throw error;
