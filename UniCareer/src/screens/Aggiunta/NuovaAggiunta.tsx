@@ -33,7 +33,7 @@ const NuovaAggiunta = () => {
   if (!context) {
     return <Text>Il contesto non è disponibile</Text>;
   }
-  const { categorie, aggiornaEsame, aggiungiEsame } = context;
+  const { exams, categorie, aggiornaEsame, aggiungiEsame } = context;
 
   const route = useRoute<FormEsameRouteProp>();
   const navigation = useNavigation<FormEsameNavigationProp>();
@@ -59,6 +59,9 @@ const NuovaAggiunta = () => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [snackbarVisible, setSnackbarVisible] = useState<boolean>(false);
   const [selectedCategorie, setSelectedCategorie] = useState<Categoria[]>([]);
+  const [snackbarMessage, setSnackbarMessage] = useState<string>('');
+
+  const isFormValid = nome && corsoDiStudi && CFU && date;
 
   const resetForm = () => {
     setId('');
@@ -156,9 +159,6 @@ const NuovaAggiunta = () => {
     }, [navigation])
   );
 
-
-
-
   const handleSelect = (selectedCategories: Categoria[]) => {
     setSelectedCategorie(selectedCategories);
   };
@@ -205,6 +205,14 @@ const NuovaAggiunta = () => {
   };
 
   const handleSubmit = () => {
+    const nomeEsiste = exams.some((exam) => exam.nome === nome);
+
+    if (nomeEsiste) {
+      setSnackbarMessage(`"${nome}" è già nel tuo Libretto!!`);
+      setSnackbarVisible(true);
+      return;
+    }
+
     const temp: Esame = {
       id,
       nome,
@@ -231,19 +239,18 @@ const NuovaAggiunta = () => {
     } else {
       aggiungiEsame(temp);
     }
+    setSnackbarMessage(`Esame ${isEditing ? 'modificato' : 'inserito'} correttamente`);
     setSnackbarVisible(true);
     resetForm();
     //Inserito l'esame rimanda verso carriera esami..
     setTimeout(() => {
-      if(temp.voto == null){
-        navigation.navigate('Libretto', { screen: 'EsamiNonDati' })
-      }else{
-        navigation.navigate('Libretto', { screen: 'EsamiDati' })
+      if (temp.voto == null) {
+        navigation.navigate('Libretto', { screen: 'EsamiNonDati' });
+      } else {
+        navigation.navigate('Libretto', { screen: 'EsamiDati' });
       }
-    }, 800);
+    }, 1000);
   };
-
-  const isFormValid = nome && corsoDiStudi && CFU && date;
 
   return (
     <>
@@ -427,7 +434,7 @@ const NuovaAggiunta = () => {
         }}
       >
         <Label style={{ color: '#fafafa' }}>
-          Esame {isEditing ? 'modificato' : 'inserito'} correttamente
+          {snackbarMessage}
         </Label>
       </Snackbar>
     </>
@@ -435,83 +442,83 @@ const NuovaAggiunta = () => {
 };
 
 const ScrollContainer = styled(ScrollView)`
-  background-color: #f0f4f8;
-  overflow: hidden;
-  height: ${h}px;
-  padding: 8px;
+    background-color: #f0f4f8;
+    overflow: hidden;
+    height: ${h}px;
+    padding: 8px;
 `;
 
 const Label = styled(Text)`
-  font-size: 18px;
-  margin: 4px 0;
-  color: #333;
+    font-size: 18px;
+    margin: 4px 0;
+    color: #333;
 `;
 
 const StyledListSection = styled(List.Section)`
-  border-radius: 20px;
-  padding: 8px 16px;
-  margin: 8px 0;
-  background-color: #fafafa;
-  border: 1px solid #afafaf50;
+    border-radius: 20px;
+    padding: 8px 16px;
+    margin: 8px 0;
+    background-color: #fafafa;
+    border: 1px solid #afafaf50;
 `;
 
 const Container = styled.View`
-  margin: 8px 0;
+    margin: 8px 0;
 `;
 
 const InlineContainer = styled.View`
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  margin: 8px 0;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin: 8px 0;
 `;
 
 const NumericContainer = styled.View`
-  flex-direction: row;
-  align-items: center;
-  margin: 4px 0;
+    flex-direction: row;
+    align-items: center;
+    margin: 4px 0;
 `;
 
 const NumericText = styled.Text`
-  flex: 1;
-  font-size: 20px;
-  padding-left: 3%;
-  font-weight: 500;
+    flex: 1;
+    font-size: 20px;
+    padding-left: 3%;
+    font-weight: 500;
 `;
 
 const StyledDateTimePicker = styled(DateTimePicker)`
-  padding: 2px 8px;
-  margin: 8px 0;
+    padding: 2px 8px;
+    margin: 8px 0;
 `;
 
 const CustomButton = styled(Button)`
-  margin: 8px 0;
-  background-color: #6854a4;
-  border-radius: 10px;
-  padding: 10px;
+    margin: 8px 0;
+    background-color: #6854a4;
+    border-radius: 10px;
+    padding: 10px;
 `;
 
 const DateTimeText = styled(Text)`
-  margin-top: 20px;
-  font-size: 16px;
-  color: #fff;
-  text-align: center;
+    margin-top: 20px;
+    font-size: 16px;
+    color: #fff;
+    text-align: center;
 `;
 
 const DiaryInput = styled(TextInput)`
-  height: 150px;
-  border: 1px solid #ccc;
-  padding: 10px;
-  border-radius: 5px;
-  background-color: #fff;
-  margin: 8px 0 20px 0;
+    height: 150px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #fff;
+    margin: 8px 0 20px 0;
 `;
 
 const SubmitButton = styled(Button)<{ disabled: boolean }>`
-  margin: 8px 0;
-  background-color: ${({ disabled }) => (disabled ? '#cccccc70' : '#6854a4')};
-  border-radius: 10px;
-  padding: 10px;
+    margin: 8px 0;
+    background-color: ${({ disabled }) => (disabled ? '#cccccc70' : '#6854a4')};
+    border-radius: 10px;
+    padding: 10px;
 `;
 
 export default NuovaAggiunta;
