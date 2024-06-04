@@ -207,7 +207,7 @@ const NuovaAggiunta = () => {
   const handleSubmit = () => {
     const nomeEsiste = exams.some((exam) => exam.nome === nome);
 
-    if (nomeEsiste) {
+    if (nomeEsiste && !isEditing) {
       setSnackbarMessage(`"${nome}" è già nel tuo Libretto!!`);
       setSnackbarVisible(true);
       return;
