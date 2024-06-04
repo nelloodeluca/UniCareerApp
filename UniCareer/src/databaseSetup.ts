@@ -37,7 +37,7 @@ export const prepareDB = async () => {
   await db.executeSql(
     `CREATE TABLE IF NOT EXISTS categoria (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      nome VARCHAR(50) NOT NULL,
+      nome VARCHAR(50) NOT NULL UNIQUE,
       colore VARCHAR(7) NOT NULL
     );`
   );
