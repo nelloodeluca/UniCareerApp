@@ -18,13 +18,14 @@ const ImminentExams: React.FC<ImminentExamsProps> = ({
     <Container>
       <StyledCard>
         <DaysAheadContainer>
-          <LabelText>Esami imminenti:</LabelText>
+          <LabelText>Esami entro </LabelText>
           <StyledTextInput
             mode="outlined"
             keyboardType="numeric"
             value={daysAhead}
             onChangeText={setDaysAhead}
           />
+          <LabelText>giorni.</LabelText>
         </DaysAheadContainer>
         <ExamsTitle>Prossimi esami:</ExamsTitle>
         {imminentExams.length > 0 ? (
@@ -47,7 +48,7 @@ const Container = styled.View`
 
 const StyledCard = styled(Card)`
   background-color: #fafafa;
-  margin: 10px;
+  margin: 8px;
   padding: 10px;
   border-radius: 8px;
   elevation: 3;
@@ -65,8 +66,7 @@ const LabelText = styled.Text`
 `;
 
 const StyledTextInput = styled(TextInput)`
-  margin-left: 10px;
-  flex: 1;
+  margin: 0 10px;
 `;
 
 const ExamsTitle = styled.Text`
