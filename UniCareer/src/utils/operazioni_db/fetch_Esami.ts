@@ -1,5 +1,5 @@
-import { Categoria, Esame } from '../../types';
-import { mapRowToCategoria, mapRowToEsame } from './parseEsami';
+import { Esame } from '../../types';
+import { mapRowToEsame } from './parseEsami';
 import { dbPromise } from '../../databaseSetup';
 import {
   deleteAll_Esami_Categoria,

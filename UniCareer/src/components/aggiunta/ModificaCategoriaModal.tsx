@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Modal, TouchableOpacity, Text } from 'react-native';
 import styled from 'styled-components/native';
 import { Categoria } from '../../types';
@@ -11,10 +11,9 @@ import {
   Snackbar,
 } from 'react-native-paper';
 import {
-  addColor,
   getRandomColor,
-  removeColor,
-  usedColors,
+
+
 } from '../../utils/getColor';
 
 interface ModificaCategoriaModalProps {
@@ -68,10 +67,7 @@ const ModalInput = styled.TextInput`
   margin-bottom: 16px;
 `;
 
-const ButtonContainer = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
-`;
+
 
 const Circle = styled.View<{ color: string }>`
   width: 30px;

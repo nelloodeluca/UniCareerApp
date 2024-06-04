@@ -65,7 +65,6 @@ export default function Statistica() {
   }
 
   const {
-    exams,
     getMaxGrade,
     getMinGrade,
     getWeightedMean,

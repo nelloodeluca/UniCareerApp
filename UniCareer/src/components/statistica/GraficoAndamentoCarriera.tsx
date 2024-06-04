@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Dimensions } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 import styled from 'styled-components/native';
-import { Card } from 'react-native-paper';
 
 const screenWidth = Dimensions.get('window').width;
 

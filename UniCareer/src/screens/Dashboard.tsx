@@ -1,22 +1,21 @@
+// noinspection JSUnusedLocalSymbols
+
 import React, { useState, useMemo, useEffect, useContext } from 'react';
-import { ScrollView, Dimensions, View, Text, Platform } from 'react-native';
+import { ScrollView, Dimensions, Text } from 'react-native';
 import {
   format,
   startOfWeek,
   endOfWeek,
   eachDayOfInterval,
-  startOfMonth,
   endOfMonth,
   addDays,
 } from 'date-fns';
 import {
-  RootStackParamList,
   Esame,
   CalendarDay,
   DashboardProps,
 } from '../types';
 import CalendarComponent from '../components/dashboard/CalendarComponent';
-import MonthPicker from '../components/dashboard/MonthPicker';
 import ExamsList from '../components/dashboard/ExamsList';
 import ImminentExams from '../components/dashboard/ImminentExams';
 import TodayExams from '../components/dashboard/TodayExams';
@@ -24,20 +23,7 @@ import ExamsContext from '../EsamiContext';
 import TipoPicker from '../components/TipoPicker';
 import { Divider } from 'react-native-paper';
 
-const months = [
-  'Gennaio',
-  'Febbraio',
-  'Marzo',
-  'Aprile',
-  'Maggio',
-  'Giugno',
-  'Luglio',
-  'Agosto',
-  'Settembre',
-  'Ottobre',
-  'Novembre',
-  'Dicembre',
-];
+
 
 const getWeeksInMonth = (month: number, year: number) => {
   const firstDayOfMonth = new Date(year, month, 1);
@@ -184,11 +170,7 @@ const Dashboard: React.FC<DashboardProps> = ({ route, navigation }) => {
     setSelectedDay('');
   };
 
-  const handleMonthChange = (month: number) => {
-    setSelectedMonth(month);
-    setCurrentDate(new Date(year, month, 1));
-    handleClearSelection();
-  };
+
 
   const handleOptionChange = (option: string) => {
     setViewMode(option);

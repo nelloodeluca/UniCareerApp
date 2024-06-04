@@ -1,5 +1,4 @@
 import React from 'react';
-import { View } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import styled from 'styled-components/native';
 

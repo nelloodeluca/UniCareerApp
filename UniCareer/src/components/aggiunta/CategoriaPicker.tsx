@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components/native';
-import { Chip, Text } from 'react-native-paper';
+import { Chip } from 'react-native-paper';
 import { Categoria } from '../../types';
-import { useFocusEffect } from '@react-navigation/native';
 
 type CategoriaPickerProps = {
   categorie: Categoria[];
@@ -78,10 +77,5 @@ const ChipContainer = styled.View`
   margin-top: 8px;
 `;
 
-const Label = styled(Text)`
-  font-size: 18px;
-  margin: 4px 0;
-  color: #333;
-`;
 
 export default CategoriaPicker;

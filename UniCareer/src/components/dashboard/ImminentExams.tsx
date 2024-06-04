@@ -1,5 +1,4 @@
 import React from 'react';
-import { View } from 'react-native';
 import { Card, TextInput } from 'react-native-paper';
 import styled from 'styled-components/native';
 import { Esame } from '../../types';

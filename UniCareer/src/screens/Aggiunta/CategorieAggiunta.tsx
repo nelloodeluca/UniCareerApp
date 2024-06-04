@@ -6,7 +6,7 @@ import CategoriaCard from '../../components/aggiunta/CategoriaCard';
 import ModificaCategoriaModal from '../../components/aggiunta/ModificaCategoriaModal';
 import { Categoria } from '../../types';
 import { IconButton, Paragraph, Snackbar } from 'react-native-paper';
-import { addColor, getRandomColor, removeColor } from '../../utils/getColor';
+import {getRandomColor} from '../../utils/getColor';
 
 function CategoriaAggiunta() {
   const context = useContext(ExamsContext);
@@ -77,15 +77,6 @@ function CategoriaAggiunta() {
     }
   };
 
-  /*
-  if(loading){
-    return(
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginBottom: 16}}>
-        <ActivityIndicator size="large" color="#6854a4" />
-      </View>
-    );
-  }
-   */
 
   return (
     <>

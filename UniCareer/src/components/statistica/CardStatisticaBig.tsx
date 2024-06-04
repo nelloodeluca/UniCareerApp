@@ -2,13 +2,11 @@ import React from 'react';
 import {
   Text,
   Card,
-  Title,
-  Paragraph,
   ProgressBar,
-  MD3Colors, Divider,
+
 } from 'react-native-paper';
 import styled from 'styled-components/native';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 
 const Titolo = styled(Text)`
   font-size: 18px;
