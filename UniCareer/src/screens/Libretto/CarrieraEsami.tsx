@@ -49,7 +49,7 @@ const CarrieraEsami: React.FC<CarrieraEsamiProps> = ({ showVoto }) => {
     return <Text>Il contesto non è disponibile</Text>;
   }
 
-  const { exams, deleteExam } = context;
+  const { exams,categorie, deleteExam } = context;
   const [selectedEsame, setSelectedEsame] = useState<Esame | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -62,7 +62,7 @@ const CarrieraEsami: React.FC<CarrieraEsamiProps> = ({ showVoto }) => {
       setListKey((prevKey) => prevKey + 1);
       setLoading(false);
     }, 500);
-  }, [exams]);
+  }, [exams, categorie]);
 
   const openModal = (esame: Esame) => {
     setSelectedEsame(esame);

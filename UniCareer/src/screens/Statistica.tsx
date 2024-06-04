@@ -12,7 +12,6 @@ import { MaterialIcons } from '@expo/vector-icons';
 const StyledScrollView = styled(ScrollView)`
   flex: 1;
   padding: 10px;
-  margin-bottom: 16px;
   background-color: #f0f4f8;
 `;
 
