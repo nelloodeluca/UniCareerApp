@@ -17,7 +17,7 @@ import {
   getExamsWithoutGrades,
 } from '../../utils/carriera';
 import styled from 'styled-components/native';
-import { Button, Card, Paragraph } from 'react-native-paper';
+import { Button, Paragraph } from 'react-native-paper';
 
 const Container = styled.View`
   flex: 1;
@@ -61,7 +61,7 @@ const CarrieraEsami: React.FC<CarrieraEsamiProps> = ({ showVoto }) => {
     setTimeout(() => {
       setListKey((prevKey) => prevKey + 1);
       setLoading(false);
-    }, 500); // Simula un piccolo ritardo per il caricamento
+    }, 500);
   }, [exams]);
 
   const openModal = (esame: Esame) => {

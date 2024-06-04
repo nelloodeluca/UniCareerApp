@@ -8,9 +8,9 @@ import {
 } from 'react-native';
 import { Button, Divider, List, Snackbar, Text } from 'react-native-paper';
 import LabelInput from '../../components/aggiunta/LabelInput';
-import React, { useContext, useEffect, useState } from 'react';
-import { RouteProp, useFocusEffect, useRoute } from '@react-navigation/native';
-import { AggiuntaNavParams, Categoria, Esame } from '../../types';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { RouteProp, useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
+import { AggiuntaNavParams, Categoria, Esame, RootStackParamList } from '../../types';
 import NumericInput from '../../components/aggiunta/NumericInput';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import CategoriaPicker from '../../components/aggiunta/CategoriaPicker';
@@ -18,8 +18,14 @@ import ExamsContext from '../../EsamiContext';
 import LodeSwitch from '../../components/aggiunta/LodeSwitch';
 import TipoPicker from '../../components/TipoPicker';
 import { formatTime, formatDate, getCurrentDate } from '../../utils/aggiunta';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 type FormEsameRouteProp = RouteProp<AggiuntaNavParams, 'FormEsame'>;
+
+type FormEsameNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'Aggiunta'
+>;
 const h = Dimensions.get('window').height;
 
 const NuovaAggiunta = () => {
@@ -30,6 +36,8 @@ const NuovaAggiunta = () => {
   const { categorie, aggiornaEsame, aggiungiEsame } = context;
 
   const route = useRoute<FormEsameRouteProp>();
+  const navigation = useNavigation<FormEsameNavigationProp>();
+
   const param = route.params?.esame;
   const [esame, setEsame] = useState<Esame | null>(null);
 
@@ -51,6 +59,26 @@ const NuovaAggiunta = () => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [snackbarVisible, setSnackbarVisible] = useState<boolean>(false);
   const [selectedCategorie, setSelectedCategorie] = useState<Categoria[]>([]);
+
+  const resetForm = () => {
+    setId('');
+    setNome('');
+    setCorsoStudio('');
+    setDocente('');
+    setCfu(1);
+    setLuogo('');
+    setTipologia('Orale');
+    setTipoEsame('Prossimo');
+    setVoto(18);
+    setDate(new Date());
+    setTime(new Date());
+    setLode(false);
+    setDiario('');
+    setSelectedCategorie([]);
+    setEsame(null);
+    setIsEditing(false);
+    setSelectedCategorie([]);
+  };
 
   useEffect(() => {
     setEsame(param);
@@ -105,28 +133,31 @@ const NuovaAggiunta = () => {
   }, [tipoEsame === 'Prossimo' && date]);
 
   useFocusEffect(
-    React.useCallback(() => {
-      return () => {
-        setId('');
-        setNome('');
-        setCorsoStudio('');
-        setDocente('');
-        setCfu(1);
-        setLuogo('');
-        setTipologia('Orale');
-        setTipoEsame('Prossimo');
-        setVoto(18);
-        setDate(new Date());
-        setTime(new Date());
-        setLode(false);
-        setDiario('');
-        setSelectedCategorie([]);
-        setEsame(null);
-        setIsEditing(false);
-        setSelectedCategorie([]);
+    useCallback(() => {
+      const handleBlur = () => {
+        const state = navigation.getState();
+        const routes = state.routes;
+
+        console.log("State: ", state);
+        console.log("Routes: ", routes);
+        console.log("currentRouteName: ", routes[state.index].name);
+
+        const currentRouteName = routes[state.index].name as string;
+        if (currentRouteName !== 'FormCategorie') {
+          resetForm();
+        }
       };
-    }, [])
+
+      const unsubscribeBlur = navigation.addListener('blur', handleBlur);
+
+      return () => {
+        unsubscribeBlur();
+      };
+    }, [navigation])
   );
+
+
+
 
   const handleSelect = (selectedCategories: Categoria[]) => {
     setSelectedCategorie(selectedCategories);
@@ -195,13 +226,21 @@ const NuovaAggiunta = () => {
     if (temp.voto === 0 || tipoEsame === 'Prossimo') {
       temp.voto = null;
     }
-
     if (isEditing) {
       aggiornaEsame(temp);
     } else {
       aggiungiEsame(temp);
     }
     setSnackbarVisible(true);
+    resetForm();
+    //Inserito l'esame rimanda verso carriera esami..
+    setTimeout(() => {
+      if(temp.voto == null){
+        navigation.navigate('Libretto', { screen: 'EsamiNonDati' })
+      }else{
+        navigation.navigate('Libretto', { screen: 'EsamiDati' })
+      }
+    }, 800);
   };
 
   const isFormValid = nome && corsoDiStudi && CFU && date;

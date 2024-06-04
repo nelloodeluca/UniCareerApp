@@ -4,12 +4,13 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 export type RootStackParamList = {
   Dashboard: undefined;
   Statistica: undefined;
-  Libretto: undefined;
+  Libretto: { screen: keyof LibrettoNavParams; params?: any };
   Aggiunta: { screen: keyof AggiuntaNavParams; params?: any };
 };
 
 export type LibrettoNavParams = {
-  CarrieraEsami: undefined;
+  EsamiDati: undefined;
+  EsamiNonDati: undefined;
 };
 
 export type AggiuntaNavParams = {
