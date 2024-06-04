@@ -13,7 +13,6 @@ import {
 import {
   Esame,
   CalendarDay,
-  DashboardProps,
 } from '../types';
 import CalendarComponent from '../components/dashboard/CalendarComponent';
 import ExamsList from '../components/dashboard/ExamsList';
@@ -47,7 +46,7 @@ const getWeeksInMonth = (month: number, year: number) => {
   return weeks;
 };
 
-const Dashboard: React.FC<DashboardProps> = ({ route, navigation }) => {
+const Dashboard = () => {
   const context = useContext(ExamsContext);
 
   if (!context) {
