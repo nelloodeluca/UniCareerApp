@@ -119,7 +119,7 @@ const CarrieraEsami: React.FC<CarrieraEsamiProps> = ({ showVoto }) => {
                 <EsameCard esame={item} />
               </TouchableOpacity>
             )}
-            keyExtractor={(item) => item.id.toString()} // Aggiungi il metodo toString se id è un numero
+            keyExtractor={(item) => item.id.toString()}
             getItemLayout={(data, index) => ({
               length: 100,
               offset: 100 * index,

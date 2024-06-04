@@ -242,14 +242,6 @@ const NuovaAggiunta = () => {
     setSnackbarMessage(`Esame ${isEditing ? 'modificato' : 'inserito'} correttamente`);
     setSnackbarVisible(true);
     resetForm();
-    //Inserito l'esame rimanda verso carriera esami..
-    setTimeout(() => {
-      if (temp.voto == null) {
-        navigation.navigate('Libretto', { screen: 'EsamiNonDati' });
-      } else {
-        navigation.navigate('Libretto', { screen: 'EsamiDati' });
-      }
-    }, 1000);
   };
 
   return (
