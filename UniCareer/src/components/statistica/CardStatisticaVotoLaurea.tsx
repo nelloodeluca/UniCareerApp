@@ -1,30 +1,27 @@
 import React from 'react';
 import {
   Text,
-  Card,
-  Title,
-  Paragraph,
-  ProgressBar,
-  MD3Colors,
+  Card
 } from 'react-native-paper';
 import styled from 'styled-components/native';
 
 const Titolo = styled(Text)`
-  color: white;
+  color: #fafafa;
   font-size: 32px;
-  font-weight: bold;
-  textalign: center;
+  font-weight: 600;
+  text-align: center;
 `;
 const Voto = styled(Text)`
-  color: white;
-  font-size: 32px;
-  textalign: center;
+  color: #fafafa;
+    font-weight: 500;
+    font-size: 28px;
+  text-align: center;
 `;
 
 const StyledCard = styled(Card)`
   background-color: #6854a4;
-  margin: 2.5%;
-  width: 95%;
+  margin: 4px auto;
+  width: 100%;
   padding: 0 8px 8px 8px;
 `;
 

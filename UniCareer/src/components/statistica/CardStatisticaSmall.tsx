@@ -3,17 +3,12 @@ import { Dimensions } from 'react-native';
 import {
   Text,
   Card,
-  Title,
-  Paragraph,
-  ProgressBar,
-  MD3Colors,
+  Paragraph
 } from 'react-native-paper';
 import styled from 'styled-components/native';
 
-const { width, height } = Dimensions.get('window');
-
 const Titolo = styled(Text)`
-  font-size: 18px;
+  font-size: 17px;
   font-weight: bold;
   text-align: center;
 `;
@@ -26,9 +21,9 @@ const Voto = styled(Paragraph)`
 
 const StyledCard = styled(Card)`
   background-color: #fafafa;
-  margin: 10px auto;
-  width: 45%;
-  padding: ${width > 640 ? '0 8px 8px 8px' : '0 4px 4px 4px'};
+    margin: 8px auto;
+    flex:1;
+    
 `;
 
 type StatCardProps = {

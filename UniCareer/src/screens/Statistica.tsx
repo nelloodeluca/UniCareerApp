@@ -11,22 +11,22 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 const StyledScrollView = styled(ScrollView)`
   flex: 1;
-  padding: 20px;
+  padding: 10px;
   background-color: #f0f4f8;
 `;
 
 const CardContainer = styled(View)`
+  width: 100%;
   flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+    gap: 8px;
 `;
 
 const Label = styled(Paragraph)`
-  font-weight: 400;
+  font-weight: 600;
   margin-top: 10px;
-  font-size: 16px;
+  font-size: 20px;
   text-align: center;
 `;
 
@@ -48,6 +48,12 @@ const IconWrapper = styled(View)`
   border-radius: 50px;
   padding: 20px;
   margin-bottom: 20px;
+`;
+
+const StyledCard = styled(Card)`
+    width: 100%;
+    margin: 4px auto;
+  background-color: #fafafa;
 `;
 
 export default function Statistica() {
@@ -98,28 +104,32 @@ export default function Statistica() {
   }
 
   return (
-    <StyledScrollView contentContainerStyle={{ flexGrow: 1 }}>
-      <CardContainer>
+    <StyledScrollView>
         <CardStatisticaBig
-          title="Attività Svolte:"
-          text="Attività"
+          title="Attività Svolte"
+          text="Attività Svolte"
           value1={examsTaken}
           value2={totalExams}
         />
         <CardStatisticaBig
           title="CFU Conseguiti: "
-          text="CFU"
+          text="CFU Conseguiti"
           value1={obtainedCredits}
           value2={totalCredits}
         />
-      </CardContainer>
       <CardContainer>
         <CardStatisticaSmall title="Voto Massimo" value={getMaxGrade()} />
         <CardStatisticaSmall title="Voto Minimo" value={getMinGrade()} />
       </CardContainer>
-      <CardContainer>
+
+      <StyledCard>
+        <Card.Content>
+          <Label>Grafico Libretto Esami</Label>
+        </Card.Content>
         <StatisticaGrafico grades={grades} />
-      </CardContainer>
+      </StyledCard>
+
+
       <CardContainer>
         <CardStatisticaSmall
           title="Media Aritmetica"
@@ -130,12 +140,10 @@ export default function Statistica() {
           value={getWeightedMean()}
         />
       </CardContainer>
-      <CardContainer>
         <CardStatisticaVotoLaurea
           title="Voto di Laurea"
           value1={getGraduationGrade()}
         />
-      </CardContainer>
     </StyledScrollView>
   );
 }

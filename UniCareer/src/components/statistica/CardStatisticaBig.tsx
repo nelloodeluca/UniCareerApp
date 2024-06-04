@@ -5,7 +5,7 @@ import {
   Title,
   Paragraph,
   ProgressBar,
-  MD3Colors,
+  MD3Colors, Divider,
 } from 'react-native-paper';
 import styled from 'styled-components/native';
 import { View, StyleSheet } from 'react-native';
@@ -13,25 +13,19 @@ import { View, StyleSheet } from 'react-native';
 const Titolo = styled(Text)`
   font-size: 18px;
   font-weight: bold;
-  textalign: center;
-`;
-
-const Voto = styled(Paragraph)`
-  font-size: 16px;
-  textalign: center;
+  text-align: center;
 `;
 
 const Barra = styled(ProgressBar)`
   height: 100%;
-  //margin: 10px 0 0 0;
   background-color: #d6c9ff;
 `;
 
 const StyledCard = styled(Card)`
+    width: 100%;
+    margin: 6px auto;
   background-color: #fafafa;
-  margin: 2.5%;
-  width: 95%;
-  padding: 0 8px 8px 8px;
+  padding: 0 8px 0 8px;
 `;
 
 const ProgressBarContainer = styled(View)`
@@ -67,10 +61,11 @@ const CardStatisticaBig: React.FC<StatCardProps> = ({
   const rapporto = value1 / value2;
 
   return (
+    <>
     <StyledCard>
-      <Card.Content>
+      <Card.Content style={{marginBottom:8, marginTop:8}}>
         <Titolo>
-          {title} {value1}/{value2} {text}
+          {value1} / {value2} {text}
         </Titolo>
         <ProgressBarContainer>
           <Barra
@@ -80,7 +75,8 @@ const CardStatisticaBig: React.FC<StatCardProps> = ({
           <ProgressText>{`${Math.round(rapporto * 100)}%`}</ProgressText>
         </ProgressBarContainer>
       </Card.Content>
-    </StyledCard>
+      </StyledCard>
+    </>
   );
 };
 

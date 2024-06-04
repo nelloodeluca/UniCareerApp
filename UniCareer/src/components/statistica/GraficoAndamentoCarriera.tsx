@@ -6,11 +6,11 @@ import { Card } from 'react-native-paper';
 
 const screenWidth = Dimensions.get('window').width;
 
-const Container = styled(Card)`
-  padding: 16px 16px 0 16px;
+const Container = styled(View)`
+  padding: 16px 8px 0 8px;
   justify-content: center;
   align-items: center;
-  background-color: #ffffff;
+  background-color: #fafafa;
   border-radius: 20px;
 `;
 
@@ -18,8 +18,8 @@ const chartConfig = {
   style: {
     borderRadius: 30,
   },
-  backgroundGradientFrom: '#ffffff',
-  backgroundGradientTo: '#ffffff',
+  backgroundGradientFrom: '#fafafa',
+  backgroundGradientTo: '#fafafa',
   color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`,
   strokeWidth: 2,
   barPercentage: 0.5,
