@@ -29,6 +29,7 @@ export const getRandomColor = () => {
 };
 
 export const addColor = (color: string) => {
+  console.log(usedColors);
   usedColors.add(color);
   console.log('Nuovo colore utilizzato e salvato:', color);
 };

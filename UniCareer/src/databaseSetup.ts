@@ -11,11 +11,14 @@ export const dbPromise = SQLite.openDatabase({
 export const prepareDB = async () => {
   const db = await dbPromise;
 
+  /* Decommentare questa sezione in caso si vogliono droppare le tabelle
   const dropTables = async () => {
     await db.executeSql('DROP TABLE IF EXISTS esame_categoria;');
     await db.executeSql('DROP TABLE IF EXISTS categoria;');
     await db.executeSql('DROP TABLE IF EXISTS esame;');
   };
+
+  await dropTables();*/
 
   const createTables = async () => {
     await db.executeSql(`
@@ -53,6 +56,11 @@ export const prepareDB = async () => {
       );
     `);
   };
+
+  await createTables();
+
+/* Decommentare questa sezione in caso si voglia popolare il database
+
 
   const populateTables = async () => {
     // Popolare la tabella 'categoria' con colori dalla palette
@@ -116,7 +124,8 @@ export const prepareDB = async () => {
     `);
   };
 
-  await dropTables();
-  await createTables();
+
   await populateTables();
+
+ */
 };
