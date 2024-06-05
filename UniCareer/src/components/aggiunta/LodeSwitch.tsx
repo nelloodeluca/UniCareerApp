@@ -35,7 +35,7 @@ const StyledSwitch = styled(Switch)`
 `;
 
 const Label = styled.Text`
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 500;
   margin-right: 10px;
 `;
