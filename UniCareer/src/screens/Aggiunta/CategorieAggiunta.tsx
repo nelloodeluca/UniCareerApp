@@ -6,7 +6,7 @@ import CategoriaCard from '../../components/aggiunta/CategoriaCard';
 import ModificaCategoriaModal from '../../components/aggiunta/ModificaCategoriaModal';
 import { Categoria } from '../../types';
 import { IconButton, Paragraph, Snackbar } from 'react-native-paper';
-import {getRandomColor} from '../../utils/getColor';
+import { addColor, getRandomColor, removeColor } from '../../utils/getColor';
 
 function CategoriaAggiunta() {
   const context = useContext(ExamsContext);

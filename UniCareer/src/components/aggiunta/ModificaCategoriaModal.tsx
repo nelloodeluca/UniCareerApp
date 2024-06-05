@@ -11,6 +11,7 @@ import {
   Snackbar,
 } from 'react-native-paper';
 import {
+  addColor,
   getRandomColor,
 
 

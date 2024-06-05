@@ -141,9 +141,11 @@ const NuovaAggiunta = () => {
         const state = navigation.getState();
         const routes = state.routes;
 
+        /*
         console.log("State: ", state);
         console.log("Routes: ", routes);
         console.log("currentRouteName: ", routes[state.index].name);
+         */
 
         const currentRouteName = routes[state.index].name as string;
         if (currentRouteName !== 'FormCategorie') {

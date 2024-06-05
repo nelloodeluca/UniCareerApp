@@ -1,1 +1,0 @@
-//va il popolamento per un debug migliorato e per il set del colore. E non farlo da database

@@ -1,5 +1,3 @@
-// noinspection JSUnusedLocalSymbols
-
 import React, { useState, useMemo, useEffect, useContext } from 'react';
 import { ScrollView, Dimensions, Text } from 'react-native';
 import {
