@@ -487,7 +487,7 @@ const NumericContainer = styled.View`
 
 const NumericText = styled.Text`
   flex: 1;
-  font-size: 18px;
+  font-size: 16px;
   padding-left: 3%;
   font-weight: 500;
 `;
