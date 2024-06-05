@@ -9,8 +9,18 @@ import {
 import { Button, Divider, List, Snackbar, Text } from 'react-native-paper';
 import LabelInput from '../../components/aggiunta/LabelInput';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { RouteProp, useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
-import { AggiuntaNavParams, Categoria, Esame, RootStackParamList } from '../../types';
+import {
+  RouteProp,
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
+import {
+  AggiuntaNavParams,
+  Categoria,
+  Esame,
+  RootStackParamList,
+} from '../../types';
 import NumericInput from '../../components/aggiunta/NumericInput';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import CategoriaPicker from '../../components/aggiunta/CategoriaPicker';
@@ -121,8 +131,10 @@ const NuovaAggiunta = () => {
       setVoto(0);
       setLode(false);
     } else {
-      setVoto(24);
-      setLode(false);
+      if (!isEditing) {
+        setVoto(24);
+        setLode(false);
+      }
     }
   }, [tipoEsame, route]);
 
@@ -241,7 +253,9 @@ const NuovaAggiunta = () => {
     } else {
       aggiungiEsame(temp);
     }
-    setSnackbarMessage(`Esame ${isEditing ? 'modificato' : 'inserito'} correttamente`);
+    setSnackbarMessage(
+      `Esame ${isEditing ? 'modificato' : 'inserito'} correttamente`
+    );
     setSnackbarVisible(true);
     resetForm();
   };
@@ -427,92 +441,90 @@ const NuovaAggiunta = () => {
           alignSelf: 'center',
         }}
       >
-        <Label style={{ color: '#fafafa' }}>
-          {snackbarMessage}
-        </Label>
+        <Label style={{ color: '#fafafa' }}>{snackbarMessage}</Label>
       </Snackbar>
     </>
   );
 };
 
 const ScrollContainer = styled(ScrollView)`
-    background-color: #f0f4f8;
-    overflow: hidden;
-    height: ${h}px;
-    padding: 8px;
+  background-color: #f0f4f8;
+  overflow: hidden;
+  height: ${h}px;
+  padding: 8px;
 `;
 
 const Label = styled(Text)`
-    font-size: 18px;
-    margin: 4px 0;
-    color: #333;
+  font-size: 18px;
+  margin: 4px 0;
+  color: #333;
 `;
 
 const StyledListSection = styled(List.Section)`
-    border-radius: 20px;
-    padding: 8px 16px;
-    margin: 8px 0;
-    background-color: #fafafa;
-    border: 1px solid #afafaf50;
+  border-radius: 20px;
+  padding: 8px 16px;
+  margin: 8px 0;
+  background-color: #fafafa;
+  border: 1px solid #afafaf50;
 `;
 
 const Container = styled.View`
-    margin: 8px 0;
+  margin: 8px 0;
 `;
 
 const InlineContainer = styled.View`
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    margin: 8px 0;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin: 8px 0;
 `;
 
 const NumericContainer = styled.View`
-    flex-direction: row;
-    align-items: center;
-    margin: 4px 0;
+  flex-direction: row;
+  align-items: center;
+  margin: 4px 0;
 `;
 
 const NumericText = styled.Text`
-    flex: 1;
-    font-size: 20px;
-    padding-left: 3%;
-    font-weight: 500;
+  flex: 1;
+  font-size: 20px;
+  padding-left: 3%;
+  font-weight: 500;
 `;
 
 const StyledDateTimePicker = styled(DateTimePicker)`
-    padding: 2px 8px;
-    margin: 8px 0;
+  padding: 2px 8px;
+  margin: 8px 0;
 `;
 
 const CustomButton = styled(Button)`
-    margin: 8px 0;
-    background-color: #6854a4;
-    border-radius: 10px;
-    padding: 10px;
+  margin: 8px 0;
+  background-color: #6854a4;
+  border-radius: 10px;
+  padding: 10px;
 `;
 
 const DateTimeText = styled(Text)`
-    margin-top: 20px;
-    font-size: 16px;
-    color: #fff;
-    text-align: center;
+  margin-top: 20px;
+  font-size: 16px;
+  color: #fff;
+  text-align: center;
 `;
 
 const DiaryInput = styled(TextInput)`
-    height: 150px;
-    border: 1px solid #ccc;
-    padding: 10px;
-    border-radius: 5px;
-    background-color: #fff;
-    margin: 8px 0 20px 0;
+  height: 150px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #fff;
+  margin: 8px 0 20px 0;
 `;
 
 const SubmitButton = styled(Button)<{ disabled: boolean }>`
-    margin: 8px 0;
-    background-color: ${({ disabled }) => (disabled ? '#cccccc70' : '#6854a4')};
-    border-radius: 10px;
-    padding: 10px;
+  margin: 8px 0;
+  background-color: ${({ disabled }) => (disabled ? '#cccccc70' : '#6854a4')};
+  border-radius: 10px;
+  padding: 10px;
 `;
 
 export default NuovaAggiunta;

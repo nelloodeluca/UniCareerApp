@@ -18,16 +18,18 @@ const ImminentExams: React.FC<ImminentExamsProps> = ({
     <Container>
       <StyledCard>
         <DaysAheadContainer>
-          <LabelText>Esami entro </LabelText>
+          <LabelText>Impostare un periodo di giorni: </LabelText>
           <StyledTextInput
             mode="outlined"
             keyboardType="numeric"
             value={daysAhead}
             onChangeText={setDaysAhead}
+            maxLength={3}
           />
-          <LabelText>giorni.</LabelText>
         </DaysAheadContainer>
-        <ExamsTitle>Prossimi esami:</ExamsTitle>
+        <ExamsTitle>
+          Prossimi 3 esami entro {daysAhead.toString()} giorni:
+        </ExamsTitle>
         {imminentExams.length > 0 ? (
           imminentExams.map((exam, index) => (
             <ExamText key={index}>{`${exam.data.split('-')[2]}/${

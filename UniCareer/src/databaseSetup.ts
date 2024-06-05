@@ -61,7 +61,7 @@ export const prepareDB = async () => {
       'Fondamentali',
       'Fisica',
       'Informatica',
-      'Chimica'
+      'Chimica',
     ];
 
     for (const category of categories) {

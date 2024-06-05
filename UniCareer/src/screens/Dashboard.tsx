@@ -8,10 +8,7 @@ import {
   endOfMonth,
   addDays,
 } from 'date-fns';
-import {
-  Esame,
-  CalendarDay,
-} from '../types';
+import { Esame, CalendarDay } from '../types';
 import CalendarComponent from '../components/dashboard/CalendarComponent';
 import ExamsList from '../components/dashboard/ExamsList';
 import ImminentExams from '../components/dashboard/ImminentExams';
@@ -19,8 +16,6 @@ import TodayExams from '../components/dashboard/TodayExams';
 import ExamsContext from '../EsamiContext';
 import TipoPicker from '../components/TipoPicker';
 import { Divider } from 'react-native-paper';
-
-
 
 const getWeeksInMonth = (month: number, year: number) => {
   const firstDayOfMonth = new Date(year, month, 1);
@@ -166,8 +161,6 @@ const Dashboard = () => {
   const handleClearSelection = () => {
     setSelectedDay('');
   };
-
-
 
   const handleOptionChange = (option: string) => {
     setViewMode(option);

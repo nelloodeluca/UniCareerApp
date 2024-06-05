@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  Text,
-  Card,
-  Paragraph
-} from 'react-native-paper';
+import { Text, Card, Paragraph } from 'react-native-paper';
 import styled from 'styled-components/native';
 
 const Titolo = styled(Text)`
@@ -20,9 +16,8 @@ const Voto = styled(Paragraph)`
 
 const StyledCard = styled(Card)`
   background-color: #fafafa;
-    margin: 8px auto;
-    flex:1;
-    
+  margin: 8px auto;
+  flex: 1;
 `;
 
 type StatCardProps = {

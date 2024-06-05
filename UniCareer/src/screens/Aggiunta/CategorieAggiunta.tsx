@@ -64,7 +64,9 @@ function CategoriaAggiunta() {
     //Numero predefinito massimo di categorie è 10.
     if (categorie.length < 10) {
       if (newCategoriaNome.trim() !== '') {
-        const nomeEsiste = categorie.some((categoria) => categoria.nome === newCategoriaNome);
+        const nomeEsiste = categorie.some(
+          (categoria) => categoria.nome === newCategoriaNome
+        );
         if (nomeEsiste) {
           setSnackbarMessage(`"${newCategoriaNome}" è già tra le Categorie!!`);
           setSnackbarVisible(true);
@@ -78,9 +80,11 @@ function CategoriaAggiunta() {
         setLoading(true);
         aggiungiCategoria(nuovaCategoria);
         setSnackbarVisible(true);
-        setSnackbarMessage(`${newCategoriaNome} è stata aggiunta con successo!`);
+        setSnackbarMessage(
+          `${newCategoriaNome} è stata aggiunta con successo!`
+        );
         setNewCategoria('');
-      }else{
+      } else {
         setSnackbarVisible(true);
         setSnackbarMessage(`Inserisci un nome alla Categoria!`);
       }
@@ -88,14 +92,11 @@ function CategoriaAggiunta() {
       setSnackbarVisible(true);
       setSnackbarMessage(`Numero Massimo di Categorie Raggiunto!`);
     }
-
-
   };
-
 
   return (
     <>
-      <ScrollView style={{backgroundColor: '#f0f4f8'}}>
+      <ScrollView style={{ backgroundColor: '#f0f4f8' }}>
         <Container>
           <InlineForm>
             <Input
@@ -164,9 +165,7 @@ function CategoriaAggiunta() {
           alignSelf: 'center',
         }}
       >
-        <Label style={{ color: '#fafafa' }}>
-          {snackbarMessage}
-        </Label>
+        <Label style={{ color: '#fafafa' }}>{snackbarMessage}</Label>
       </Snackbar>
     </>
   );

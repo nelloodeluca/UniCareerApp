@@ -10,12 +10,7 @@ import {
   Paragraph,
   Snackbar,
 } from 'react-native-paper';
-import {
-  addColor,
-  getRandomColor,
-
-
-} from '../../utils/getColor';
+import { addColor, getRandomColor } from '../../utils/getColor';
 
 interface ModificaCategoriaModalProps {
   visible: boolean;
@@ -67,8 +62,6 @@ const ModalInput = styled.TextInput`
   padding: 8px;
   margin-bottom: 16px;
 `;
-
-
 
 const Circle = styled.View<{ color: string }>`
   width: 30px;

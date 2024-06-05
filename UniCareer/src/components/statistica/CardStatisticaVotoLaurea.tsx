@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  Text,
-  Card
-} from 'react-native-paper';
+import { Text, Card } from 'react-native-paper';
 import styled from 'styled-components/native';
 
 const Titolo = styled(Text)`
@@ -13,8 +10,8 @@ const Titolo = styled(Text)`
 `;
 const Voto = styled(Text)`
   color: #fafafa;
-    font-weight: 500;
-    font-size: 28px;
+  font-weight: 500;
+  font-size: 28px;
   text-align: center;
 `;
 

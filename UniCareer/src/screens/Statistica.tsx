@@ -20,7 +20,7 @@ const CardContainer = styled(View)`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-    gap: 8px;
+  gap: 8px;
 `;
 
 const Label = styled(Paragraph)`
@@ -51,8 +51,8 @@ const IconWrapper = styled(View)`
 `;
 
 const StyledCard = styled(Card)`
-    width: 100%;
-    margin: 4px auto;
+  width: 100%;
+  margin: 4px auto;
   background-color: #fafafa;
 `;
 
@@ -104,18 +104,18 @@ export default function Statistica() {
 
   return (
     <StyledScrollView>
-        <CardStatisticaBig
-          title="Attività Svolte"
-          text="Attività Svolte"
-          value1={examsTaken}
-          value2={totalExams}
-        />
-        <CardStatisticaBig
-          title="CFU Conseguiti: "
-          text="CFU Conseguiti"
-          value1={obtainedCredits}
-          value2={totalCredits}
-        />
+      <CardStatisticaBig
+        title="Attività Svolte"
+        text="Attività Svolte"
+        value1={examsTaken}
+        value2={totalExams}
+      />
+      <CardStatisticaBig
+        title="CFU Conseguiti: "
+        text="CFU Conseguiti"
+        value1={obtainedCredits}
+        value2={totalCredits}
+      />
       <CardContainer>
         <CardStatisticaSmall title="Voto Massimo" value={getMaxGrade()} />
         <CardStatisticaSmall title="Voto Minimo" value={getMinGrade()} />
@@ -128,7 +128,6 @@ export default function Statistica() {
         <StatisticaGrafico grades={grades} />
       </StyledCard>
 
-
       <CardContainer>
         <CardStatisticaSmall
           title="Media Aritmetica"
@@ -139,10 +138,10 @@ export default function Statistica() {
           value={getWeightedMean()}
         />
       </CardContainer>
-        <CardStatisticaVotoLaurea
-          title="Voto di Laurea"
-          value1={getGraduationGrade()}
-        />
+      <CardStatisticaVotoLaurea
+        title="Voto di Laurea"
+        value1={getGraduationGrade()}
+      />
     </StyledScrollView>
   );
 }

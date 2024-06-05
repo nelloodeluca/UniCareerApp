@@ -40,7 +40,6 @@ const LabelInput: React.FC<LabelInputProps> = ({
   numberOfLines = 1,
   maxLength = 50,
 }) => {
-
   return (
     <>
       <Label>{label}</Label>

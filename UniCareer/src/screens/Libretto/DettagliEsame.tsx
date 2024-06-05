@@ -156,7 +156,8 @@ const DettagliEsame: React.FC<EsameModalProps> = ({
               </StyledParagraph>
               {esame.voto !== null ? (
                 <StyledParagraph>
-                  <BoldText>Voto:</BoldText> {esame.voto}
+                  <BoldText>Voto:</BoldText>{' '}
+                  {esame.lode ? `${esame.voto}L` : esame.voto}
                 </StyledParagraph>
               ) : isSuperato ? (
                 <StyledParagraph>

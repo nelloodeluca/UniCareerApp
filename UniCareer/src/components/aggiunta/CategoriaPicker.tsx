@@ -77,5 +77,4 @@ const ChipContainer = styled.View`
   margin-top: 8px;
 `;
 
-
 export default CategoriaPicker;

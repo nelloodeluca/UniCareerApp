@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  Text,
-  Card,
-  ProgressBar,
-
-} from 'react-native-paper';
+import { Text, Card, ProgressBar } from 'react-native-paper';
 import styled from 'styled-components/native';
 import { View } from 'react-native';
 
@@ -20,8 +15,8 @@ const Barra = styled(ProgressBar)`
 `;
 
 const StyledCard = styled(Card)`
-    width: 100%;
-    margin: 6px auto;
+  width: 100%;
+  margin: 6px auto;
   background-color: #fafafa;
   padding: 0 8px 0 8px;
 `;
@@ -60,19 +55,19 @@ const CardStatisticaBig: React.FC<StatCardProps> = ({
 
   return (
     <>
-    <StyledCard>
-      <Card.Content style={{marginBottom:8, marginTop:8}}>
-        <Titolo>
-          {value1} / {value2} {text}
-        </Titolo>
-        <ProgressBarContainer>
-          <Barra
-            progress={rapporto}
-            color={'#6854a4'} /*style={{/*width: `${rapporto * 50}%` }}*/
-          />
-          <ProgressText>{`${Math.round(rapporto * 100)}%`}</ProgressText>
-        </ProgressBarContainer>
-      </Card.Content>
+      <StyledCard>
+        <Card.Content style={{ marginBottom: 8, marginTop: 8 }}>
+          <Titolo>
+            {value1} / {value2} {text}
+          </Titolo>
+          <ProgressBarContainer>
+            <Barra
+              progress={rapporto}
+              color={'#6854a4'} /*style={{/*width: `${rapporto * 50}%` }}*/
+            />
+            <ProgressText>{`${Math.round(rapporto * 100)}%`}</ProgressText>
+          </ProgressBarContainer>
+        </Card.Content>
       </StyledCard>
     </>
   );
