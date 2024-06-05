@@ -61,10 +61,7 @@ const CardStatisticaBig: React.FC<StatCardProps> = ({
             {value1} / {value2} {text}
           </Titolo>
           <ProgressBarContainer>
-            <Barra
-              progress={rapporto}
-              color={'#6854a4'}
-            />
+            <Barra progress={rapporto} color={'#6854a4'} />
             <ProgressText>{`${Math.round(rapporto * 100)}%`}</ProgressText>
           </ProgressBarContainer>
         </Card.Content>

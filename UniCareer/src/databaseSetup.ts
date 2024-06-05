@@ -59,7 +59,7 @@ export const prepareDB = async () => {
 
   await createTables();
 
-/* Decommentare questa sezione in caso si voglia popolare il database
+  /* Decommentare questa sezione in caso si voglia popolare il database
 
 
   const populateTables = async () => {
