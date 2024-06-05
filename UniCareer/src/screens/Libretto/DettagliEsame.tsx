@@ -31,7 +31,7 @@ const ModalCard = styled(Card)`
   background-color: #fafafa;
   width: 100%;
   max-width: 600px;
-  height: 90%;
+  max-height: 80%;
   border-radius: 20px;
   overflow: hidden;
   justify-content: space-between;
