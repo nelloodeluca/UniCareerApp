@@ -45,7 +45,7 @@ const StyledHeader = styled(Appbar.Header)`
 `;
 
 const ScrollContainer = styled(ScrollView)`
-  max-height: 80%; /* Aumenta l'altezza massima del contenuto scrollabile */
+  max-height: 80%;
 `;
 
 const ModalContent = styled(Card.Content)`

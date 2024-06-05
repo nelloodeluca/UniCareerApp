@@ -66,7 +66,6 @@ export const ExamsProvider: React.FC<ExamsProviderProps> = ({ children }) => {
       }
     };
 
-    // Funzione auto-esecutiva per gestire la promise
     (async () => {
       await initializeDatabaseAndFetchExams();
     })();
@@ -74,7 +73,7 @@ export const ExamsProvider: React.FC<ExamsProviderProps> = ({ children }) => {
 
   const aggiungiEsame = async (esame: Esame) => {
     try {
-      await insertEsame(esame); // Insert or replace the exam in the database
+      await insertEsame(esame);
       await fetchEsami();
     } catch (error) {
       console.error('Failed to insert or replace exam in database:', error);
@@ -83,7 +82,7 @@ export const ExamsProvider: React.FC<ExamsProviderProps> = ({ children }) => {
 
   const aggiornaEsame = async (esame: Esame) => {
     try {
-      await updateEsame(esame); // Insert or replace the exam in the database
+      await updateEsame(esame);
       await fetchEsami();
     } catch (error) {
       console.error('Failed to insert or replace exam in database:', error);
@@ -92,7 +91,7 @@ export const ExamsProvider: React.FC<ExamsProviderProps> = ({ children }) => {
 
   const deleteExam = async (id: string) => {
     try {
-      await deleteEsami(id); // Assicurati di avere questa funzione che elimina l'esame dal database
+      await deleteEsami(id);
       await fetchEsami();
     } catch (error) {
       console.error('Failed to delete exam from database:', error);
@@ -150,14 +149,14 @@ export const ExamsProvider: React.FC<ExamsProviderProps> = ({ children }) => {
     let minGrade = Number.MAX_VALUE;
     exams.forEach((exam) => {
       if (exam.voto) {
-        const grade = exam.voto; // Consider lode as 31 for min calculation
+        const grade = exam.voto;
         if (grade < minGrade) {
           minGrade = grade;
         }
       }
     });
 
-    return minGrade === Number.MAX_VALUE ? 0 : minGrade; // Return 0 if no grades are found
+    return minGrade === Number.MAX_VALUE ? 0 : minGrade;
   };
 
   const getArithmeticMean = () => {
@@ -172,7 +171,7 @@ export const ExamsProvider: React.FC<ExamsProviderProps> = ({ children }) => {
       0
     );
     const mean = count === 0 ? 0 : totalGrades / count;
-    return parseFloat(mean.toFixed(2)); // Ensure 2 decimal places
+    return parseFloat(mean.toFixed(2));
   };
 
   const getWeightedMean = () => {
@@ -180,18 +179,18 @@ export const ExamsProvider: React.FC<ExamsProviderProps> = ({ children }) => {
     let totalCredits = 0;
     exams.forEach((exam) => {
       if (exam.voto && exam.CFU) {
-        const grade = exam.voto; // Consider lode as 30 for weighted mean calculation
+        const grade = exam.voto;
         totalWeightedGrades += grade * exam.CFU;
         totalCredits += exam.CFU;
       }
     });
     const mean = totalCredits === 0 ? 0 : totalWeightedGrades / totalCredits;
-    return parseFloat(mean.toFixed(2)); // Ensure 2 decimal places
+    return parseFloat(mean.toFixed(2));
   };
 
   const getGraduationGrade = () => {
     const weightedMean = getWeightedMean();
-    const graduationGrade = weightedMean * 4.1 - 7.8; // Adjust factor as needed
+    const graduationGrade = weightedMean * 4.1 - 7.8;
     return Math.round(graduationGrade);
   };
 

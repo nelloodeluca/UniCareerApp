@@ -1,4 +1,4 @@
-// LabelInput.tsx
+
 import React from 'react';
 import styled from 'styled-components/native';
 import { Text, TextInput } from 'react-native-paper';

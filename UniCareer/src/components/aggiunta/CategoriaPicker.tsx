@@ -6,13 +6,13 @@ import { Categoria } from '../../types';
 type CategoriaPickerProps = {
   categorie: Categoria[];
   onSelect: (selectedCategorie: Categoria[]) => void;
-  initialSelected: Categoria[]; // Aggiungere questa linea
+  initialSelected: Categoria[];
 };
 
 const CategoriaPicker: React.FC<CategoriaPickerProps> = ({
   categorie,
   onSelect,
-  initialSelected, // Aggiungere questa linea
+  initialSelected,
 }) => {
   const [selectedCategorie, setSelectedCategories] =
     useState<Categoria[]>(initialSelected);

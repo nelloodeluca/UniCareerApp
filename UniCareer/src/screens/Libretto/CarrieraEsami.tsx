@@ -45,7 +45,6 @@ const CarrieraEsami: React.FC<CarrieraEsamiProps> = ({ showVoto }) => {
   const context = useContext(ExamsContext);
 
   if (!context) {
-    // Gestisci il caso in cui il contesto non sia definito
     return <Text>Il contesto non è disponibile</Text>;
   }
 

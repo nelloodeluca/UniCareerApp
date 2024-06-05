@@ -6,7 +6,6 @@ import {
   insert_Esame_Categorie,
 } from './op_Categoria';
 
-// Funzione per ottenere tutti gli esami con categorie annesse
 export const getEsami = async (): Promise<Esame[]> => {
   try {
     const db = await dbPromise;

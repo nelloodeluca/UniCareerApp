@@ -22,7 +22,7 @@ const chartConfig = {
   color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`,
   strokeWidth: 2,
   barPercentage: 0.5,
-  useShadowColorFromDataset: false, // optional
+  useShadowColorFromDataset: false,
 };
 
 interface StatisticaGraficoProps {
@@ -35,8 +35,8 @@ const StatisticaGrafico = ({ grades }: StatisticaGraficoProps) => {
     datasets: [
       {
         data: grades,
-        color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
-        strokeWidth: 2, // optional
+        color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`,
+        strokeWidth: 2,
       },
     ],
   };

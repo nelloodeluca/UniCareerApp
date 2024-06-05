@@ -27,7 +27,7 @@ function CategoriaAggiunta() {
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
-    }, 50); // Simula un piccolo ritardo per il caricamento
+    }, 50);
   }, [categorie]);
 
   const handleModifica = (id: string) => {
@@ -61,7 +61,6 @@ function CategoriaAggiunta() {
   };
 
   const handleAggiungiCategoria = () => {
-    //Numero predefinito massimo di categorie è 10.
     if (categorie.length < 10) {
       if (newCategoriaNome.trim() !== '') {
         const nomeEsiste = categorie.some(

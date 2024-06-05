@@ -110,7 +110,7 @@ const Dashboard = () => {
 
   const onDayPress = (day: CalendarDay) => {
     setSelectedDay(day.dateString);
-    setViewMode(''); // Clear view mode when a day is selected
+    setViewMode('');
   };
 
   const onMonthChange = (month: { year: number; month: number }) => {
@@ -164,7 +164,7 @@ const Dashboard = () => {
 
   const handleOptionChange = (option: string) => {
     setViewMode(option);
-    handleClearSelection(); // Clear the selected day when changing the view mode
+    handleClearSelection();
   };
 
   const calendarTheme = {

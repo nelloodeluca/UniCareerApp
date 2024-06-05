@@ -13,6 +13,6 @@ export const formatTime = (time: Date) => {
 
 export const getCurrentDate = () => {
   const today = new Date();
-  today.setHours(0, 0, 0, 0); // Ignorare ore, minuti, secondi e millisecondi
+  today.setHours(0, 0, 0, 0);
   return today;
 };
