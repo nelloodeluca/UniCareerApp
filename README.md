@@ -1,7 +1,7 @@
 <h1 align="center"> UniCareer </h1>
 
 <p align="center"> 
-  A sophisticated, high-performance mobile ecosystem engineered for academic lifecycle management, career trajectory visualization, and strategic exam planning.
+  A mobile ecosystem engineered for academic lifecycle management, career trajectory visualization, and strategic exam planning.
 </p>
 
 <p align="center">
