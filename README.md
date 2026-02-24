@@ -135,13 +135,13 @@ nelloodeluca-UniCareerApp-f3d2b50/
   <img src="https://github.com/nelloodeluca/UniCareerApp/blob/main/Screen/DashBoard2.png?raw=true" alt="Dashboard View" width="20%">
   <img src="https://github.com/nelloodeluca/UniCareerApp/blob/main/Screen/Statistica%20(2).png?raw=true" alt="Statistics View" width="20%">
 </p>
-<p align="center"><em>Figure 1: Real-time dashboard showing upcoming exams and career statistics visualization.</em></p>
+<p align="center"><em>Real-time dashboard showing upcoming exams and career statistics visualization.</em></p>
 
 <p align="center">
   <img src="https://github.com/nelloodeluca/UniCareerApp/blob/main/Screen/EsamiConclusi1.png?raw=true" alt="Exam List" width="20%">
   <img src="https://github.com/nelloodeluca/UniCareerApp/blob/main/Screen/NuovoEsame1.png?raw=true" alt="Add Exam" width="20%">
 </p>
-<p align="center"><em>Figure 2: Digital gradebook management and the intuitive exam entry form.</em></p>
+<p align="center"><em>Digital gradebook management and the intuitive exam entry form.</em></p>
 
 ---
 
