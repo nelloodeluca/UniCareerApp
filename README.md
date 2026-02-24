@@ -5,16 +5,22 @@
 </p>
 
 <p align="center">
-  <img alt="Build" src="https://img.shields.io/badge/Build-Passing-brightgreen?style=for-the-badge">
-  <img alt="Issues" src="https://img.shields.io/badge/Issues-0%20Open-blue?style=for-the-badge">
-  <img alt="Contributions" src="https://img.shields.io/badge/Contributions-Welcome-orange?style=for-the-badge">
-  <img alt="License" src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge">
+  <img alt="Build" src="https://img.shields.io/github/actions/workflow/status/nelloodeluca/UniCareerApp/main.yml?style=for-the-badge">
+  
+  <img alt="Issues" src="https://img.shields.io/github/issues/nelloodeluca/UniCareerApp?style=for-the-badge&color=blue">
+  
+  <img alt="Contributors" src="https://img.shields.io/github/contributors/nelloodeluca/UniCareerApp?style=for-the-badge&color=orange">
+  
+  <img alt="License" src="https://img.shields.io/github/license/nelloodeluca/UniCareerApp?style=for-the-badge&color=yellow">
 </p>
 
-<!-- 
-  **Note:** These are static placeholder badges. Replace them with your project's actual badges.
-  You can generate your own at https://shields.io
--->
+<p align="center">
+  <img src="https://github.com/nelloodeluca/UniCareerApp/blob/main/Screen/DashBoard2.png?raw=true" alt="Dashboard View" width="20%">
+  <img src="https://github.com/nelloodeluca/UniCareerApp/blob/main/Screen/Statistica%20(2).png?raw=true" alt="Statistics View" width="20%">
+  <img src="https://github.com/nelloodeluca/UniCareerApp/blob/main/Screen/EsamiConclusi1.png?raw=true" alt="Exam List" width="20%">
+  <img src="https://github.com/nelloodeluca/UniCareerApp/blob/main/Screen/NuovoEsame1.png?raw=true" alt="Add Exam" width="20%">
+</p>
+<p align="center"><em>Real-time dashboard showing upcoming exams and career statistics visualization and Digital gradebook management and the intuitive exam entry form.</em></p>
 
 ## 📌 Table of Contents
 
@@ -22,7 +28,6 @@
 - [Key Features](#-key-features)
 - [Tech Stack & Architecture](#-tech-stack-&-architecture)
 - [Project Structure](#-project-structure)
-- [Demo & Screenshots](#-demo--screenshots)
 - [Getting Started](#-getting-started)
 - [Usage](#-usage)
 - [Contributing](#-contributing)
@@ -124,26 +129,6 @@ nelloodeluca-UniCareerApp-f3d2b50/
 │   └── 📄 tsconfig.json            # TypeScript configuration
 └── 📁 icon/                        # High-resolution branding assets
 ```
-
----
-
-## 📸 Demo & Screenshots
-
-## 🖼️ Screenshots
-
-<p align="center">
-  <img src="https://github.com/nelloodeluca/UniCareerApp/blob/main/Screen/DashBoard2.png?raw=true" alt="Dashboard View" width="20%">
-  <img src="https://github.com/nelloodeluca/UniCareerApp/blob/main/Screen/Statistica%20(2).png?raw=true" alt="Statistics View" width="20%">
-</p>
-<p align="center"><em>Real-time dashboard showing upcoming exams and career statistics visualization.</em></p>
-
-<p align="center">
-  <img src="https://github.com/nelloodeluca/UniCareerApp/blob/main/Screen/EsamiConclusi1.png?raw=true" alt="Exam List" width="20%">
-  <img src="https://github.com/nelloodeluca/UniCareerApp/blob/main/Screen/NuovoEsame1.png?raw=true" alt="Add Exam" width="20%">
-</p>
-<p align="center"><em>Digital gradebook management and the intuitive exam entry form.</em></p>
-
----
 
 ## 🚀 Getting Started
 
